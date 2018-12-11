@@ -119,9 +119,6 @@ def logout():
 @is_logged_in
 def map_view():
 
-# def map_view(user_county):
-#   user_county = session['county']
-#   PM25_useronly = Get_one_PM25(user_county) # return [{'county': '桃園市', 'pm4': 35}]
     
     PM25_value = PM25().Get_PM25() # County and PM25 {'county': '南投縣', 'pm3': 26}
     # return  {'county': '南投縣', 'pm3': 26} pm3 is datetime.hour
@@ -158,36 +155,11 @@ def user_private():
     SQL = "SELECT * FROM users WHERE username=%s"
     _,userdata = DoSQL().S_db(SQL,session['username'],2)
     
+	#
     # user favorite exinfo
-    
-    
+    #
+    #
     return render_template('user_private.html',userdata=userdata)
-
-
-
-#@app.route('/recommand',methods=['POST'])
-#def recommand():   
-#    
-#    if method == 'POST':
-#         """click which show"""
-#         """insert usertable """
-#    
-#    """選最小pm25的縣市(高雄、台北、新竹)"""
-#    """ logic for recommand"""    
-#    min_pm25  = select county from PM25 where pm25 = min(3)
-#    if data2.county == min_pm25:
-#        recommand_show = select title,locationname... from show
-#   
-#    
-#@app.route('/favorite',methods=['POST'])
-#def favorite():   
-#    """ if session.username == usertable"""
-#    """data = select ...."""
-#    
-#    if method == 'POST':
-#         """click which show"""
-#         """delete usertable """
-#    
 
 
 if __name__ == '__main__':
