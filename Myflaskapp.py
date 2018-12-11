@@ -128,7 +128,8 @@ def map_view():
     # return {'county': '南投縣', 'interval': 0}
     #PM25_min_county = PM25().Get_min_county()
     # return 臺東縣
-    #return render_template('map_view.html',PM25_value=PM25_value,PM25_interval=PM25_interval)
+
+
     return render_template('index.html')
 
 
