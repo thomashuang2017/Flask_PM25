@@ -3,8 +3,7 @@ window.JSMaps.maps.taiwan = {
 		"mapWidth": 373.888,
 		"mapHeight": 587.022,
 		'textAreaWidth': 500,
-		"displayAbbreviations": false,
-		"defaultText": "<h1>Taiwan</h1><br /><p>Taiwan is a small island nation 180km east of China with modern cities, traditional Chinese temples, hot springs resorts and dramatic mountainous terrain. Taipei, the country’s capital in the north, is known for its busy night markets, Chinese Imperial art at the National Palace Museum and Taipei 101, a 509m-tall, bamboo-shaped skyscraper with an observation deck.</p>"
+		"displayAbbreviations": false
 	},
 	"paths": [
 		{
@@ -22,7 +21,7 @@ window.JSMaps.maps.taiwan = {
 		},
 		{
 			"enable": true,
-			"name": "台南縣",
+			"name": "臺南市",
 			"abbreviation": "TN",
 			"textX": 0,
 			"textY": 0,
@@ -35,7 +34,7 @@ window.JSMaps.maps.taiwan = {
 		},
 		{
 			"enable": true,
-			"name": "Yilan",
+			"name": "宜蘭縣",
 			"abbreviation": "IL",
 			"textX": 0,
 			"textY": 0,
@@ -48,7 +47,7 @@ window.JSMaps.maps.taiwan = {
 		},
 		{
 			"enable": true,
-			"name": "Chiayi",
+			"name": "嘉義縣",
 			"abbreviation": "CH",
 			"textX": 0,
 			"textY": 0,
@@ -61,7 +60,7 @@ window.JSMaps.maps.taiwan = {
 		},
 		{
 			"enable": true,
-			"name": "Taitung",
+			"name": "臺東縣",
 			"abbreviation": "TT",
 			"textX": 0,
 			"textY": 0,
@@ -74,7 +73,7 @@ window.JSMaps.maps.taiwan = {
 		},
 		{
 			"enable": true,
-			"name": "Penghu",
+			"name": "澎湖縣",
 			"abbreviation": "PH",
 			"textX": 0,
 			"textY": 0,
@@ -87,7 +86,7 @@ window.JSMaps.maps.taiwan = {
 		},
 		{
 			"enable": true,
-			"name": "Kinmen",
+			"name": "金門縣",
 			"abbreviation": "KM",
 			"textX": 0,
 			"textY": 0,
@@ -100,7 +99,7 @@ window.JSMaps.maps.taiwan = {
 		},
 		{
 			"enable": true,
-			"name": "Lienchiang",
+			"name": "連江縣",
 			"abbreviation": "LK",
 			"textX": 0,
 			"textY": 0,
@@ -113,7 +112,7 @@ window.JSMaps.maps.taiwan = {
 		},
 		{
 			"enable": true,
-			"name": "Taipei City",
+			"name": "臺北市",
 			"abbreviation": "TW",
 			"textX": 0,
 			"textY": 0,
@@ -126,7 +125,7 @@ window.JSMaps.maps.taiwan = {
 		},
 		{
 			"enable": true,
-			"name": "Chiayi City",
+			"name": "嘉義市",
 			"abbreviation": "CS",
 			"textX": 0,
 			"textY": 0,
@@ -139,7 +138,7 @@ window.JSMaps.maps.taiwan = {
 		},
 		{
 			"enable": true,
-			"name": "Taichung City",
+			"name": "臺中市",
 			"abbreviation": "TH",
 			"textX": 0,
 			"textY": 0,
@@ -152,7 +151,7 @@ window.JSMaps.maps.taiwan = {
 		},
 		{
 			"enable": true,
-			"name": "Yunlin",
+			"name": "雲林縣",
 			"abbreviation": "YL",
 			"textX": 0,
 			"textY": 0,
@@ -165,7 +164,7 @@ window.JSMaps.maps.taiwan = {
 		},
 		{
 			"enable": true,
-			"name": "Kaohsiung City",
+			"name": "高雄市",
 			"abbreviation": "KH",
 			"textX": 0,
 			"textY": 0,
@@ -178,7 +177,7 @@ window.JSMaps.maps.taiwan = {
 		},
 		{
 			"enable": true,
-			"name": "New Taipei City",
+			"name": "新北市",
 			"abbreviation": "TP",
 			"textX": 0,
 			"textY": 0,
@@ -191,7 +190,7 @@ window.JSMaps.maps.taiwan = {
 		},
 		{
 			"enable": true,
-			"name": "Hsinchu City",
+			"name": "新竹市",
 			"abbreviation": "HS",
 			"textX": 0,
 			"textY": 0,
@@ -204,7 +203,7 @@ window.JSMaps.maps.taiwan = {
 		},
 		{
 			"enable": true,
-			"name": "Hsinchu",
+			"name": "新竹縣",
 			"abbreviation": "HH",
 			"textX": 0,
 			"textY": 0,
@@ -217,7 +216,7 @@ window.JSMaps.maps.taiwan = {
 		},
 		{
 			"enable": true,
-			"name": "Keelung City",
+			"name": "基隆市",
 			"abbreviation": "CL",
 			"textX": 0,
 			"textY": 0,
@@ -230,7 +229,7 @@ window.JSMaps.maps.taiwan = {
 		},
 		{
 			"enable": true,
-			"name": "Miaoli",
+			"name": "苗栗縣",
 			"abbreviation": "ML",
 			"textX": 0,
 			"textY": 0,
@@ -243,7 +242,7 @@ window.JSMaps.maps.taiwan = {
 		},
 		{
 			"enable": true,
-			"name": "Taoyuan",
+			"name": "桃園市",
 			"abbreviation": "TY",
 			"textX": 0,
 			"textY": 0,
@@ -256,7 +255,7 @@ window.JSMaps.maps.taiwan = {
 		},
 		{
 			"enable": true,
-			"name": "Changhua",
+			"name": "彰化縣",
 			"abbreviation": "CG",
 			"textX": 0,
 			"textY": 0,
@@ -269,7 +268,7 @@ window.JSMaps.maps.taiwan = {
 		},
 		{
 			"enable": true,
-			"name": "Hualien",
+			"name": "花蓮縣",
 			"abbreviation": "HL",
 			"textX": 0,
 			"textY": 0,
@@ -282,7 +281,7 @@ window.JSMaps.maps.taiwan = {
 		},
 		{
 			"enable": true,
-			"name": "Nantou",
+			"name": "南投縣",
 			"abbreviation": "NT",
 			"textX": 0,
 			"textY": 0,
@@ -294,16 +293,5 @@ window.JSMaps.maps.taiwan = {
 			"path": "m 281.08353,227.28143 0.8,5.4 -6.5,2.4 -2,1.5 0.1,5.4 4.3,3.6 0.6,4.5 -4.4,5.6 -2.8,5.7 -1.4,4.2 2.1,4.2 -1.3,9.5 -1.8,4.7 -3.6,8.4 -0.1,2 -3.2,5.1 2.9,4.4 1,6.8 -0.7,4.6 -2.7,9.5 -2.5,1.7 -4.2,1.5 -2.2,2.7 -0.8,4.7 -2.9,2.5 -4.1,0.1 -4,0.8 -2.9,2.1 -1.7,3.6 0.9,3.4 -5,3.3 -2.6,-4.2 -5.5,-1.9 -14.5,-0.4 -4.2,-0.8 -0.7,-5.3 -2.1,-6.2 1.7,-2.8 0.3,-2.8 -2.8,-1.6 -5.9,-2.1 -3.3,-0.4 -1.4,-2 -4.6,0.4 -3.7,1.1 -3.1,-1.5 -2.2,-2.5 1.7,-5.9 -0.5,-4.2 0.6,-3.9 1.1,-2.5 -0.9,-4 2.7,-2 2.1,-0.8 0.5,-1.9 -5.1,-2.4 -2,-1.9 -1,-3.4 1.4,-13.9 2.1,-5.4 0.4,-3.7 2.3,-0.8 0,-2 2.3,0.1 9.8,1.6 2.3,-0.3 2.7,-2.6 4.3,-7.7 2.1,-4.6 3.5,-1.6 5.5,0.9 3.3,-0.1 3.2,-4.1 1.6,-1 4.8,3.7 1.9,-0.5 1.5,-2.9 2.6,-2.1 3.6,0.1 2.7,-1 4.4,-4 2.7,-1.5 2.5,-0.5 4.8,-2.4 6.8,-0.6 6,-2.3 z"
 		}
 	],
-	"pins": [
-		{
-			"name": "Changhua City",
-			"xPos": 165,
-			"yPos": 248,
-			"color": "#ffc90e",
-			"hoverColor": "#E32F02",
-			"selectedColor": "#feb41c",
-			"url": "http://jsmaps.io",
-			"text": "<h1>Changhua City</h1><br /><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit</p>"
-		}
-	]
+
 }
