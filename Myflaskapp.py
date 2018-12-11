@@ -147,8 +147,9 @@ def exInfo(county_name):
     
     # find county_past_pm25
     county_past_pm = PM25().Get_past_pm25(county_name)
+    a = county_past_pm[0]['county']
     
-    return render_template('exInfo.html',county=county , pm=county_pm ,exinfo=county_exinfo,past_pm=county_past_pm)
+    return render_template('exInfo.html',a = a,county=county , pm=county_pm ,exinfo=county_exinfo,past_pm=county_past_pm)
 
 # recommand 
 @app.route('/recommand')
