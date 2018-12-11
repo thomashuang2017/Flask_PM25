@@ -14,6 +14,9 @@ class recommand():
     
     def recommand_exinfo():
         PM25_min_county = PM25().Get_min_county()
+		# -------------------------
+		# recommand_county = Get_county_exinfo(PM25_min_county)
+		# --------------------------
         """
         return exinfo.Get_exinfo(PM25_min_county)
         """

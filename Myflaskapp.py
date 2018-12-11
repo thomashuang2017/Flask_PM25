@@ -113,7 +113,9 @@ def logout():
     flash('You are now logged out','success')
     return redirect(url_for('login'))
 
-
+# ----------------------------------------------以上都不動 -------------------------------------------------------------------
+	
+	
 # map_view
 @app.route('/map_view')
 @is_logged_in
@@ -122,7 +124,7 @@ def map_view():
     
     PM25_value = PM25().Get_PM25() # County and PM25 {'county': '南投縣', 'pm3': 26}
     # return  {'county': '南投縣', 'pm3': 26} pm3 is datetime.hour
-    PM25_interval = PM25().Get_county_intervel()
+    #PM25_interval = PM25().Get_county_intervel()
     # return {'county': '南投縣', 'interval': 0}
     #PM25_min_county = PM25().Get_min_county()
     # return 臺東縣
@@ -137,7 +139,16 @@ def exInfo(county_name):
     
     
     county_pm,time = PM25().Get_one_PM25(county_name)
-    #county_pm = county_pm[0][time]
+	#county_pm = county_pm[0][time]
+	
+	
+	# -------------------------------
+	
+	# Get_county_exinfo(county_name)
+	
+	# -------------------------------
+	
+    
     
     return render_template('exInfo.html',pm=county_pm)
 
@@ -145,7 +156,13 @@ def exInfo(county_name):
 @app.route('/recommand')
 @is_logged_in
 def recommanded():
-    exinfo = recommand().recommand_exinfo()
+
+	# --------------------------
+	
+	# recommand_county = recommand_exinfo()
+	
+	# --------------------------
+    
     return exinfo
 
 @app.route('/user_private')
@@ -155,10 +172,11 @@ def user_private():
     SQL = "SELECT * FROM users WHERE username=%s"
     _,userdata = DoSQL().S_db(SQL,session['username'],2)
     
-	#
+	# --------------------------------
     # user favorite exinfo
     #
-    #
+    # --------------------------------
+	
     return render_template('user_private.html',userdata=userdata)
 
 
