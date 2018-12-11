@@ -88,6 +88,12 @@ class PM25():
         
         
         return
+    
+    def Get_past_pm25(self,county):
+        SQL = "SELECT * FROM PM25 WHERE county = %s"
+        result,content = DoSQL().S_db(SQL,county,2)
+        
+        return content
                 
             
         

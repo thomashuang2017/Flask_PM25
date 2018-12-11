@@ -11,17 +11,24 @@ import json
 import pymysql
 from datetime import datetime
 from intervals import IntInterval
+from exinfo import exinfo
+
+
+#a = exinfo().Get_county_exinfo('宜蘭縣')
+#print(a)
+
 #from countyname import county_name
 
-#a = PM25().Get_county_intervel()
+a= PM25().Get_past_pm25('桃園市')
+print (a)
 
-hour = datetime.now().hour
-hour = hour % 9
-cur_pm = 'pm'+ str(hour)
-print(cur_pm)
+#hour = datetime.now().hour
+#hour = hour % 9
+#cur_pm = 'pm'+ str(hour)
+#print(cur_pm)
 
-a,t = PM25().Get_one_PM25('屏東縣')
-print(a[0][cur_pm])
+#a,t = PM25().Get_one_PM25('屏東縣')
+#print(a[0][cur_pm])
 
 #print(a)
 #b = PM25().Get_min_county()

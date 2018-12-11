@@ -10,8 +10,7 @@ from functools import wraps
 from formclass import RegisterForm
 from DBmgt import DoSQL
 from PM25 import PM25
-from recommand import recommand
-
+from exinfo import exinfo
 
 
 
@@ -124,7 +123,7 @@ def map_view():
     
     PM25_value = PM25().Get_PM25() # County and PM25 {'county': '南投縣', 'pm3': 26}
     # return  {'county': '南投縣', 'pm3': 26} pm3 is datetime.hour
-    #PM25_interval = PM25().Get_county_intervel()
+    PM25_interval = PM25().Get_county_intervel()
     # return {'county': '南投縣', 'interval': 0}
     #PM25_min_county = PM25().Get_min_county()
     # return 臺東縣
@@ -138,33 +137,30 @@ def map_view():
 @is_logged_in
 def exInfo(county_name):
     
+    # find county_pm
+    county_pm,time = PM25().Get_one_PM25(county_name) 
+    county = county_name
+    county_pm = county_pm[0][time]
     
-    county_pm,time = PM25().Get_one_PM25(county_name)
-	#county_pm = county_pm[0][time]
-	
-	
-	# -------------------------------
-	
-	# Get_county_exinfo(county_name)
-	
-	# -------------------------------
-	
+    # find county_exinfo
+    county_exinfo = exinfo().Get_county_exinfo(county_name)
     
+    # find county_past_pm25
+    county_past_pm = PM25().Get_past_pm25(county_name)
     
-    return render_template('exInfo.html',pm=county_pm)
+    return render_template('exInfo.html',county=county , pm=county_pm ,exinfo=county_exinfo,past_pm=county_past_pm)
 
 # recommand 
 @app.route('/recommand')
 @is_logged_in
-def recommanded():
+def recommand():
 
-	# --------------------------
-	
-	# recommand_county = recommand_exinfo()
-	
-	# --------------------------
-    
-    return exinfo
+
+    min_county = PM25().Get_min_county()
+    pm,_ = PM25().Get_one_PM25(min_county)
+    recommand_county = exinfo().Get_county_exinfo(min_county)
+	 
+    return render_template('exInfo.html',pm=pm,recommand_county=recommand_county)
 
 @app.route('/user_private')
 @is_logged_in
@@ -182,7 +178,7 @@ def user_private():
 
 
 if __name__ == '__main__':
-    """scrapy sleep.."""
+    
     app.run(host='127.0.0.1',port=81,debug=True)
     
     
