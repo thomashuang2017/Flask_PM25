@@ -129,7 +129,7 @@ def map_view():
     # return 臺東縣
 
 
-    return render_template('index.html')
+    return render_template('taiwan_map.html')
 
 
 

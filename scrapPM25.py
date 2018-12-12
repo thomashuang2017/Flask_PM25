@@ -35,8 +35,11 @@ def scrap_PM25_toDB():
                     num_pm25.append(int(data[j][2]))
         
         pm['county'] = county_name[i]
-        pm['pm'] = max(num_pm25)
-        county_pm25.append(pm)
+        if not num_pm25:
+            pm['pm'] = 0
+        else:
+            pm['pm'] = max(num_pm25)
+            county_pm25.append(pm)
         
     return county_pm25
 #result,data = DoSQL().S_db("SELECT title FROM PM25",'',1)
