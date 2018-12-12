@@ -19,8 +19,11 @@ from exinfo import exinfo
 
 #from countyname import county_name
 
-a= PM25().Get_past_pm25('桃園市')
-print (a)
+
+recommand_county = exinfo().Get_county_exinfo('桃園市')
+recommand_exinfo = exinfo().Get_county_exinfo(recommand_county)
+#a= PM25().Get_past_pm25('桃園市')
+#print (a)
 
 #hour = datetime.now().hour
 #hour = hour % 9
