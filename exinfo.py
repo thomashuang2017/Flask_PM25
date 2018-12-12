@@ -13,6 +13,7 @@ class exinfo():
         result,content = DoSQL().S_db(SQL,county_name,2)
         
         return content        return content
+        return content
     #def Get_county_exinfo(county_name):
     #    sql = "SELECT * FROM EXINFO WHERE COUNTY = %s"
     #    Get_county_exinfo = DoSQL().S_db(sql,county_name)
