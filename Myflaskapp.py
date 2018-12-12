@@ -123,13 +123,13 @@ def map_view():
     
     PM25_value = PM25().Get_PM25() # County and PM25 {'county': '南投縣', 'pm3': 26}
     # return  {'county': '南投縣', 'pm3': 26} pm3 is datetime.hour
-    PM25_interval = PM25().Get_county_intervel()
+    #PM25_interval = PM25().Get_county_intervel()
     # return {'county': '南投縣', 'interval': 0}
     #PM25_min_county = PM25().Get_min_county()
     # return 臺東縣
 
 
-    return render_template('index.html')
+    return render_template('taiwan_map.html')
 
 
 
@@ -147,9 +147,8 @@ def exInfo(county_name):
     
     # find county_past_pm25
     county_past_pm = PM25().Get_past_pm25(county_name)
-    a = county_past_pm[0]['county']
     
-    return render_template('exInfo.html',a = a,county=county , pm=county_pm ,exinfo=county_exinfo,past_pm=county_past_pm)
+    return render_template('exInfo.html',county=county , pm=county_pm ,exinfo=county_exinfo,past_pm=county_past_pm)
 
 # recommand 
 @app.route('/recommand',methods=['GET','POST'])
