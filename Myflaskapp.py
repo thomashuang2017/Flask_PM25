@@ -145,11 +145,22 @@ def exInfo(county_name):
     # find county_exinfo
     county_exinfo = exinfo().Get_county_exinfo(county_name)
     
+    
+    
     # find county_past_pm25
     county_past_pm = PM25().Get_past_pm25(county_name)
     a = county_past_pm[0]['county']
+    pm0=county_past_pm[0]['pm0']
+    pm1=county_past_pm[0]['pm1']
+    pm2=county_past_pm[0]['pm2']
+    pm3=county_past_pm[0]['pm3']
+    pm4=county_past_pm[0]['pm4']
+    pm5=county_past_pm[0]['pm5']
+    pm6=county_past_pm[0]['pm6']
+    pm7=county_past_pm[0]['pm7']
+    pm8=county_past_pm[0]['pm8']
     
-    return render_template('exInfo.html',a = a,county=county , pm=county_pm ,exinfo=county_exinfo,past_pm=county_past_pm)
+    return render_template('exInfo.html', a = a, pm0=pm0 , pm1=pm1 , pm2=pm2 , pm3=pm3 , pm4=pm4, pm5=pm5, pm6=pm6, pm7=pm7 , pm8=pm8 ,county=county , pm=county_pm ,exinfo=county_exinfo,past_pm=county_past_pm)
 
 # recommand 
 @app.route('/recommand')
