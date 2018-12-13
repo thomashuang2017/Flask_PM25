@@ -10,16 +10,19 @@
           <li class="nav-item">
             <a class="nav-link" href="/about">About</a>
           </li>
+           <li class="nav-item"><a class="nav-link" href="/test2">test2</a></li>	 
         </ul>
 		
 		<ul class="nav navbar-nav navbar-right">
 			{% if session.login_in %}
 			 <li class="nav-item"><a class="nav-link" href="/map_view">Taiwan_map</a></li>
 			 <li class="nav-item"><a class="nav-link" href="/user_private">Private</a></li>
-			 <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>			 
+			 <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>		
+             <li class="nav-item"><a class="nav-link" href="/recommand">Recommand</a></li>	 
 			{% else %}
 			 <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
 			 <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
+			 
 			{% endif %}
 			
 		

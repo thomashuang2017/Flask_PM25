@@ -21,6 +21,6 @@ class exinfo():
         
     def recommand_county_exinfo(PM25_min_county):
         sql = "SELECT TITLE,LOCATION,LOCATIONNAME,ENDTIME FROM EXINFO WHERE COUNTY = %S"
-        recommand_county_exinfo = DoSQL().S_db(sql,PM25_min_county)
+        recommand_county_exinfo = DoSQL().S_db(sql,PM25_min_county,1)
         
         return recommand_county_exinfo

@@ -1,8 +1,9 @@
+
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <h1>Exhibition on {{min_county}}</h1>
+    <title>根据Json动态生成checkbox</title>
  
     <style type="text/css">
  
@@ -11,7 +12,7 @@
         }
  
         #show {
-            margin: 50px auto;
+            margin: 10px auto;
             width: 450px;
             font-size: 14px;
         }
@@ -19,19 +20,19 @@
         .content {
             float: left;
             width: 450px;
-            margin: 40px 10px 50px 50px;
+            margin: 10px 0px 20px 10px;
         }
  
         .bigfont {
-            font-size: 40px;
+            font-size: 14px;
         }
  
         .la {
             float: left;
-            width: 500px;
+            width: 50px;
             height: 20px;
-            margin: 20px 0;
-            line-height: 30px;
+            margin: 5px 0;
+            line-height: 20px;
         }
  
         .la input {
@@ -45,28 +46,22 @@
  
     </style>
 
-    
+ 
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
  
     <script type="text/javascript">
-    
-        var data = JSON.parse('{{ recommand_county | tojson|safe}}');
-
-        window.onload = function () {
-            var years = ['{{min_county}}'];
-          
-            
-    
+        	
+       
+       window.onload = function () {
+            var years = ["桃園"];
             var months = 
             {
-                '{{min_county}}': data
+                "桃園": [{"title":"標題","location":"地點"},{"title":"標題","location":"地點"}]
             }; 
-                
             var yearMonth = [years, months];
             genCheck(yearMonth);
         }
- 
- 
+
         function genCheck(yearMonth) {
             var content = "content";
             var checkText = "checkbox";
@@ -78,14 +73,14 @@
             var years = yearMonth[0];
             size = years.length;
             for (var i = 0; i < years.length; i++) {
-                genShowContent("show", checkText + i, i, years[i] , content + i);
+                genShowContent("show", checkText + i, i, years[i] + "年", content + i);
             }
             var monthObj = yearMonth[1];
  
             for (var i = 0; i < years.length; i++) {
-                var array = monthObj[""+years[i]+""];
+                var array = monthObj["" + years[i] + ""];
                 for (var j = 0; j < array.length; j++) {
-                    genCheckBox(content + i, link + i, array[j].title, array[j].title+array[j].location , i, false);
+                    genCheckBox(content + i, link + i, array[j], array[j].title + "月", i, false);
                 }
  
                 var flag = isAllCheck(link + i);
