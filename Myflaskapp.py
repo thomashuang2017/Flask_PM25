@@ -121,8 +121,13 @@ def logout():
 def map_view():
 
 
-    PM25_value = PM25().Get_PM25() # County and PM25 {'county': '南投縣', 'pm3': 26}
-    # return  {'county': '南投縣', 'pm3': 26} pm3 is datetime.hour
+    PM25_value,time = PM25().Get_PM25() # return County and PM25 {'county': '南投縣', 'pm3': 26}
+    # ---------------
+    # PM25_value = {'county': '南投縣', 'pm3': 26}
+    # time = datatime%9 (ex: 14:00 % 9 = 5)
+    # 所以你剖析是 PM25_value['time']
+    #
+    # ---------------
     #PM25_interval = PM25().Get_county_intervel()
     # return {'county': '南投縣', 'interval': 0}
     #PM25_min_county = PM25().Get_min_county()
@@ -162,15 +167,17 @@ def exInfo(county_name):
 
     return render_template('exInfo.html', a = a, pm0=pm0 , pm1=pm1 , pm2=pm2 , pm3=pm3 , pm4=pm4, pm5=pm5, pm6=pm6, pm7=pm7 , pm8=pm8 ,county=county , pm=county_pm ,exinfo=county_exinfo,past_pm=county_past_pm)
 
+
 # recommand
 @app.route('/recommand',methods=['GET','POST'])
 @is_logged_in
 def render_recommand():
     min_county = PM25().Get_min_county()
     pm,_ = PM25().Get_one_PM25(min_county)
-    recommand_county = exinfo().Get_county_exinfo(min_county)
+    recommand_exinfo = exinfo().Get_county_exinfo(min_county)
+    
+    return render_template('recommand.html',recommand_county = min_county,pm=pm,recommand_exinfo=recommand_exinfo)
 
-    return render_template('recommand.html',recommand,pm)
 def Post_user_favorite():
      if request.method =='POST':
         username = request.form['username']
@@ -181,7 +188,8 @@ def Post_user_favorite():
 
 
 
-    return render_template('exInfo.html',pm=pm,recommand_county=recommand_county)
+     return render_template('exInfo.html',pm=pm,recommand_county=recommand_county)
+
 
 @app.route('/user_private')
 @is_logged_in

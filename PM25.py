@@ -23,10 +23,11 @@ class PM25():
         #hour = hour % 9
         SQL = "SELECT county," + self.cur_pm + " FROM PM25 "
         result,content = DoSQL().S_db(SQL,None,2)
+        time = self.cur_pm
         if result == 0:
             return None
         else:
-            return content
+            return content,time
         
     def Get_one_PM25(self,county):
         #hour = datetime.now().hour
@@ -73,7 +74,7 @@ class PM25():
     
     def Get_min_county(self):
         
-        data = self.Get_PM25()
+        data,_ = self.Get_PM25()
         min_pm = 100
         county = ''
         for i in data:
