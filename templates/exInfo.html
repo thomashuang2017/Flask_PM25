@@ -105,7 +105,21 @@
 	<br></br>
 	{{past_pm}}
 	<br></br>
-	{{exinfo}}
+
+	<script>
+
+    var data = JSON.parse('{{ exinfo | tojson|safe}}');
+
+	for (var i in data)
+	{
+		document.write('活動:'+data[i].title,)
+		document.write('地點:'+data[i].location)
+		document.write('縣市:'+data[i].county)
+		document.write('<br>')
+
+	}
+
+	</script>
 
 
 

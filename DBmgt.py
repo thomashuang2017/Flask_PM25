@@ -7,13 +7,29 @@ Created on Thu Nov  8 16:34:09 2018
 
 import pymysql
 
+
+    
+config = {
+          'host':'35.196.78.102',
+          'user':'root',
+          'password':'th850413',
+          'db':'flasktest',
+          'cursorclass':pymysql.cursors.DictCursor,
+          }
+    
+
+
 class DoSQL():
+
+    #def __init__(self):
+    #    self.config = {'host' : '35.196.78.102' ,'user' : 'root' ,'passwd' : "th850413" , 'db' :'flasktest' ,'cursorclass':pymysql.cursors.DictCursor}
     
-    
+        
+        
     def S_db(self,sql,params,fetch):
         
         
-        db  =  pymysql.connect ( host = '35.196.78.102' ,  user = 'root' ,  passwd = "th850413" ,  db = 'flasktest' , cursorclass=pymysql.cursors.DictCursor) 
+        db  =  pymysql.connect (**config) 
         
         cur  =  db.cursor()  
         
@@ -38,7 +54,7 @@ class DoSQL():
         # Create cursor
         #cur = db.connection.cursor()
         
-        db  =  pymysql.connect ( host = '35.196.78.102' ,  user = 'root' ,  passwd = "th850413" ,  db = 'flasktest',cursorclass=pymysql.cursors.DictCursor ) 
+        db  =  pymysql.connect (**config) 
         cur  =  db.cursor() 
         #cur = db.get_db().cursor()
         

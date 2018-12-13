@@ -13,3 +13,14 @@ class exinfo():
         result,content = DoSQL().S_db(SQL,county_name,2)
         
         return content
+    #def Get_county_exinfo(county_name):
+    #    sql = "SELECT * FROM EXINFO WHERE COUNTY = %s"
+    #    Get_county_exinfo = DoSQL().S_db(sql,county_name)
+    #    
+    #    return Get_county_exinfo
+        
+    def recommand_county_exinfo(PM25_min_county):
+        sql = "SELECT TITLE,LOCATION,LOCATIONNAME,ENDTIME FROM EXINFO WHERE COUNTY = %S"
+        recommand_county_exinfo = DoSQL().S_db(sql,PM25_min_county)
+        
+        return recommand_county_exinfo
