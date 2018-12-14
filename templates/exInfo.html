@@ -17,6 +17,7 @@
 	table.TB_COLLAPSE thead th {
 		padding:5px 0px;
 		color:#fff;
+		text-align:center;
 		background-color:#915957;
 	}
 	table.TB_COLLAPSE tbody td {
@@ -38,7 +39,23 @@
 <script type="text/javascript">
 	var d = new Date();
 	var n = d.getHours();
-	 var data = [[n-8, "{{pm0}}"], [n-7, "{{pm1}}"], [n-6, "{{pm2}}"], [n-5, "{{pm3}}"], [n-4, "{{pm4}}"], [n-3, "{{pm5}}"], [n-2, "{{pm6}}"], [n-1, "{{pm7}}"], [n, "{{pm8}}"]];
+
+	var plot_pm = JSON.parse('{{ past_pm | tojson|safe}}');
+	var a=n%9
+	var b='pm'+b
+	var pm0= plot_pm[0].pm0
+	var pm1= plot_pm[0].pm1
+	var pm2= plot_pm[0].pm2
+	var pm3= plot_pm[0].pm3
+	var pm4= plot_pm[0].pm4
+	var pm5= plot_pm[0].pm5
+	var pm6= plot_pm[0].pm6
+	var pm7= plot_pm[0].pm7
+	var pm8= plot_pm[0].pm8
+
+
+
+	 var data = [[n-8, pm0], [n-7, pm1], [n-6, pm2], [n-5, pm3], [n-4, pm4], [n-3, pm5], [n-2, pm6], [n-1, pm7], [n, pm8]];
 
 	 var dataset = [{label: "{{county}}"+"pm2.5",data: data}];
 
@@ -59,21 +76,23 @@
 
    // 展覽切割
 	 var data = JSON.parse('{{ exinfo | tojson|safe}}');
-	  document.write('<div id="flot-placeholder"></div>')
+	  document.write('<h3>{{county}} 現在的PM2.5是{{pm}}</h3>')
 		document.write('<div id="flot-placeholder"></div>')
-
-	  document.write('<table class="TB_COLLAPSE"><thead><tr><th>活動</th><th>地址</th><th>地點</th><th>結束時間</th></tr></thead>')
+    document.write('<h3>{{county}} 展覽活動</h3>')
+	  document.write('<table class="TB_COLLAPSE"><thead><tr><th>書籤</th><th>活動</th><th>地址</th><th>地點</th><th>結束時間</th></tr></thead>')
 
   for (var i in data)
   {
 	 document.write('<tr>')
-	document.write('<td>')
+	 document.write('<td>')
+	 document.write('<button type="button" class="btn btn-outline-primary">Primary</button>')
+	 document.write('</td>')
+	 document.write('<td>')
    document.write(data[i].title)
 	 document.write('</td>')
 	 document.write('<td>')
    document.write(data[i].location)
 	 document.write('</td>')
-
 	 document.write('<td>')
 	 document.write(data[i].locationName)
 	 document.write('</td>')

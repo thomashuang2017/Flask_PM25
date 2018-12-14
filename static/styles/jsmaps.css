@@ -123,7 +123,7 @@
     position: absolute;
     top: 0;
     right: 0;
-    width: 40px;
+    /* width: 40px;
     height: 100%;
     border-left: 1px solid #999;
     pointer-events: none; }
@@ -145,7 +145,7 @@
     border-top: 2px solid white;
     border-right: 2px solid white;
     -webkit-transform: translate(25%, 0) rotate(-135deg);
-    -moz-transform: translate(25%, 0) rotate(-135deg);
+    -moz-transform: translate(25%, 0) rotate(-135deg); */
     -ms-transform: translate(25%, 0) rotate(-135deg);
     transform: translate(25%, 0) rotate(-135deg); }
   [class*="jsmaps-icon"].jsmaps-icon-chevron.jsmaps-icon-chevron-right:before {
