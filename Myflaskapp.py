@@ -153,6 +153,7 @@ def exInfo(county_name):
 
 
     # find county_past_pm25
+    # 醜到爆
     county_past_pm = PM25().Get_past_pm25(county_name)
     a = county_past_pm[0]['county']
     pm0=county_past_pm[0]['pm0']
@@ -176,7 +177,9 @@ def render_recommand():
     pm,_ = PM25().Get_one_PM25(min_county)
     recommand_exinfo = exinfo().Get_county_exinfo(min_county)
     
-    return render_template('recommand.html',min_county=min_county,recommand_county=recommand_county)
+    return render_template('recommand.html',min_county=min_county,recommand_exinfo=recommand_exinfo,pm=pm)
+
+
 @app.route('/test2',methods=['GET','POST'])
 def test():
     min_county = PM25().Get_min_county()
@@ -184,17 +187,7 @@ def test():
     recommand_county = exinfo().Get_county_exinfo(min_county)
     
     return render_template('test2.html',min_county=min_county,recommand_county=recommand_county)
-#def post_user_favorite():
-#    if request.method =='POST':
-#        username = request.form['username']
-#        
-#        recommand = request.form.getlist('exinfo')
-#       sql = "INSERT INTO RECOMMAND VALUE(%(USER)s,%(EXINFO)s)"
-#       DoSQL.IUD_db(sql,username,recommand,2)
-    
-	 
-#        return render_template('exInfo.html',pm=pm,recommand_county=recommand_county)
-    return render_template('recommand.html',recommand_county = min_county,pm=pm,recommand_exinfo=recommand_exinfo)
+
 
 def Post_user_favorite():
      if request.method =='POST':
