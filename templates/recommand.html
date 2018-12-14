@@ -1,22 +1,16 @@
+<!DOCTYPE html>
 {% extends 'layout.html' %}
-
 {% block body %}
+<html>
+<head>
 	<br></br>
-	<h1>Recommand</h1>
-	我想推薦給你{{recommand_county}}，因為他的PM2.5是{{pm}}
-	<form action="/action_page.php">
-    <input type="checkbox" name="exinfo" value="{{recommand_county}}"> 桃園花燈<br>
-    <input type="submit" value="Submit">
-  
-    <button onclick="myFunction()">Try it</button>
+    {{min_county}}
+	<br></br>
+	{{pm}}
+	<br></br>
+	{{recommand_exinfo}}
+   
+</head>
 
-    <script>
-    function myFunction() {
-        var x = document.createElement("INPUT");
-        x.setAttribute("type", "checkbox");
-        document.body.appendChild(x);
-    }
-    </script>
-</form>
-	
 {% endblock %}
+
