@@ -8,11 +8,11 @@ window.JSMaps.maps.taiwan = {
 	"paths": [
 		{
 			"enable": true,
-			"name": "屏東縣"+'<br>'+"pm:"+now_pm[6],
+			"name": "屏東縣"+'<br>'+"pm:"+now_pm[5],
 			"abbreviation": "PT",
 			"textX": 0,
 			"textY": 0,
-			"color":pm_color[6],
+			"color":pm_color[5],
 			"hoverColor": "#E32F02",
 			"selectedColor": "#feb41c",
 			"url": "http://jsmaps.io/",
