@@ -1,16 +1,16 @@
-{% extends 'layout.html' %}
-{% block body %}
-
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
     <h1>Exhibition on {{min_county}}</h1>
-
-	<form method="POST">
-	<style type="text/css">
+ 
+    <style type="text/css">
  
         body {
             margin: 0 auto;
         }
  
-        #exinfo {
+        #show {
             margin: 50px auto;
             width: 450px;
             font-size: 14px;
@@ -44,46 +44,48 @@
         }
  
     </style>
+
+    
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
  
     <script type="text/javascript">
     
-        var data = JSON.parse('{{ recommand_exinfo | tojson|safe}}');
+        var data = JSON.parse('{{ recommand_county | tojson|safe}}');
 
         window.onload = function () {
-            var county = ['{{min_county}}'];
+            var years = ['{{min_county}}'];
           
             
     
-            var exinfo = 
+            var months = 
             {
                 '{{min_county}}': data
             }; 
                 
-            var recommand_exinfo = [county, exinfo];
-            genCheck(recommand_exinfo);
+            var yearMonth = [years, months];
+            genCheck(yearMonth);
         }
  
  
-        function genCheck(recommand_exinfo) {
+        function genCheck(yearMonth) {
             var content = "content";
             var checkText = "checkbox";
             var link = "link";
             var size;
  
-            $("#exinfo").html("");
+            $("#show").html("");
  
-            var county = recommand_exinfo[0];
-            size = county.length;
-            for (var i = 0; i < county.length; i++) {
-                genShowContent("exinfo", checkText + i, i, county[i] , content + i);
+            var years = yearMonth[0];
+            size = years.length;
+            for (var i = 0; i < years.length; i++) {
+                genShowContent("show", checkText + i, i, years[i] , content + i);
             }
-            var exinfo = recommand_exinfo[1];
+            var monthObj = yearMonth[1];
  
-            for (var i = 0; i < county.length; i++) {
-                var array = exinfo[""+county[i]+""];
+            for (var i = 0; i < years.length; i++) {
+                var array = monthObj[""+years[i]+""];
                 for (var j = 0; j < array.length; j++) {
-                    genCheckBox(content + i, link + i, array[j].ex_id, "ex_id:"+array[j].ex_id+"title:"+array[j].title+"location:"+array[j].location , i, false);
+                    genCheckBox(content + i, link + i, array[j].title, array[j].title+array[j].location , i, false);
                 }
  
                 var flag = isAllCheck(link + i);
@@ -151,8 +153,7 @@
             return true;
         }
     </script>
-    <div class="exinfo" id="exinfo"></div>
-    <button type="submit">Submit</button>
-    </form>
-{% endblock %}
-
+</head>
+<body>
+<div class="show" id="show"></div>
+</body>
