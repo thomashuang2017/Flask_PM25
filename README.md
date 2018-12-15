@@ -9,3 +9,7 @@
 4. 最後在push (如果出現 Try pull before push代表你沒有先pull or clone)
 
 (如果有private的error代表你勾到 keep private code的選項)
+
+如果你要到某一個版本
+git checkout 版本代號
+ 
