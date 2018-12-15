@@ -9,7 +9,7 @@ from DBmgt import DoSQL
 class exinfo():
     
     def Get_county_exinfo(self,county_name):
-        SQL = "SELECT title,county,location,locationName,endTime FROM exinfo WHERE county = %s"
+        SQL = "SELECT ex_id,title,county,location,locationName,endTime FROM exinfo WHERE county = %s"
         result,content = DoSQL().S_db(SQL,county_name,2)
         
         return content
