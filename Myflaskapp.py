@@ -159,6 +159,7 @@ def exInfo(county_name):
 @app.route('/recommand',methods=['GET','POST'])
 @is_logged_in
 def render_recommand():
+<<<<<<< HEAD
 
     #----------------互動頁無動作server丟值
     if request.method =='GET':
@@ -200,6 +201,13 @@ def test_recommand():
         return render_template('about.html',username=session['username'],favorite_exinfo=favorite_exinfo)
     
     
+=======
+    min_county = PM25().Get_min_county()
+    pm,_ = PM25().Get_one_PM25(min_county)
+    recommand_county = exinfo().Get_county_exinfo(min_county)
+
+    return render_template('recommand.html',recommand,pm)
+>>>>>>> parent of a9f5834... Merge branch 'master' of https://github.com/thomashuang2017/Flask_PM25
 def Post_user_favorite():
      if request.method =='POST':
         username = request.form['username']
@@ -212,7 +220,10 @@ def Post_user_favorite():
     
      return render_template('exInfo.html',pm=pm,recommand_county=recommand_county)
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> parent of a9f5834... Merge branch 'master' of https://github.com/thomashuang2017/Flask_PM25
 @app.route('/user_private')
 @is_logged_in
 def user_private():
