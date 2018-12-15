@@ -8,7 +8,8 @@ window.JSMaps.maps.taiwan = {
 	"paths": [
 		{
 			"enable": true,
-			"name": "屏東縣"+'<br>'+"pm:"+now_pm[5],
+			"c_name":"屏東縣",
+			"name": "屏東縣"+'<br>'+"pm:"+now_pm[6],
 			"abbreviation": "PT",
 			"textX": 0,
 			"textY": 0,
@@ -21,6 +22,7 @@ window.JSMaps.maps.taiwan = {
 		},
 		{
 			"enable": true,
+			"c_name":"臺南市",
 			"name": "臺南市"+'<br>'+"pm:"+now_pm[14],
 			"abbreviation": "TN",
 			"textX": 0,
@@ -34,6 +36,7 @@ window.JSMaps.maps.taiwan = {
 		},
 		{
 			"enable": true,
+			"c_name":"宜蘭縣",
 			"name": "宜蘭縣"+'<br>'+"pm:"+now_pm[4],
 			"abbreviation": "IL",
 			"textX": 0,
@@ -47,6 +50,7 @@ window.JSMaps.maps.taiwan = {
 		},
 		{
 			"enable": true,
+			"c_name":"嘉義縣",
 			"name": "嘉義縣"+'<br>'+"pm:"+now_pm[2],
 			"abbreviation": "CH",
 			"textX": 0,
@@ -60,6 +64,7 @@ window.JSMaps.maps.taiwan = {
 		},
 		{
 			"enable": true,
+			"c_name":"臺東縣",
 			"name": "臺東縣"+'<br>'+"pm:"+now_pm[15],
 			"abbreviation": "TT",
 			"textX": 0,
@@ -73,6 +78,7 @@ window.JSMaps.maps.taiwan = {
 		},
 		{
 			"enable": true,
+			"c_name":"澎湖縣",
 			"name": "澎湖縣"+'<br>'+"pm:"+now_pm[11],
 			"abbreviation": "PH",
 			"textX": 0,
@@ -86,6 +92,7 @@ window.JSMaps.maps.taiwan = {
 		},
 		{
 			"enable": true,
+			"c_name":"金門縣",
 			"name": "金門縣"+'<br>'+"pm:"+now_pm[19],
 			"abbreviation": "KM",
 			"textX": 0,
@@ -99,6 +106,7 @@ window.JSMaps.maps.taiwan = {
 		},
 		{
 			"enable": true,
+			"c_name":"連江縣",
 			"name": "連江縣"+'<br>'+"pm:"+now_pm[18],
 			"abbreviation": "LK",
 			"textX": 0,
@@ -112,6 +120,7 @@ window.JSMaps.maps.taiwan = {
 		},
 		{
 			"enable": true,
+			"c_name":"臺北市",
 			"name": "臺北市"+'<br>'+"pm:"+now_pm[13],
 			"abbreviation": "TW",
 			"textX": 0,
@@ -125,6 +134,7 @@ window.JSMaps.maps.taiwan = {
 		},
 		{
 			"enable": true,
+			"c_name":"嘉義市",
 			"name": "嘉義市"+'<br>'+"pm:"+now_pm[1],
 			"abbreviation": "CS",
 			"textX": 0,
@@ -138,6 +148,7 @@ window.JSMaps.maps.taiwan = {
 		},
 		{
 			"enable": true,
+			"c_name":"臺中市",
 			"name": "臺中市"+'<br>'+"pm:"+now_pm[12],
 			"abbreviation": "TH",
 			"textX": 0,
@@ -151,6 +162,7 @@ window.JSMaps.maps.taiwan = {
 		},
 		{
 			"enable": true,
+			"c_name":"雲林縣",
 			"name": "雲林縣"+'<br>'+"pm:"+now_pm[20],
 			"abbreviation": "YL",
 			"textX": 0,
@@ -164,6 +176,7 @@ window.JSMaps.maps.taiwan = {
 		},
 		{
 			"enable": true,
+			"c_name":"高雄市",
 			"name": "高雄市"+'<br>'+"pm:"+now_pm[21],
 			"abbreviation": "KH",
 			"textX": 0,
@@ -177,6 +190,7 @@ window.JSMaps.maps.taiwan = {
 		},
 		{
 			"enable": true,
+			"c_name":"新北市",
 			"name": "新北市"+'<br>'+"pm:"+now_pm[7],
 			"abbreviation": "TP",
 			"textX": 0,
@@ -190,6 +204,7 @@ window.JSMaps.maps.taiwan = {
 		},
 		{
 			"enable": true,
+			"c_name":"新竹市",
 			"name": "新竹市"+'<br>'+"pm:"+now_pm[8],
 			"abbreviation": "HS",
 			"textX": 0,
@@ -203,6 +218,7 @@ window.JSMaps.maps.taiwan = {
 		},
 		{
 			"enable": true,
+			"c_name":"新竹縣",
 			"name": "新竹縣"+'<br>'+"pm:"+now_pm[9],
 			"abbreviation": "HH",
 			"textX": 0,
@@ -216,6 +232,7 @@ window.JSMaps.maps.taiwan = {
 		},
 		{
 			"enable": true,
+			"c_name":"基隆市",
 			"name": "基隆市"+'<br>'+"pm:"+now_pm[3],
 			"abbreviation": "CL",
 			"textX": 0,
@@ -229,6 +246,7 @@ window.JSMaps.maps.taiwan = {
 		},
 		{
 			"enable": true,
+			"c_name":"苗栗縣",
 			"name": "苗栗縣"+'<br>'+"pm:"+now_pm[17],
 			"abbreviation": "ML",
 			"textX": 0,
@@ -242,6 +260,7 @@ window.JSMaps.maps.taiwan = {
 		},
 		{
 			"enable": true,
+			"c_name":"桃園市",
 			"name": "桃園市"+'<br>'+"pm:"+now_pm[10],
 			"abbreviation": "TY",
 			"textX": 0,
@@ -255,6 +274,7 @@ window.JSMaps.maps.taiwan = {
 		},
 		{
 			"enable": true,
+			"c_name":"彰化縣",
 			"name": "彰化縣"+'<br>'+"pm:"+now_pm[6],
 			"abbreviation": "CG",
 			"textX": 0,
@@ -268,6 +288,7 @@ window.JSMaps.maps.taiwan = {
 		},
 		{
 			"enable": true,
+			"c_name":"花蓮縣",
 			"name": "花蓮縣"+'<br>'+"pm:"+now_pm[16],
 			"abbreviation": "HL",
 			"textX": 0,
@@ -281,6 +302,7 @@ window.JSMaps.maps.taiwan = {
 		},
 		{
 			"enable": true,
+			"c_name":"南投縣",
 			"name": "南投縣"+'<br>'+"pm:"+now_pm[0],
 			"abbreviation": "NT",
 			"textX": 0,

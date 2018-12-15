@@ -139,6 +139,7 @@ def exInfo(county_name):
 
     # find county_pm
     county_pm,time = PM25().Get_one_PM25(county_name)
+    #print(county_name)
     county = county_name
     county_pm = county_pm[0][time]
 
@@ -151,8 +152,8 @@ def exInfo(county_name):
     county_past_pm = PM25().Get_past_pm25(county_name)
     a = county_past_pm[0]['county']
 
-
-    return render_template('exInfo.html', a = a,county=county , pm=county_pm ,exinfo=county_exinfo,past_pm=county_past_pm)
+    
+    return render_template('exInfo.html',a=a,county=county , pm=county_pm ,exinfo=county_exinfo,past_pm=county_past_pm)
 
 # recommand
 @app.route('/recommand',methods=['GET','POST'])
@@ -176,6 +177,7 @@ def render_recommand():
             DoSQL().IUD_db("INSERT INTO user_favorite_exinfo(id,ex_id) VALUES(%s,%s)",(content['id'],favorite_exinfo[i]),1)
             
         return render_template('about.html',username=session['username'],favorite_exinfo=favorite_exinfo)
+		
 #def Post_user_favorite():
 #     if request.method =='POST':
 #        username = session['username']
@@ -204,6 +206,8 @@ def test_recommand():
             DoSQL().IUD_db("INSERT INTO user_favorite_exinfo(id,ex_id) VALUES(%s,%s)",(content['id'],favorite_exinfo[i]),1)
             
         return render_template('about.html',username=session['username'],favorite_exinfo=favorite_exinfo)
+    
+    
 @app.route('/user_private')
 @is_logged_in
 def user_private():
