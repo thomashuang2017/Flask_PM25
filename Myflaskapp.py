@@ -60,10 +60,10 @@ def register():
 @app.route('/login',methods=['GET','POST'])
 def login():
     if request.method =='POST':
-
+        
         username = request.form['username']
         password = request.form['password']
-
+        
         # username not found , password error , success login
 
         result,data = DoSQL().S_db("SELECT * FROM users WHERE username = %s",[username],1)
@@ -159,7 +159,6 @@ def exInfo(county_name):
 @app.route('/recommand',methods=['GET','POST'])
 @is_logged_in
 def render_recommand():
-
     #----------------互動頁無動作server丟值
     if request.method =='GET':
         
@@ -178,7 +177,16 @@ def render_recommand():
             DoSQL().IUD_db("INSERT INTO user_favorite_exinfo(id,ex_id) VALUES(%s,%s)",(content['id'],favorite_exinfo[i]),1)
             
         return render_template('about.html',username=session['username'],favorite_exinfo=favorite_exinfo)
-
+		
+#def Post_user_favorite():
+#     if request.method =='POST':
+#        username = session['username']
+#        
+#       recommand = request.form.getlist('link')
+#      sql = "INSERT INTO RECOMMAND VALUE(%(USER)s,%(EXINFO)s)"
+#     DoSQL.IUD_db(sql,username,recommand,2)
+#
+#     return render_template('exInfo.html',pm=pm,recommand_county=recommand_county)
 
 @app.route('/test2',methods=['GET','POST'])
 @is_logged_in
@@ -199,19 +207,7 @@ def test_recommand():
             
         return render_template('about.html',username=session['username'],favorite_exinfo=favorite_exinfo)
     
-
-def Post_user_favorite():
-     if request.method =='POST':
-        username = request.form['username']
-
-        recommand = request.form.getlist('exinfo')
-        sql = "INSERT INTO RECOMMAND VALUE(%(USER)s,%(EXINFO)s)"
-        DoSQL.IUD_db(sql,username,recommand,2)
-
-
     
-     return render_template('exInfo.html',pm=pm,recommand_county=recommand_county)
-
 @app.route('/user_private')
 @is_logged_in
 def user_private():
