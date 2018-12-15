@@ -121,15 +121,15 @@ def logout():
 def map_view():
 
 
-    #PM25_value = PM25().Get_PM25() # County and PM25 {'county': '南投縣', 'pm3': 26}
-    # return  {'county': '南投縣', 'pm3': 26} pm3 is datetime.hour
+    PM25_value = PM25().Get_PM25() # County and PM25 {'county': '南投縣', 'pm3': 26}
+    #return  {'county': '南投縣', 'pm3': 26} pm3 is datetime.hour
     #PM25_interval = PM25().Get_county_intervel()
     # return {'county': '南投縣', 'interval': 0}
     #PM25_min_county = PM25().Get_min_county()
     # return 臺東縣
 
 
-    return render_template('taiwan_map.html')
+    return render_template('taiwan_map.html',value=PM25_value)
 
 
 

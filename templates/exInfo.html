@@ -38,24 +38,117 @@
 <script type="text/javascript" src="http://www.pureexample.com/js/flot/jquery.flot.min.js"></script>
 <script type="text/javascript">
 	var d = new Date();
-	var n = d.getHours();
+	// var now_hour = d.getHours();
 
 	var plot_pm = JSON.parse('{{ past_pm | tojson|safe}}');
-	var a=n%9
-	var b='pm'+b
-	var pm0= plot_pm[0].pm0
-	var pm1= plot_pm[0].pm1
-	var pm2= plot_pm[0].pm2
-	var pm3= plot_pm[0].pm3
-	var pm4= plot_pm[0].pm4
-	var pm5= plot_pm[0].pm5
-	var pm6= plot_pm[0].pm6
-	var pm7= plot_pm[0].pm7
-	var pm8= plot_pm[0].pm8
+
+
+	if(now_hour%9==0){
+		var pm0= plot_pm[0].pm1
+		var pm1= plot_pm[0].pm2
+		var pm2= plot_pm[0].pm3
+		var pm3= plot_pm[0].pm4
+		var pm4= plot_pm[0].pm5
+		var pm5= plot_pm[0].pm6
+		var pm6= plot_pm[0].pm7
+		var pm7= plot_pm[0].pm8
+		var pm8= plot_pm[0].pm0
+	}
+	if(now_hour%9==1){
+		var pm0= plot_pm[0].pm2
+		var pm1= plot_pm[0].pm3
+		var pm2= plot_pm[0].pm4
+		var pm3= plot_pm[0].pm5
+		var pm4= plot_pm[0].pm6
+		var pm5= plot_pm[0].pm7
+		var pm6= plot_pm[0].pm8
+		var pm7= plot_pm[0].pm0
+		var pm8= plot_pm[0].pm1
+	}
+	if(now_hour%9==2){
+		var pm0= plot_pm[0].pm3
+		var pm1= plot_pm[0].pm4
+		var pm2= plot_pm[0].pm5
+		var pm3= plot_pm[0].pm6
+		var pm4= plot_pm[0].pm7
+		var pm5= plot_pm[0].pm8
+		var pm6= plot_pm[0].pm0
+		var pm7= plot_pm[0].pm1
+		var pm8= plot_pm[0].pm2
+	}
+	if(now_hour%9==3){
+		var pm0= plot_pm[0].pm4
+		var pm1= plot_pm[0].pm5
+		var pm2= plot_pm[0].pm6
+		var pm3= plot_pm[0].pm7
+		var pm4= plot_pm[0].pm8
+		var pm5= plot_pm[0].pm0
+		var pm6= plot_pm[0].pm1
+		var pm7= plot_pm[0].pm2
+		var pm8= plot_pm[0].pm3
+	}
+	if(now_hour%9==4){
+		var pm0= plot_pm[0].pm5
+		var pm1= plot_pm[0].pm6
+		var pm2= plot_pm[0].pm7
+		var pm3= plot_pm[0].pm8
+		var pm4= plot_pm[0].pm0
+		var pm5= plot_pm[0].pm1
+		var pm6= plot_pm[0].pm2
+		var pm7= plot_pm[0].pm3
+		var pm8= plot_pm[0].pm4
+	}
+	if(now_hour%9==5){
+		var pm0= plot_pm[0].pm6
+		var pm1= plot_pm[0].pm7
+		var pm2= plot_pm[0].pm8
+		var pm3= plot_pm[0].pm0
+		var pm4= plot_pm[0].pm1
+		var pm5= plot_pm[0].pm2
+		var pm6= plot_pm[0].pm3
+		var pm7= plot_pm[0].pm4
+		var pm8= plot_pm[0].pm5
+	}
+	if(now_hour%9==6){
+		var pm0= plot_pm[0].pm7
+		var pm1= plot_pm[0].pm8
+		var pm2= plot_pm[0].pm0
+		var pm3= plot_pm[0].pm1
+		var pm4= plot_pm[0].pm2
+		var pm5= plot_pm[0].pm3
+		var pm6= plot_pm[0].pm4
+		var pm7= plot_pm[0].pm5
+		var pm8= plot_pm[0].pm6
+	}
+	if(now_hour%9==7){
+		var pm0= plot_pm[0].pm8
+		var pm1= plot_pm[0].pm0
+		var pm2= plot_pm[0].pm1
+		var pm3= plot_pm[0].pm2
+		var pm4= plot_pm[0].pm3
+		var pm5= plot_pm[0].pm4
+		var pm6= plot_pm[0].pm5
+		var pm7= plot_pm[0].pm6
+		var pm8= plot_pm[0].pm7
+	}
+	if(now_hour%9==8){
+		var pm0= plot_pm[0].pm0
+		var pm1= plot_pm[0].pm1
+		var pm2= plot_pm[0].pm2
+		var pm3= plot_pm[0].pm3
+		var pm4= plot_pm[0].pm4
+		var pm5= plot_pm[0].pm5
+		var pm6= plot_pm[0].pm6
+		var pm7= plot_pm[0].pm7
+		var pm8= plot_pm[0].pm8
+	}
 
 
 
-	 var data = [[n-8, pm0], [n-7, pm1], [n-6, pm2], [n-5, pm3], [n-4, pm4], [n-3, pm5], [n-2, pm6], [n-1, pm7], [n, pm8]];
+
+
+
+	 var data = [[n-8, 1], [n-7, 2], [n-6, 3], [n-5, 4], [n-4,5], [n-3, 6], [n-2,7], [n-1,8], [n, 9]];
 
 	 var dataset = [{label: "{{county}}"+"pm2.5",data: data}];
 
@@ -131,7 +224,7 @@
 
 	for (var i in data)
 	{
-		document.write('活動:'+data[i].title,)
+		document.write('活動:'+data[i].id,)
 		document.write('地點:'+data[i].location)
 		document.write('縣市:'+data[i].county)
 		document.write('<br>')
