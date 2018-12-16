@@ -38,7 +38,7 @@
 <script type="text/javascript" src="http://www.pureexample.com/js/flot/jquery.flot.min.js"></script>
 <script type="text/javascript">
 	var d = new Date();
-	// var now_hour = d.getHours();
+	var now_hour = d.getHours();
 
 	var plot_pm = JSON.parse('{{ past_pm | tojson|safe}}');
 
@@ -148,7 +148,7 @@
 
 
 
-	 var data = [[n-8, 1], [n-7, 2], [n-6, 3], [n-5, 4], [n-4,5], [n-3, 6], [n-2,7], [n-1,8], [n, 9]];
+	 var data = [[now_hour-8, pm0], [now_hour-7, pm1], [now_hour-6, pm2], [now_hour-5, pm3], [now_hour-4,pm4], [now_hour-3, pm5], [now_hour-2,pm6], [now_hour-1,pm7], [now_hour, pm8]];
 
 	 var dataset = [{label: "{{county}}"+"pm2.5",data: data}];
 

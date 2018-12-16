@@ -9,7 +9,7 @@ window.JSMaps.maps.taiwan = {
 		{
 			"enable": true,
 			"c_name":"屏東縣",
-			"name": "屏東縣"+'<br>'+"pm:"+now_pm[6],
+			"name": "屏東縣"+'<br>'+"pm:"+now_pm[5],
 			"abbreviation": "PT",
 			"textX": 0,
 			"textY": 0,
