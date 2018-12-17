@@ -147,6 +147,7 @@ def exInfo(county_name):
     county_exinfo = exinfo().Get_county_exinfo(county_name)
 
 
+
     # find county_past_pm25
     county_past_pm = PM25().Get_past_pm25(county_name)
     a = county_past_pm[0]['county']
@@ -158,13 +159,16 @@ def exInfo(county_name):
 @app.route('/recommand',methods=['GET','POST'])
 @is_logged_in
 def render_recommand():
-    
-    min_county = PM25().Get_min_county()
-    pm,_ = PM25().Get_one_PM25(min_county)
-    recommand_exinfo = exinfo().Get_county_exinfo(min_county)
         #----------------互動頁無動作server丟值
-    if request.method =='POST':
-        result,content = DoSQL().S_db("SELECT id FROM users WHERE username = %s",session['username'],1)
+    if request.method =='GET':        
+        min_county = PM25().Get_min_county()
+        pm,_ = PM25().Get_one_PM25(min_county)
+        recommand_exinfo = exinfo().Get_county_exinfo(min_county)
+        
+        return render_template('recommand.html',min_county=min_county,recommand_exinfo=recommand_exinfo,pm=pm)
+    #----------------互動頁POST,server接收checkbox所選擇的值並且insert db table:user_favorite_exinfo
+    else:
+        result,user_id = DoSQL().S_db("SELECT id FROM users WHERE username = %s",session['username'],1)
         favorite_exinfo = request.form.getlist('link0')
         #---------------重複選取解決方法
         sql = "SELECT ex_id FROM user_favorite_exinfo AS u1 WHERE exists(SELECT * FROM users AS u2 WHERE u2.id=%s and u1.ID=u2.ID and u1.ex_id=%s )"
@@ -175,7 +179,7 @@ def render_recommand():
                     #ex_id_repeat.append(ex_id)
                     ex_id_repeat.append(ex_id[0]["ex_id"])
                 
-            
+                    
         #------ ex_id 回傳該user目前記錄的ex_id 
         #result,ex_id = DoSQL().S_db(sql,user_id['id'],2)
         if len(ex_id_repeat) > 0 :
