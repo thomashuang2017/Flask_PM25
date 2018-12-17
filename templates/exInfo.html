@@ -149,7 +149,7 @@
 
 
 
-	 var data = [[now_hour-8, pm0], [now_hour-7, pm1], [now_hour-6, pm2], [now_hour-5, pm3], [now_hour-4,pm4], [now_hour-3, pm5], [now_hour-2,pm6], [now_hour-1,pm7], [now_hour, pm8]];
+	 var data = [[1, 50], [2, 200], [4, 5], [5, 50], [6,70], [7, 80], [8,9], [9,100], [10, 100]];
 
 	 var dataset = [{label: "{{county}}"+"pm2.5",data: data}];
 
@@ -198,8 +198,9 @@
   }
 	 document.write('</table>')
 	 // 展覽切割
-	 
+
 </script>
+{{past_pm}}
 <br></br>
 
 {% endblock %}
