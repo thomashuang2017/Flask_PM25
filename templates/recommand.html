@@ -43,15 +43,43 @@
             line-height: 20px;
         }
 
+        /* 表格Css */
+				table.TB_COLLAPSE {
+					width:100%;
+					border-collapse:collapse;
+				}
+				table.TB_COLLAPSE caption {
+					padding:10px;
+					font-size:24px;
+					background-color:#f3f6f9;
+				}
+				table.TB_COLLAPSE thead th {
+					padding:5px 0px;
+					color:#fff;
+					text-align:center;
+					background-color:#915957;
+				}
+				table.TB_COLLAPSE tbody td {
+					padding:5px 0px;
+					color:#555;
+					text-align:center;
+					background-color:#fff;
+					border-bottom:1px solid #915957;
+				}
+				table.TB_COLLAPSE tfoot td {
+					padding:5px 0px;
+					text-align:center;
+					background-color:#d6d6a5;
+
     </style>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
 
     <script type="text/javascript">
-        
+
         var data = JSON.parse('{{ recommand_exinfo | tojson|safe}}');
         window.onload = function () {
-            var county = ['{{min_county}}'];   
-            var exinfo = 
+            var county = ['{{min_county}}'];
+            var exinfo =
             {
                 '{{min_county}}': data
             };
@@ -80,6 +108,7 @@
                 var array = exinfo[""+county[i]+""];
                 for (var j = 0; j < array.length; j++) {
                     genCheckBox(content + i, link + i, array[j].ex_id, "ex_id:"+array[j].ex_id+"title:"+array[j].title+"location:"+array[j].location , i, false);
+                    //id(沒用), name(縣市的checkboxname), value(真的id), showText, parentIndex, isCheck
                 }
 
                 var flag = isAllCheck(link + i);
@@ -119,7 +148,7 @@
             }
         }
 
-
+        // 動態產生checkbox
         function genCheckBox(id, name, value, showText, parentIndex, isCheck) {
             if (!isCheck) {
                 var checkbox = "<div class='la'><input type='checkbox' parentIndex=" + parentIndex + " name=".concat(name).concat(" value=").concat(value).concat(" alt=").concat(showText).concat(" /><span>").concat(showText).concat("</span></div>");
