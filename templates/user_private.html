@@ -7,44 +7,68 @@
     <br>{{favorite_county}}</br>
 	<h1>id = {{userdata[0].id}},name = {{userdata[0].username}},email = {{userdata[0].email}}</h1>
 	<br>{{favorite_exinfo}}</br>
-	<br>{{userdata}}</br>
-	
-	<script>
+			<!-- 個人頁面 -->
 
+
+
+
+	<script>
+		// 個人資料變數
+		// $(".userid").append("<p>王八蛋</p>");
+		
+
+		// 書籤展覽切割
     var data = JSON.parse('{{ favorite_exinfo | tojson|safe}}');
 
-	for (var i in data)
-	{
-		document.write('活動:'+data[i].title,)
-		document.write('地點:'+data[i].location)
-		document.write('縣市:'+data[i].county)
-		document.write('<br>')
+		document.write('<h3>{{county}} 展覽活動</h3>')
+		document.write('<table class="TB_COLLAPSE"><thead><tr><th>書籤</th><th>活動</th><th>地址</th><th>地點</th><th>結束時間</th></tr></thead>')
 
-	}
+		for (var i in data)
+		{
+		 document.write('<tr>')
+		 document.write('<td>')
+		 document.write('<button type="button" class="btn btn-outline-primary">Primary</button>')
+		 document.write('</td>')
+		 document.write('<td>')
+		 document.write(data[i].title)
+		 document.write('</td>')
+		 document.write('<td>')
+		 document.write(data[i].location)
+		 document.write('</td>')
+		 document.write('<td>')
+		 document.write(data[i].locationName)
+		 document.write('</td>')
+		 document.write('<td>')
+		 document.write(data[i].endTime)
+		 document.write('</td>')
+		 document.write('</tr>')
+
+		}
+		 document.write('</table>')
 	</script>
 	<form method="POST">
 	<style type="text/css">
- 
+
         body {
             margin: 0 auto;
         }
- 
+
         #exinfo {
             margin: 50px auto;
             width: 450px;
             font-size: 14px;
         }
- 
+
         .content {
             float: left;
             width: 450px;
             margin: 40px 10px 50px 50px;
         }
- 
+
         .bigfont {
             font-size: 40px;
         }
- 
+
         .la {
             float: left;
             width: 500px;
@@ -52,64 +76,103 @@
             margin: 20px 0;
             line-height: 30px;
         }
- 
+
         .la input {
             float: left;
         }
- 
+
         .la span {
             float: left;
             line-height: 20px;
         }
- 
+
+				/* 表格Css */
+				table.TB_COLLAPSE {
+					width:100%;
+					border-collapse:collapse;
+				}
+				table.TB_COLLAPSE caption {
+					padding:10px;
+					font-size:24px;
+					background-color:#f3f6f9;
+				}
+				table.TB_COLLAPSE thead th {
+					padding:5px 0px;
+					color:#fff;
+					text-align:center;
+					background-color:#915957;
+				}
+				table.TB_COLLAPSE tbody td {
+					padding:5px 0px;
+					color:#555;
+					text-align:center;
+					background-color:#fff;
+					border-bottom:1px solid #915957;
+				}
+				table.TB_COLLAPSE tfoot td {
+					padding:5px 0px;
+					text-align:center;
+					background-color:#d6d6a5;
+
+				/* 個人畫面css */
+				/* .inf-content{
+				    border:1px solid #DDDDDD;
+				    -webkit-border-radius:10px;
+				    -moz-border-radius:10px;
+				    border-radius:10px;
+				    box-shadow: 7px 7px 7px rgba(0, 0, 0, 0.3);
+				} */
+
     </style>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
- 
+
     <script type="text/javascript">
-    
+
         var data = JSON.parse('{{ favorite_exinfo | tojson|safe}}');
+
+
          window.onload = function () {
              var county = ['{{favorite_county[0]}}'];
              /*此區暫時寫死 想不到怎麼寫 幹*/
-             
+
              /*var county = new Array('{{favorite_county[0]}}');
              for (var i = 0;i < 2 ;i++)
              {
                 county.push();
              }*/
 
-                
-            var exinfo = 
+
+            var exinfo =
             {
                 "高雄市": data
-            }; 
-                
+            };
+
             var recommand_exinfo = [county, exinfo];
             genCheck(recommand_exinfo);
         }
- 
- 
+
+
         function genCheck(recommand_exinfo) {
             var content = "content";
             var checkText = "checkbox";
             var link = "link";
             var size;
- 
+
             $("#exinfo").html("");
- 
+
             var county = recommand_exinfo[0];
             size = county.length;
             for (var i = 0; i < county.length; i++) {
                 genShowContent("exinfo", checkText + i, i, county[i] , content + i);
             }
             var exinfo = recommand_exinfo[1];
- 
+
             for (var i = 0; i < county.length; i++) {
                 var array = exinfo[""+county[i]+""];
                 for (var j = 0; j < array.length; j++) {
                     genCheckBox(content + i, link + i, array[j].ex_id, "ex_id:"+array[j].ex_id+"title:"+array[j].title+"location:"+array[j].location , i, false);
                 }
- 
+
                 var flag = isAllCheck(link + i);
                 var box = document.getElementById(checkText + i);
                 if (flag) {
@@ -146,8 +209,8 @@
                 });
             }
         }
- 
- 
+
+
         function genCheckBox(id, name, value, showText, parentIndex, isCheck) {
             if (!isCheck) {
                 var checkbox = "<div class='la'><input type='checkbox' parentIndex=" + parentIndex + " name=".concat(name).concat(" value=").concat(value).concat(" alt=").concat(showText).concat(" /><span>").concat(showText).concat("</span></div>");
@@ -157,14 +220,14 @@
                 $("#" + id).append(checkbox);
             }
         }
- 
- 
+
+
         function genShowContent(id, checkboxId, index, showText, idName) {
             var showContent = "<div class='msg'><span class='bigfont'>".concat(showText).concat("： </span><input type='checkbox' index=").concat(index).concat(" id='").concat(checkboxId).concat("'/><span>全选</span><div class='content' id='").concat(idName).concat("' ></div></div>");
             $("#" + id).append(showContent);
         }
- 
- 
+
+
         function isAllCheck(name) {
             var box = document.getElementsByName(name);
             for (var j = 0; j < box.length; j++) {
@@ -174,7 +237,7 @@
             }
             return true;
         }
-        
+
         /*ex_id_repeat = {{ex_id_repeat}}
         function repeatCheck(ex_id_repeat){
         var flag = isAllCheck(link + i);
@@ -184,12 +247,12 @@
             } else {
                 box.checked = false;
             }
-            
+
         }*/
     </script>
     <div class="exinfo" id="exinfo">
     <button type="submit">Submit</button>
     </div>
-    
+
     </form>
 {% endblock %}
