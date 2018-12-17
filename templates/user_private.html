@@ -11,10 +11,114 @@
 
 
 
-
 	<script>
 		// 個人資料變數
-		// $(".userid").append("<p>王八蛋</p>");
+		var user_imformation = JSON.parse('{{ userdata | tojson|safe}}');
+		document.write('<div class="container bootstrap snippet"><div class="panel-body inf-content"><div class="row">' +
+			'<div class="col-md-4">' +
+					'<img alt="" style="width:600px;" title="" class="img-circle img-thumbnail isTooltip" src="https://bootdey.com/img/Content/user-453533-fdadfd.png" data-original-title="Usuario">' +
+      '</div>' +
+			'<div class="col-md-6">' +
+					'<strong>Information</strong><br>' +
+					'<div class="table-responsive">' +
+					'<table class="table table-condensed table-responsive table-user-information">' +
+							'<tbody>' +
+									'<tr>' +
+											'<td>' +
+													'<strong>' +
+															'Identificacion' +
+													'</strong>' +
+											'</td>' +
+											'<td class="text-primary">' +
+													user_imformation[0].id +
+											'</td>' +
+									'</tr>' +
+									'<tr>' +
+											'<td>' +
+													'<strong>' +
+															'<span class="glyphicon glyphicon-user  text-primary"></span>' +
+															'Name' +
+													'</strong>' +
+											'</td>' +
+											'<td class="text-primary">' +
+													user_imformation[0].username +
+											'</td>' +
+									'</tr>' +
+									'<tr>' +
+											'<td>' +
+													'<strong>' +
+															'<span class="glyphicon glyphicon-cloud text-primary"></span>' +
+															'Lastname'+
+													'</strong>' +
+											'</td>' +
+											'<td class="text-primary">' +
+													'Bootstrap' +
+											'</td>' +
+									'</tr>' +
+									'<tr>' +
+											'<td>' +
+													'<strong>' +
+															'<span class="glyphicon glyphicon-bookmark text-primary"></span>' +
+															'Username' +
+													'</strong>' +
+											'</td>' +
+											'<td class="text-primary">' +
+													'bootnipets' +
+											'</td>' +
+									'</tr>' +
+									'<tr>' +
+											'<td>' +
+													'<strong>' +
+															'<span class="glyphicon glyphicon-eye-open text-primary"></span>' +
+															'Role' +
+													'</strong>' +
+											'</td>' +
+											'<td class="text-primary">' +
+													'Admin' +
+											'</td>' +
+									'</tr>' +
+									'<tr>' +
+											'<td>' +
+													'<strong>' +
+															'<span class="glyphicon glyphicon-envelope text-primary"></span>' +
+															'Email' +
+													'</strong>' +
+											'</td>' +
+											'<td class="text-primary">' +
+													user_imformation[0].email +
+											'</td>' +
+									'</tr>' +
+									'<tr>' +
+											'<td>' +
+													'<strong>' +
+															'<span class="glyphicon glyphicon-calendar text-primary"></span>' +
+															'created' +
+													'</strong>' +
+											'</td>' +
+											'<td class="text-primary">' +
+													'20 jul 20014' +
+											'</td>' +
+									'</tr>' +
+									'<tr>' +
+											'<td>' +
+													'<strong>' +
+															'<span class="glyphicon glyphicon-calendar text-primary"></span>' +
+															'Modified' +
+													'</strong>' +
+											'</td>' +
+											'<td class="text-primary">' +
+													 '20 jul 20014 20:00:00' +
+											'</td>' +
+									'</tr>' +
+							'</tbody>' +
+					'</table>' +
+					'</div>' +
+			'</div>' +
+	'</div>' +
+'</div>' +
+'</div>')
+
+		document.write(user_imformation[0].id)
 
 
 		// 書籤展覽切割
@@ -115,13 +219,13 @@
 					background-color:#d6d6a5;
 
 				/* 個人畫面css */
-				/* .inf-content{
+				.inf-content{
 				    border:1px solid #DDDDDD;
 				    -webkit-border-radius:10px;
 				    -moz-border-radius:10px;
 				    border-radius:10px;
 				    box-shadow: 7px 7px 7px rgba(0, 0, 0, 0.3);
-				} */
+				}
 
     </style>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
