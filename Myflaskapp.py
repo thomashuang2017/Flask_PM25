@@ -89,7 +89,6 @@ def login():
 
 
     return render_template('login.html')
-s
 # Check 使用者是否有登入
 def is_logged_in(f):
     @wraps(f)
