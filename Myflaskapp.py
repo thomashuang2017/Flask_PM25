@@ -162,7 +162,6 @@ def render_recommand():
                 if result > 0:
                     #ex_id_repeat.append(ex_id)
                     ex_id_repeat.append(ex_id[0]["ex_id"])
-                    
         #------ ex_id 回傳該user目前記錄的ex_id 
         #result,ex_id = DoSQL().S_db(sql,user_id['id'],2)
         if len(ex_id_repeat) > 0 :
