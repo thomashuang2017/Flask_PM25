@@ -45,13 +45,10 @@
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
  
     <script type="text/javascript">
-    
+        
         var data = JSON.parse('{{ recommand_exinfo | tojson|safe}}');
-         window.onload = function () {
-            var county = ['{{min_county}}'];
-          
-            
-    
+        window.onload = function () {
+            var county = ['{{min_county}}'];   
             var exinfo = 
             {
                 '{{min_county}}': data
