@@ -97,10 +97,17 @@
     }
 
 		/* 按鈕的位置 */
-		.ccc{
+		.buttonpos{
 	    position:absolute;
 	    top:50px;
 	    left:500px;
+		}
+
+		/* 圖標的位置 */
+		.labelpos{
+	    position:absolute;
+	    top:450px;
+	    left:630px;
 		}
 
     @media only screen and (min-width: 768px) and (max-width: 1000px) {
@@ -148,6 +155,77 @@
   <script type="text/javascript" src="{{ url_for('static', filename='jsmaps/jsmaps-libs.js') }}"></script>
   <script type="text/javascript" src="{{ url_for('static', filename='jsmaps/jsmaps-panzoom.js') }}"></script>
   <script type="text/javascript" src="{{ url_for('static', filename='jsmaps/jsmaps.min.js') }}"></script>
+	<!-- pm在地圖上的顏色及標籤 -->
+	<script>
+		// 標籤現在pm
+		var now_time = new Date();
+		var now_hour = now_time.getHours();
+		var pm_hour=now_hour%9
+		var pm_value = JSON.parse('{{ value | tojson|safe}}');
+
+
+		var now_pm=[];
+		for (var i=0;i<22;i++){
+			if (pm_hour==0){
+				now_pm.push(pm_value[0][i].pm0)
+			}
+			if (pm_hour==1){
+				now_pm.push(pm_value[0][i].pm1)
+			}
+			if (pm_hour==2){
+				now_pm.push(pm_value[0][i].pm2)
+			}
+			if (pm_hour==3){
+				now_pm.push(pm_value[0][i].pm3)
+			}
+			if (pm_hour==4){
+				now_pm.push(pm_value[0][i].pm4)
+			}
+			if (pm_hour==5){
+				now_pm.push(pm_value[0][i].pm5)
+			}
+			if (pm_hour==6){
+				now_pm.push(pm_value[0][i].pm6)
+			}
+			if (pm_hour==7){
+				now_pm.push(pm_value[0][i].pm7)
+			}
+			if (pm_hour==8){
+				now_pm.push(pm_value[0][i].pm8)
+			}
+		}
+
+    // pm顏色
+
+	  var pm_color=[];
+		for (var j=0;j<22;j++){
+			if (now_pm[j]<36){
+				pm_color.push("#7FFF00")
+			}
+			if(now_pm[j]>=36 && now_pm[j]<54){
+				pm_color.push("#FFD700")
+			}
+			if(now_pm[j]>=54 && now_pm[j]<71){
+				pm_color.push("#FFA500")
+			}
+			if(now_pm[j]>=71){
+				pm_color.push("#FF0000")
+			}
+		}
+
+
+		var g="#7FFF00"
+		var y="#FFD700"
+		var o="#FFA500"
+		var r="#FF0000"
+
+		// if(1>0){
+		// 	var color="#B12401"
+		// }else{
+		// 	var color="#E32F02"
+		// }
+	</script>
+	<!-- pm在地圖上的顏色及標籤 -->
   <script type="text/javascript" src="{{ url_for('static', filename='maps/taiwan.js') }}"></script>
 
 
@@ -160,17 +238,20 @@
 <body>
 
   <div class="container">
-
+     {{value}}
     <!-- Map html - add the below to your page -->
     <div class="jsmaps-wrapper" id="taiwan-map">
-			<div class="ccc">
-				<button class="button" style="vertical-align:middle"  onclick="window.location.href='recommand.html'">
+			<div class="buttonpos">
+				<button class="button" style="vertical-align:middle"  onclick="window.location.href='/recommand'">
 					<span>
 						<font face="DFKai-sb">
 						讓我推薦
 						</font>
 					</span>
 				</button>
+			</div>
+			<div class="labelpos">
+				<img src="{{ url_for('static', filename='images/pm_label.jpg') }}" width="200" height="200">
 			</div>
     </div>
     <!-- End Map html -->
@@ -185,7 +266,7 @@
 		onStateClick:function(data){
 
 
-				location.assign('exInfo/'+data.name+'/')
+				location.assign('exInfo/'+data.c_name+'/')
 		}
       });
 
