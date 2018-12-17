@@ -12,7 +12,7 @@ from DBmgt import DoSQL
 from PM25 import PM25
 from exinfo import exinfo
 
-
+ 
 
 app = Flask(__name__)
 app.secret_key='secret123'
@@ -24,9 +24,7 @@ def homepage():
     return render_template('homepage.html')
 
 # 關於頁面
-@app.route('/about')
-def about():
-    return render_template('about.html')
+#About fuck off
 
 # 使用者註冊
 @app.route('/register',methods=['GET','POST'])
@@ -110,7 +108,7 @@ def is_logged_in(f):
 def logout():
     session.clear()
     flash('You are now logged out','success')
-    return redirect(url_for('login'))
+    return redirect(url_for('homepage'))
 
 # ----------------------------------------------以上都不動 -------------------------------------------------------------------
 
@@ -202,10 +200,11 @@ def render_recommand():
         #set_ex_id = set(ex_id)
         #list(compare_result) = set_favorite_exinfo.intersection(set_ex_id)
         
-        #for i in range(0,len(favorite_exinfo)):
-            #DoSQL().IUD_db("INSERT INTO user_favorite_exinfo(id,ex_id) VALUES(%s,%s)",(user_id['id'],favorite_exinfo[i]),1)
-            
-        #return render_template('about.html',username=session['username'],favorite_exinfo=favorite_exinfo)
+        else:
+            for i in range(0,len(favorite_exinfo)):
+                DoSQL().IUD_db("INSERT INTO user_favorite_exinfo(id,ex_id) VALUES(%s,%s)",(user_id['id'],favorite_exinfo[i]),1)
+                
+            return render_template('about.html',username=session['username'],favorite_exinfo=favorite_exinfo)
 
 #@app.route('/test2',methods=['GET','POST'])
 #@is_logged_in
