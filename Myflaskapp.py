@@ -122,10 +122,12 @@ def map_view():
 
 
 #點選taiwan_map後的對應城市頁面
-@app.route('/exInfo/<string:county_name>/')
+@app.route('/exInfo/<string:county_name>/',methods=['GET','POST'])
 @is_logged_in
 def exInfo(county_name):
-
+    #-------------------
+    #這邊好像要先判斷重複值，防呆
+    #-------------------
     # find county_pm
     county_pm,time = PM25().Get_one_PM25(county_name)
     #print(county_name)
@@ -137,18 +139,6 @@ def exInfo(county_name):
 
     # find county_past_pm25
     county_past_pm = PM25().Get_past_pm25(county_name)
-
-    return render_template('exInfo.html',county=county , pm=county_pm ,exinfo=county_exinfo,past_pm=county_past_pm)
-
-# 推薦頁面
-@app.route('/recommand',methods=['GET','POST'])
-@is_logged_in
-def render_recommand():
-        #----------------互動頁無動作server丟值
-    min_county = PM25().Get_min_county()
-    pm,_ = PM25().Get_one_PM25(min_county)
-    recommand_exinfo = exinfo().Get_county_exinfo(min_county)
-    
     if request.method == 'POST':
         
         result,user_id = DoSQL().S_db("SELECT id FROM users WHERE username = %s",session['username'],1)
@@ -161,34 +151,76 @@ def render_recommand():
                 if result > 0:
                     #ex_id_repeat.append(ex_id)
                     ex_id_repeat.append(ex_id[0]["ex_id"])
-        #------ ex_id 回傳該user目前記錄的ex_id 
-        #result,ex_id = DoSQL().S_db(sql,user_id['id'],2)
+        #ex_id_repeat:list[重複的值]
         if len(ex_id_repeat) > 0 :
-            #flash('重複選取','danger')
-            return render_template('about.html',ex_id_repeat=ex_id_repeat)
+            #若有重複則傳重複的值
+            return render_template('exInfo.html',county=county , pm=county_pm ,exinfo=county_exinfo,past_pm=county_past_pm,ex_id_repeat=ex_id_repeat)      
+        else:
+            #沒有重複就insert
+            for i in range(len(favorite_exinfo)):    
+                DoSQL().IUD_db("insert into user_favorite_exinfo values(%s,%s)",(user_id['id'],favorite_exinfo[i]),1)
+    return render_template('exInfo.html',county=county , pm=county_pm ,exinfo=county_exinfo,past_pm=county_past_pm)
+
+# 推薦頁面
+@app.route('/recommand',methods=['GET','POST'])
+@is_logged_in
+def render_recommand():
+    #-------------------
+    #這邊好像要先判斷重複值，防呆
+    #-------------------
+    #----------------互動頁無動作server丟值
+    min_county = PM25().Get_min_county()
+    pm,_ = PM25().Get_one_PM25(min_county)
+    recommand_exinfo = exinfo().Get_county_exinfo(min_county)
+    if request.method == 'POST':
         
+        result,user_id = DoSQL().S_db("SELECT id FROM users WHERE username = %s",session['username'],1)
+        #應該以改成動態推薦不只一個縣市
+        favorite_exinfo = request.form.getlist('link0')        
+        #---------------重複選取解決方法
+        sql = "SELECT ex_id FROM user_favorite_exinfo AS u1 WHERE exists(SELECT * FROM users AS u2 WHERE u2.id=%s and u1.ID=u2.ID and u1.ex_id=%s )"
+        ex_id_repeat = []
+        for i in range(len(favorite_exinfo)):
+                result,ex_id = DoSQL().S_db(sql,(user_id['id'],favorite_exinfo[i]),2)
+                if result > 0:
+                    #ex_id_repeat.append(ex_id)
+                    ex_id_repeat.append(ex_id[0]["ex_id"])
+        #ex_id_repeat:list[重複的值]
+        if len(ex_id_repeat) > 0 :
+            #若有重複則傳重複的值
+            return render_template('recommand.html',min_county=min_county,recommand_exinfo=recommand_exinfo,pm=pm,ex_id_repeat=ex_id_repeat)
+        else:
+            #沒有重複就insert
+            for i in range(len(favorite_exinfo)):    
+                DoSQL().IUD_db("insert into user_favorite_exinfo values(%s,%s)",(user_id['id'],favorite_exinfo[i]),1)
     return render_template('recommand.html',min_county=min_county,recommand_exinfo=recommand_exinfo,pm=pm)
         
 # 使用者個人葉面
-@app.route('/user_private')
+@app.route('/user_private',methods=['GET','POST'])
 @is_logged_in
 def user_private():
-	
+    #userdata : user detail
     _,userdata = DoSQL().S_db("SELECT * FROM users WHERE username=%s",session['username'],2)
-    #user_id = userdata[0]["id"]
-    #favorite_exinfo =[]
+    #delete_exinfo =[] 存放要刪除的選項value
     
+    #select 我的最愛裡的exinfo
     _,favorite_exinfo = DoSQL().S_db("select * from exinfo as e1 where exists(select * from user_favorite_exinfo as u1 where u1.ex_id=e1.ex_id and u1.id=%s)",userdata[0]["id"],2)
+    #單獨select不重複的county值 
     _,select_county = DoSQL().S_db("select distinct county from exinfo as e1 where exists(select * from user_favorite_exinfo as u1 where u1.ex_id=e1.ex_id and u1.id=%s)",userdata[0]["id"],2)
-    #favorite_county = [] # unique county
-    #for i in range(0,len(select_county)):
-    #    favorite_county.append(select_county[i]["county"]) 
-    #set_favorite_county=set(favorite_county)
-    #favorite_county=list(set_favorite_county)
-    
-    
+    #刪除方法
+    if request.method == 'POST':
+        #把要刪除的都放在同個list
+        delete_exinfo = []
+        for i in range(len(select_county)):
+            delete_exinfo=delete_exinfo+request.form.getlist('link'+str(i))
+        #逐筆刪除(應該要優化成一次刪除)
+        for i in range(len(delete_exinfo)):
+            DoSQL().IUD_db("DELETE FROM user_favorite_exinfo WHERE id=%s and ex_id=%s",(userdata[0]['id'],delete_exinfo[i]),1)
+        #要再重新Select正確的資料
+        _,favorite_exinfo = DoSQL().S_db("select * from exinfo as e1 where exists(select * from user_favorite_exinfo as u1 where u1.ex_id=e1.ex_id and u1.id=%s)",userdata[0]["id"],2)    
+        _,select_county = DoSQL().S_db("select distinct county from exinfo as e1 where exists(select * from user_favorite_exinfo as u1 where u1.ex_id=e1.ex_id and u1.id=%s)",userdata[0]["id"],2)
+        return render_template('user_private.html',userdata=userdata,favorite_exinfo=favorite_exinfo,favorite_county=select_county)
     return render_template('user_private.html',userdata=userdata,favorite_exinfo=favorite_exinfo,favorite_county=select_county)
-
 
 if __name__ == '__main__':
 
