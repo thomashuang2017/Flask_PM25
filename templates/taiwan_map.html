@@ -81,10 +81,17 @@
     }
 
 		/* 按鈕的位置 */
-		.ccc{
+		.buttonpos{
 	    position:absolute;
 	    top:50px;
 	    left:500px;
+		}
+
+		/* 圖標的位置 */
+		.labelpos{
+	    position:absolute;
+	    top:450px;
+	    left:630px;
 		}
 
     @media only screen and (min-width: 768px) and (max-width: 1000px) {
@@ -218,14 +225,17 @@
      {{value}}
     <!-- Map html - add the below to your page -->
     <div class="jsmaps-wrapper" id="taiwan-map">
-			<div class="ccc">
-				<button class="button" style="vertical-align:middle"  onclick="window.location.href='recommand.html'">
+			<div class="buttonpos">
+				<button class="button" style="vertical-align:middle"  onclick="window.location.href='/recommand'">
 					<span>
 						<font face="DFKai-sb">
 						讓我推薦
 						</font>
 					</span>
 				</button>
+			</div>
+			<div class="labelpos">
+				<img src="{{ url_for('static', filename='images/pm_label.jpg') }}" width="200" height="200">
 			</div>
     </div>
     <!-- End Map html -->

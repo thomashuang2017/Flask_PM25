@@ -167,23 +167,29 @@ def render_recommand():
     if request.method =='POST':
         result,content = DoSQL().S_db("SELECT id FROM users WHERE username = %s",session['username'],1)
         favorite_exinfo = request.form.getlist('link0')
-        #check_repulicate = DoSQL().S_db("SELECT ex_id FROM user_favorite_exinfo AS U1 WHERE NOT EXIST SELECT ex_id FROM USER_FAVORITE_EXINFO as u2 WHERE U2.EX_ID=U1.EX_ID  
+        #---------------重複選取解決方法
+        sql = "SELECT ex_id FROM user_favorite_exinfo AS u1 WHERE exists(SELECT * FROM users AS u2 WHERE u2.id=%s and u1.ID=u2.ID and u1.ex_id=%s )"
+        ex_id_repeat = []
+        for i in range(len(favorite_exinfo)):
+                result,ex_id = DoSQL().S_db(sql,(user_id['id'],favorite_exinfo[i]),2)
+                if result > 0:
+                    #ex_id_repeat.append(ex_id)
+                    ex_id_repeat.append(ex_id[0]["ex_id"])
+                
+                    
+        #------ ex_id 回傳該user目前記錄的ex_id 
+        #result,ex_id = DoSQL().S_db(sql,user_id['id'],2)
+        if len(ex_id_repeat) > 0 :
+            #flash('重複選取','danger')
+            return render_template('about.html',ex_id_repeat=ex_id_repeat)
+        #set_favorite_exinfo = set(favorite_exinfo)
+        #set_ex_id = set(ex_id)
+        #list(compare_result) = set_favorite_exinfo.intersection(set_ex_id)
         
-        for i in range(0,len(favorite_exinfo)):
-            DoSQL().IUD_db("INSERT INTO user_favorite_exinfo(id,ex_id) VALUES(%s,%s)",(content['id'],favorite_exinfo[i]),1)
-        
-        
-    return render_template('recommand.html',min_county=min_county,recommand_exinfo=recommand_exinfo,pm=pm)
-		
-#def Post_user_favorite():
-#     if request.method =='POST':
-#        username = session['username']
-#        
-#       recommand = request.form.getlist('link')
-#      sql = "INSERT INTO RECOMMAND VALUE(%(USER)s,%(EXINFO)s)"
-#     DoSQL.IUD_db(sql,username,recommand,2)
-#
-#     return render_template('exInfo.html',pm=pm,recommand_county=recommand_county)
+        #for i in range(0,len(favorite_exinfo)):
+            #DoSQL().IUD_db("INSERT INTO user_favorite_exinfo(id,ex_id) VALUES(%s,%s)",(user_id['id'],favorite_exinfo[i]),1)
+            
+        #return render_template('about.html',username=session['username'],favorite_exinfo=favorite_exinfo)
 
 @app.route('/test2',methods=['GET','POST'])
 @is_logged_in
@@ -216,21 +222,27 @@ def Post_user_favorite():
     
      return render_template('exInfo.html',pm=pm,recommand_county=recommand_county)
 
-
 @app.route('/user_private')
 @is_logged_in
 def user_private():
-
-    SQL = "SELECT * FROM users WHERE username=%s"
-    _,userdata = DoSQL().S_db(SQL,session['username'],2)
-
 	# --------------------------------
     # user favorite exinfo
     #
     # --------------------------------
-
-
-    return render_template('user_private.html',userdata=userdata)
+    _,userdata = DoSQL().S_db("SELECT * FROM users WHERE username=%s",session['username'],2)
+    #user_id = userdata[0]["id"]
+    #favorite_exinfo =[]
+    
+    _,favorite_exinfo = DoSQL().S_db("select * from exinfo as e1 where exists(select * from user_favorite_exinfo as u1 where u1.ex_id=e1.ex_id and u1.id=%s)",userdata[0]["id"],2)
+    _,select_county = DoSQL().S_db("select distinct county from exinfo as e1 where exists(select * from user_favorite_exinfo as u1 where u1.ex_id=e1.ex_id and u1.id=%s)",userdata[0]["id"],2)
+    favorite_county = []
+    for i in range(0,len(select_county)):
+        favorite_county.append(select_county[i]["county"]) 
+    #set_favorite_county=set(favorite_county)
+    #favorite_county=list(set_favorite_county)
+    
+    
+    return render_template('user_private.html',userdata=userdata,favorite_exinfo=favorite_exinfo,favorite_county=favorite_county)
 
 
 if __name__ == '__main__':
