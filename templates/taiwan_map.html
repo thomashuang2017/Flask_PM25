@@ -89,10 +89,69 @@
 
 		/* 圖標的位置 */
 		.labelpos{
+			position:absolute;
+			top:400px;
+			left:550px;
+		}
+
+		/* .labelpost{
+	    position:absolute;
+	    top:400px;
+	    left:550px;
+			font-size: 25px;
+		}
+
+		.labelposgp{
 	    position:absolute;
 	    top:450px;
-	    left:630px;
+	    left:520px;
 		}
+
+		.labelposgw{
+	    position:absolute;
+	    top:460px;
+	    left:600px;
+			font-size: 20px;
+		}
+
+		.labelposyp{
+	    position:absolute;
+	    top:475px;
+	    left:500px;
+		}
+
+		.labelposyw{
+	    position:absolute;
+	    top:485px;
+	    left:580px;
+			font-size: 20px;
+		}
+
+		.labelposop{
+	    position:absolute;
+	    top:500px;
+	    left:500px;
+		}
+
+		.labelposow{
+	    position:absolute;
+	    top:510px;
+	    left:580px;
+			font-size: 20px;
+		}
+
+		.labelposrp{
+	    position:absolute;
+	    top:525px;
+	    left:500px;
+		}
+
+		.labelporw{
+	    position:absolute;
+	    top:535px;
+	    left:580px;
+			font-size: 20px;
+		} */
 
     @media only screen and (min-width: 768px) and (max-width: 1000px) {
       .container {
@@ -198,16 +257,7 @@
 		}
 
 
-		var g="#7FFF00"
-		var y="#FFD700"
-		var o="#FFA500"
-		var r="#FF0000"
 
-		// if(1>0){
-		// 	var color="#B12401"
-		// }else{
-		// 	var color="#E32F02"
-		// }
 	</script>
 	<!-- pm在地圖上的顏色及標籤 -->
   <script type="text/javascript" src="{{ url_for('static', filename='maps/taiwan.js') }}"></script>
@@ -234,9 +284,16 @@
 					</span>
 				</button>
 			</div>
-			<div class="labelpos">
-				<img src="{{ url_for('static', filename='images/pm_label.jpg') }}" width="200" height="200">
-			</div>
+				<img class="labelpos" src="{{ url_for('static', filename='images/pm_label.jpg') }}" width="200" height="200">
+				<!-- <p class="labelpost" >PM2.5值</p>
+				<img class="labelposgp" src="{{ url_for('static', filename='images/g.jpg') }}" width="40" height="40" >
+				<p class="labelposgw" >PM2.5值:0~35</p>
+				<img class="labelposyp" src="{{ url_for('static', filename='images/y.jpg') }}" width="40" height="40" >
+				<p class="labelposyw" >PM2.5值:36~53</p>
+				<img class="labelposop" src="{{ url_for('static', filename='images/o.jpg') }}" width="40" height="40" >
+				<p class="labelposow" >PM2.5值:54~70</p>
+				<img class="labelposrp" src="{{ url_for('static', filename='images/r.jpg') }}" width="40" height="40" >
+				<p class="labelposrw" >PM2.5值:71~</p> -->
     </div>
     <!-- End Map html -->
   </div>
