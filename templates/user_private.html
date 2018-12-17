@@ -4,24 +4,11 @@
 	<br></br>
 	<br></br>
 	<h1>User_private</h1>
-    <br>{{favorite_county}}</br>
+	<br>{{favorite_county}}</br>
 	<h1>id = {{userdata[0].id}},name = {{userdata[0].username}},email = {{userdata[0].email}}</h1>
 	<br>{{favorite_exinfo}}</br>
-	<br>{{userdata}}</br>
+	<br></br>
 	
-	<script>
-
-    var data = JSON.parse('{{ favorite_exinfo | tojson|safe}}');
-
-	for (var i in data)
-	{
-		document.write('活動:'+data[i].title,)
-		document.write('地點:'+data[i].location)
-		document.write('縣市:'+data[i].county)
-		document.write('<br>')
-
-	}
-	</script>
 	<form method="POST">
 	<style type="text/css">
  
@@ -67,18 +54,24 @@
  
     <script type="text/javascript">
     
-        var data = JSON.parse('{{ favorite_exinfo | tojson|safe}}');
-         window.onload = function () {
+        
+ 
+        
+        
+        /*
+        window.onload = function () {
+        
+            var data = JSON.parse('{{ favorite_county | tojson|safe}}');    
+            	for (var i in data)
+            	{  
+                	document.write('county:'+data[i].county)
+            		
+            	}
+    
+        
              var county = ['{{favorite_county[0]}}'];
-             /*此區暫時寫死 想不到怎麼寫 幹*/
              
-             /*var county = new Array('{{favorite_county[0]}}');
-             for (var i = 0;i < 2 ;i++)
-             {
-                county.push();
-             }*/
-
-                
+             
             var exinfo = 
             {
                 "高雄市": data
@@ -87,6 +80,7 @@
             var recommand_exinfo = [county, exinfo];
             genCheck(recommand_exinfo);
         }
+        */
  
  
         function genCheck(recommand_exinfo) {
