@@ -12,7 +12,7 @@ from DBmgt import DoSQL
 from PM25 import PM25
 from exinfo import exinfo
 
-
+ 
 
 app = Flask(__name__)
 app.secret_key='secret123'
@@ -24,9 +24,7 @@ def homepage():
     return render_template('homepage.html')
 
 # 關於頁面
-@app.route('/about')
-def about():
-    return render_template('about.html')
+#About fuck off
 
 # 使用者註冊
 @app.route('/register',methods=['GET','POST'])
@@ -110,7 +108,7 @@ def is_logged_in(f):
 def logout():
     session.clear()
     flash('You are now logged out','success')
-    return redirect(url_for('login'))
+    return redirect(url_for('homepage'))
 
 # ----------------------------------------------以上都不動 -------------------------------------------------------------------
 
