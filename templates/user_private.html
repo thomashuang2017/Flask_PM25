@@ -54,20 +54,7 @@
  
     <script type="text/javascript">
     
-        var data = JSON.parse('{{ recommand_exinfo | tojson|safe}}');
-         window.onload = function () {
-            var county = ['{{min_county}}'];
-          
-            
-    
-            var exinfo = 
-            {
-                '{{min_county}}': data
-            }; 
-                
-            var recommand_exinfo = [county, exinfo];
-            genCheck(recommand_exinfo);
-        }
+        
  
         
         
