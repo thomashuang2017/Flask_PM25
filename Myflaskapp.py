@@ -159,25 +159,21 @@ def exInfo(county_name):
 @app.route('/recommand',methods=['GET','POST'])
 @is_logged_in
 def render_recommand():
-
+    
+    min_county = PM25().Get_min_county()
+    pm,_ = PM25().Get_one_PM25(min_county)
+    recommand_exinfo = exinfo().Get_county_exinfo(min_county)
         #----------------互動頁無動作server丟值
-    if request.method =='GET':
-        
-        min_county = PM25().Get_min_county()
-        pm,_ = PM25().Get_one_PM25(min_county)
-        recommand_exinfo = exinfo().Get_county_exinfo(min_county)
-        
-        return render_template('recommand.html',min_county=min_county,recommand_exinfo=recommand_exinfo,pm=pm)
-    #----------------互動頁POST,server接收checkbox所選擇的值並且insert db table:user_favorite_exinfo
-    else:
+    if request.method =='POST':
         result,content = DoSQL().S_db("SELECT id FROM users WHERE username = %s",session['username'],1)
         favorite_exinfo = request.form.getlist('link0')
         #check_repulicate = DoSQL().S_db("SELECT ex_id FROM user_favorite_exinfo AS U1 WHERE NOT EXIST SELECT ex_id FROM USER_FAVORITE_EXINFO as u2 WHERE U2.EX_ID=U1.EX_ID  
         
         for i in range(0,len(favorite_exinfo)):
             DoSQL().IUD_db("INSERT INTO user_favorite_exinfo(id,ex_id) VALUES(%s,%s)",(content['id'],favorite_exinfo[i]),1)
-            
-        return render_template('about.html',username=session['username'],favorite_exinfo=favorite_exinfo)
+        
+        
+    return render_template('recommand.html',min_county=min_county,recommand_exinfo=recommand_exinfo,pm=pm)
 		
 #def Post_user_favorite():
 #     if request.method =='POST':
