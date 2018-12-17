@@ -189,10 +189,11 @@ def render_recommand():
         #set_ex_id = set(ex_id)
         #list(compare_result) = set_favorite_exinfo.intersection(set_ex_id)
         
-        #for i in range(0,len(favorite_exinfo)):
-            #DoSQL().IUD_db("INSERT INTO user_favorite_exinfo(id,ex_id) VALUES(%s,%s)",(user_id['id'],favorite_exinfo[i]),1)
-            
-        #return render_template('about.html',username=session['username'],favorite_exinfo=favorite_exinfo)
+        else:
+            for i in range(0,len(favorite_exinfo)):
+                DoSQL().IUD_db("INSERT INTO user_favorite_exinfo(id,ex_id) VALUES(%s,%s)",(user_id['id'],favorite_exinfo[i]),1)
+                
+            return render_template('about.html',username=session['username'],favorite_exinfo=favorite_exinfo)
 
 @app.route('/test2',methods=['GET','POST'])
 @is_logged_in
