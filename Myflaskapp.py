@@ -147,7 +147,6 @@ def exInfo(county_name):
     county_exinfo = exinfo().Get_county_exinfo(county_name)
 
 
-
     # find county_past_pm25
     county_past_pm = PM25().Get_past_pm25(county_name)
     a = county_past_pm[0]['county']
@@ -176,7 +175,7 @@ def render_recommand():
                     #ex_id_repeat.append(ex_id)
                     ex_id_repeat.append(ex_id[0]["ex_id"])
                 
-                    
+            
         #------ ex_id 回傳該user目前記錄的ex_id 
         #result,ex_id = DoSQL().S_db(sql,user_id['id'],2)
         if len(ex_id_repeat) > 0 :

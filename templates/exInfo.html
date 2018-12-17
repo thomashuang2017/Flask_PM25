@@ -1,6 +1,7 @@
 {% extends 'layout.html' %}
 
 {% block body %}
+<br></br>
 <style type="text/css">
 	/* <!-- 折線圖import --> */
 	 #flot-placeholder{width:775px;height:300px;}
@@ -197,43 +198,8 @@
   }
 	 document.write('</table>')
 	 // 展覽切割
+	 
 </script>
-
-
-
-
-
-
-<!-- pm hour import -->
-	<br></br>
-	<h1>ExInfo</h1>
-	<h3>{{county}} 現在的PM2.5是{{pm}}</h3>
-	<!-- pm折線圖位置 -->
-	  <div id="flot-placeholder"></div>
-	<!-- pm折線圖位置 -->
-	{{a}}
-	<br></br>
-
-	<br></br>
-	{{past_pm}}
-	<br></br>
-
-	<script>
-
-    var data = JSON.parse('{{ exinfo | tojson|safe}}');
-
-	for (var i in data)
-	{
-		document.write('活動:'+data[i].id,)
-		document.write('地點:'+data[i].location)
-		document.write('縣市:'+data[i].county)
-		document.write('<br>')
-
-	}
-
-	</script>
-
-
-
+<br></br>
 
 {% endblock %}
