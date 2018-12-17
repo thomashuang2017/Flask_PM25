@@ -12,7 +12,7 @@ from DBmgt import DoSQL
 from PM25 import PM25
 from exinfo import exinfo
 
-
+ 
 
 app = Flask(__name__)
 app.secret_key='secret123'
@@ -24,9 +24,7 @@ def homepage():
     return render_template('homepage.html')
 
 # 關於頁面
-@app.route('/about')
-def about():
-    return render_template('about.html')
+#About fuck off
 
 # 使用者註冊
 @app.route('/register',methods=['GET','POST'])
@@ -110,7 +108,7 @@ def is_logged_in(f):
 def logout():
     session.clear()
     flash('You are now logged out','success')
-    return redirect(url_for('login'))
+    return redirect(url_for('homepage'))
 
 # ----------------------------------------------以上都不動 -------------------------------------------------------------------
 
@@ -120,19 +118,11 @@ def logout():
 @is_logged_in
 def map_view():
 
-
-    PM25_value = PM25().Get_PM25() # County and PM25 {'county': '南投縣', 'pm3': 26}
-    #return  {'county': '南投縣', 'pm3': 26} pm3 is datetime.hour
-    #PM25_interval = PM25().Get_county_intervel()
-    # return {'county': '南投縣', 'interval': 0}
-    #PM25_min_county = PM25().Get_min_county()
-    # return 臺東縣
-
-
+    PM25_value = PM25().Get_PM25() 
     return render_template('taiwan_map.html',value=PM25_value)
 
 
-
+#點選taiwan_map後的對應城市頁面
 @app.route('/exInfo/<string:county_name>/')
 @is_logged_in
 def exInfo(county_name):
@@ -146,28 +136,22 @@ def exInfo(county_name):
     # find county_exinfo
     county_exinfo = exinfo().Get_county_exinfo(county_name)
 
-
-
     # find county_past_pm25
     county_past_pm = PM25().Get_past_pm25(county_name)
-    a = county_past_pm[0]['county']
 
-    
-    return render_template('exInfo.html',a=a,county=county , pm=county_pm ,exinfo=county_exinfo,past_pm=county_past_pm)
+    return render_template('exInfo.html',county=county , pm=county_pm ,exinfo=county_exinfo,past_pm=county_past_pm)
 
-# recommand
+# 推薦頁面
 @app.route('/recommand',methods=['GET','POST'])
 @is_logged_in
 def render_recommand():
         #----------------互動頁無動作server丟值
-    if request.method =='GET':        
-        min_county = PM25().Get_min_county()
-        pm,_ = PM25().Get_one_PM25(min_county)
-        recommand_exinfo = exinfo().Get_county_exinfo(min_county)
+    min_county = PM25().Get_min_county()
+    pm,_ = PM25().Get_one_PM25(min_county)
+    recommand_exinfo = exinfo().Get_county_exinfo(min_county)
+    
+    if request.method == 'POST':
         
-        return render_template('recommand.html',min_county=min_county,recommand_exinfo=recommand_exinfo,pm=pm)
-    #----------------互動頁POST,server接收checkbox所選擇的值並且insert db table:user_favorite_exinfo
-    else:
         result,user_id = DoSQL().S_db("SELECT id FROM users WHERE username = %s",session['username'],1)
         favorite_exinfo = request.form.getlist('link0')
         #---------------重複選取解決方法
@@ -178,75 +162,34 @@ def render_recommand():
                 if result > 0:
                     #ex_id_repeat.append(ex_id)
                     ex_id_repeat.append(ex_id[0]["ex_id"])
-                
                     
         #------ ex_id 回傳該user目前記錄的ex_id 
         #result,ex_id = DoSQL().S_db(sql,user_id['id'],2)
         if len(ex_id_repeat) > 0 :
             #flash('重複選取','danger')
             return render_template('about.html',ex_id_repeat=ex_id_repeat)
-        #set_favorite_exinfo = set(favorite_exinfo)
-        #set_ex_id = set(ex_id)
-        #list(compare_result) = set_favorite_exinfo.intersection(set_ex_id)
         
-        else:
-            for i in range(0,len(favorite_exinfo)):
-                DoSQL().IUD_db("INSERT INTO user_favorite_exinfo(id,ex_id) VALUES(%s,%s)",(user_id['id'],favorite_exinfo[i]),1)
-                
-            return render_template('about.html',username=session['username'],favorite_exinfo=favorite_exinfo)
-
-@app.route('/test2',methods=['GET','POST'])
-@is_logged_in
-def test_recommand():
-    #----------------互動頁無動作server丟值
-    if request.method =='GET':
+    return render_template('recommand.html',min_county=min_county,recommand_exinfo=recommand_exinfo,pm=pm)
         
-        min_county = PM25().Get_min_county()
-        pm,_ = PM25().Get_one_PM25(min_county)
-        recommand_exinfo = exinfo().Get_county_exinfo(min_county)
-        
-        return render_template('test2.html',min_county=min_county,recommand_exinfo=recommand_exinfo,pm=pm)
-    else:
-        result,content = DoSQL().S_db("SELECT id FROM users WHERE username = %s",session['username'],1)
-        favorite_exinfo = request.form.getlist('link0')
-        for i in range(0,len(favorite_exinfo)):
-            DoSQL().IUD_db("INSERT INTO user_favorite_exinfo(id,ex_id) VALUES(%s,%s)",(content['id'],favorite_exinfo[i]),1)
-            
-        return render_template('about.html',username=session['username'],favorite_exinfo=favorite_exinfo)
-    
-def Post_user_favorite():
-     if request.method =='POST':
-        username = request.form['username']
-
-        recommand = request.form.getlist('exinfo')
-        sql = "INSERT INTO RECOMMAND VALUE(%(USER)s,%(EXINFO)s)"
-        DoSQL.IUD_db(sql,username,recommand,2)
-
-
-    
-     return render_template('exInfo.html',pm=pm,recommand_county=recommand_county)
-
+# 使用者個人葉面
 @app.route('/user_private')
 @is_logged_in
 def user_private():
-	# --------------------------------
-    # user favorite exinfo
-    #
-    # --------------------------------
+	
     _,userdata = DoSQL().S_db("SELECT * FROM users WHERE username=%s",session['username'],2)
     #user_id = userdata[0]["id"]
     #favorite_exinfo =[]
     
     _,favorite_exinfo = DoSQL().S_db("select * from exinfo as e1 where exists(select * from user_favorite_exinfo as u1 where u1.ex_id=e1.ex_id and u1.id=%s)",userdata[0]["id"],2)
     _,select_county = DoSQL().S_db("select distinct county from exinfo as e1 where exists(select * from user_favorite_exinfo as u1 where u1.ex_id=e1.ex_id and u1.id=%s)",userdata[0]["id"],2)
-    favorite_county = []
-    for i in range(0,len(select_county)):
-        favorite_county.append(select_county[i]["county"]) 
+    #favorite_county = [] # unique county
+    #for i in range(0,len(select_county)):
+    #    favorite_county.append(select_county[i]["county"]) 
     #set_favorite_county=set(favorite_county)
     #favorite_county=list(set_favorite_county)
     
     
-    return render_template('user_private.html',userdata=userdata,favorite_exinfo=favorite_exinfo,favorite_county=favorite_county)
+    return render_template('user_private.html',userdata=userdata,favorite_exinfo=favorite_exinfo,favorite_county=select_county)
 
 
 if __name__ == '__main__':

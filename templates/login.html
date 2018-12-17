@@ -2,14 +2,18 @@
 
 {% block body %}
   <br></br>
-  <h1>Login</h1>
+  <br></br>
+  <h1 class="text-center text-uppercase text-secondary mb-0">Login</h1>
+  <hr class="star-dark mb-5">
+  <div class="row">
+  <div class="col-lg-8 mx-auto">
   <form action="" method="POST">
     <div class="form-group">
-      <label>Username</label>
+      <h5 class="text-uppercase mb-1">Username</h5>
       <input type="text" name="username" class="form-control" value={{request.form.username}}>
     </div>
     <div class="form-group">
-      <label>Password</label>
+      <h5 class="text-uppercase mb-1">Password</h5>
       <input type="password" name="password" class="form-control" value={{request.form.password}}>
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
