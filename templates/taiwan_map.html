@@ -11,7 +11,7 @@
   	<meta name="author" content="">
 	<title>Taiwan Air Quality</title>
  	<link rel="Shortcut Icon" type="image/x-icon" href = "static/icon1.png">
-	<link rel="stylesheet" href = "https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+	<!-- <link rel="stylesheet" href = "https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"> -->
   	  <!-- Bootstrap core CSS -->
       <link rel="stylesheet" href="{{ url_for('static',filename='vendor/bootstrap/css/bootstrap.css')}}">
       <!-- Custom fonts for this template -->
@@ -91,10 +91,7 @@
       line-height:21px;
     }
 
-    .container {
-      width: 960px;
-      margin:20px auto;
-    }
+
 
 		/* 按鈕的位置 */
 		.buttonpos{
@@ -106,68 +103,71 @@
 		/* 圖標的位置 */
 		.labelpos{
 			position:absolute;
-			top:400px;
-			left:550px;
+			top:600px;
+			left:1000px;
 		}
 
-		/* .labelpost{
+		/*"PM2.5值"*/
+		.labelpost{
 	    position:absolute;
-	    top:400px;
-	    left:550px;
+	    top:425px;
+	    left:750px;
+	    letter-spacing:1px;
+
 			font-size: 25px;
 		}
-
+		/*綠色色塊*/
 		.labelposgp{
 	    position:absolute;
 	    top:450px;
-	    left:520px;
+	    left:700px;
 		}
-
+		/*PM2.5值:0~35*/
 		.labelposgw{
 	    position:absolute;
 	    top:460px;
-	    left:600px;
+	    left:750px;
 			font-size: 20px;
 		}
-
+		/*黃色色塊*/
 		.labelposyp{
 	    position:absolute;
-	    top:475px;
-	    left:500px;
+	    top:500px;
+	    left:700px;
 		}
-
+		/*PM2.5值:36~53*/
 		.labelposyw{
 	    position:absolute;
-	    top:485px;
-	    left:580px;
+	    top:510px;
+	    left:750px;
 			font-size: 20px;
 		}
-
+		/*橘色色塊*/
 		.labelposop{
 	    position:absolute;
-	    top:500px;
-	    left:500px;
+	    top:550px;
+	    left:700px;
 		}
-
+		/*PM2.5值:54~70*/
 		.labelposow{
 	    position:absolute;
-	    top:510px;
-	    left:580px;
+	    top:560px;
+	    left:750px;
 			font-size: 20px;
 		}
-
+		/*紅色色塊*/
 		.labelposrp{
 	    position:absolute;
-	    top:525px;
-	    left:500px;
+	    top:600px;
+	    left:700px;
 		}
-
+		/*PM2.5值:71~*/
 		.labelporw{
 	    position:absolute;
-	    top:535px;
-	    left:580px;
+	    top:610px;
+	    left:750px;
 			font-size: 20px;
-		} */
+		}
 
     @media only screen and (min-width: 768px) and (max-width: 1000px) {
       .container {
@@ -299,16 +299,20 @@
 					</span>
 				</button>
 			</div> -->
-				<img class="labelpos" src="{{ url_for('static', filename='images/pm_label.jpg') }}" width="200" height="200">
-				<!-- <p class="labelpost" >PM2.5值</p>
+				<!--<img class="labelpos" src="{{ url_for('static', filename='images/pm_label.jpg') }}" width="200" height="200"> -->
+				<p class="labelpost" >PM2.5值</p>
+				
 				<img class="labelposgp" src="{{ url_for('static', filename='images/g.jpg') }}" width="40" height="40" >
 				<p class="labelposgw" >PM2.5值:0~35</p>
+				
 				<img class="labelposyp" src="{{ url_for('static', filename='images/y.jpg') }}" width="40" height="40" >
 				<p class="labelposyw" >PM2.5值:36~53</p>
+				
 				<img class="labelposop" src="{{ url_for('static', filename='images/o.jpg') }}" width="40" height="40" >
 				<p class="labelposow" >PM2.5值:54~70</p>
+				
 				<img class="labelposrp" src="{{ url_for('static', filename='images/r.jpg') }}" width="40" height="40" >
-				<p class="labelposrw" >PM2.5值:71~</p> -->
+				<p class="labelporw">PM2.5值:71~</p> 
     </div>
     <!-- End Map html -->
   </div>
