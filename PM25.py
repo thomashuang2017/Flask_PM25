@@ -12,17 +12,18 @@ from DBmgt import DoSQL
 
 class PM25():
       
-    def __init__(self):
+    def __init__(self,connect_db):
         hour = datetime.now().hour
         hour = hour % 9
         cur_pm = 'pm'+ str(hour)
         self.cur_pm = cur_pm
+        self.connect_db = connect_db
     
     def Get_PM25(self):
         #hour = datetime.now().hour
         #hour = hour % 9
         SQL = "SELECT county," + self.cur_pm + " FROM PM25 "
-        result,content = DoSQL().S_db(SQL,None,2)
+        result,content = DoSQL().S_db(SQL,None,2,self.connect_db)
         time = self.cur_pm
         if result == 0:
             return None
@@ -33,7 +34,7 @@ class PM25():
         #hour = datetime.now().hour
         #hour = hour % 9
         SQL = "SELECT county," + self.cur_pm + " FROM PM25 WHERE county = %s"
-        result,content = DoSQL().S_db(SQL,county,2)
+        result,content = DoSQL().S_db(SQL,county,2,self.connect_db)
         time = self.cur_pm
         if result == 0:
             return None
@@ -92,7 +93,7 @@ class PM25():
     
     def Get_past_pm25(self,county):
         SQL = "SELECT * FROM PM25 WHERE county = %s"
-        result,content = DoSQL().S_db(SQL,county,2)
+        result,content = DoSQL().S_db(SQL,county,2,self.connect_db)
         
         return content
                 

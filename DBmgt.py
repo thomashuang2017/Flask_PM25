@@ -21,15 +21,20 @@ config = {
 
 class DoSQL():
 
-    #def __init__(self):
-    #    self.config = {'host' : '35.196.78.102' ,'user' : 'root' ,'passwd' : "th850413" , 'db' :'flasktest' ,'cursorclass':pymysql.cursors.DictCursor}
     
+    def get_conn(self):
         
+        conn = pymysql.connect(**config)
+        return conn
+    
+    def close_conn(self,connect):
+        connect.close()
+    
+    
+    def S_db(self,sql,params,fetch,conn):
         
-    def S_db(self,sql,params,fetch):
-        
-        
-        db  =  pymysql.connect (**config) 
+        db = conn
+        #db  =  pymysql.connect (**config) 
         
         cur  =  db.cursor()  
         
@@ -44,17 +49,16 @@ class DoSQL():
             
         #close cursor 
         #content = list(content)
-        db.close () 
-     
+
         return result,content
     
     # Insert , Update , Delete
-    def IUD_db(self,sql,params,ex):
+    def IUD_db(self,sql,params,ex,conn):
         
         # Create cursor
         #cur = db.connection.cursor()
         
-        db  =  pymysql.connect (**config) 
+        db = conn 
         cur  =  db.cursor() 
         #cur = db.get_db().cursor()
         
@@ -65,7 +69,6 @@ class DoSQL():
             cur.executemany(sql,(params)) 
         db.commit()
         
-        db.close () 
 
 
     
