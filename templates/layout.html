@@ -6,7 +6,8 @@
     	<meta name="description" content="">
     	<meta name="author" content="">
 
-    	
+			<script type="text/javascript" src="http://www.pureexample.com/js/lib/jquery-1.8.3.min.js"></script>
+			<script type="text/javascript" src="http://www.pureexample.com/js/flot/jquery.flot.min.js"></script>
     	<!-- 網頁Icon -->
     	<link rel="Shortcut Icon" type="image/x-icon" href = "static/icon1.png">
 		<title>Save My Lung</title>
@@ -24,7 +25,7 @@
 
 	    <!-- Custom styles for this template -->
 	    <link href="{{ url_for('static',filename='css/freelancer.min.css')}}" rel="stylesheet">
-		
+
 	</head>
 	<body>
 		{% include 'includes/_navbar.html' %}
@@ -34,19 +35,12 @@
 			{% block body %}{% endblock %}
 		</div>
 
-		 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 		 <script src="//cdn.ckeditor.com/4.6.2/basic/ckeditor.js"></script>
          <script type="text/javascript">
             CKEDITOR.replace('editor')
          </script>
 
-         <!-- Bootstrap core JavaScript -->
-	    <script src="{{url_for('static', filename = 'vendor/jquery/jquery.min.js')}}"></script>
-	    <script src="{{url_for('static', filename = 'vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-
-	    <!-- Plugin JavaScript -->
-	    <script src="{{url_for('static', filename = 'vendor/jquery-easing/jquery.easing.min.js')}}"></script>
-	    <script src="{{url_for('static', filename = 'vendor/magnific-popup/jquery.magnific-popup.min.js')}}"></script>
 
 	    <!-- Contact Form JavaScript -->
 	    <script src="{{url_for('static', filename = 'js/jqBootstrapValidation.js')}}"></script>
