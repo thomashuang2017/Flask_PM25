@@ -1,4 +1,4 @@
-{% extends 'layout.html' %}
+{%extends 'layout.html'%}
 
 {% block body %}
 <br></br>
@@ -35,8 +35,7 @@
 	}
 </style>
 <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="http://www.pureexample.com/js/flot/excanvas.min.js"></script><![endif]-->
-<script type="text/javascript" src="http://www.pureexample.com/js/lib/jquery-1.8.3.min.js"></script>
-<script type="text/javascript" src="http://www.pureexample.com/js/flot/jquery.flot.min.js"></script>
+
 <script type="text/javascript">
 	var d = new Date();
 	var now_hour = d.getHours();
@@ -149,7 +148,7 @@
 
 
 
-	 var data = [[1, 50], [2, 200], [4, 5], [5, 50], [6,70], [7, 80], [8,9], [9,100], [10, 100]];
+	 var data = [[now_hour-8, pm0], [now_hour-7, pm1], [now_hour-6, pm2], [now_hour-5, pm3], [now_hour-4,pm4], [now_hour-3, pm5], [now_hour-2,pm6], [now_hour-1,pm7], [now_hour, pm8]];
 
 	 var dataset = [{label: "{{county}}"+"pm2.5",data: data}];
 
@@ -163,10 +162,9 @@
 			 }
 	 };
 
-	 $(document).ready(function () {
-			 $.plot($("#flot-placeholder"), dataset, options);
-	 });
+
 	 // 折線圖
+
 
    // 展覽切割
 	 var data = JSON.parse('{{ exinfo | tojson|safe}}');
@@ -197,10 +195,170 @@
 
   }
 	 document.write('</table>')
-	 // 展覽切割
+	 $(document).ready(function () {
+			 $.plot($("#flot-placeholder"), dataset, options);
+	 });
 
 </script>
 {{past_pm}}
 <br></br>
+<form method="POST">
+	<style type="text/css">
 
+        body {
+            margin: 0 auto;
+        }
+
+        #exinfo {
+            margin: 50px auto;
+            width: 450px;
+            font-size: 14px;
+        }
+
+        .content {
+            float: left;
+            width: 450px;
+            margin: 40px 10px 50px 50px;
+        }
+
+        .bigfont {
+            font-size: 40px;
+        }
+
+        .la {
+            float: left;
+            width: 500px;
+            height: 20px;
+            margin: 20px 0;
+            line-height: 30px;
+        }
+
+        .la input {
+            float: left;
+        }
+
+        .la span {
+            float: left;
+            line-height: 20px;
+        }
+    </style>
+
+
+    <script type="text/javascript">
+
+        var data = JSON.parse('{{ exinfo | tojson|safe}}');
+        window.onload = function () {
+            var county = ['{{county}}'];
+            var exinfo =
+            {
+                '{{county}}': data
+            };
+
+            var recommand_exinfo = [county, exinfo];
+            genCheck(recommand_exinfo);
+        }
+
+
+        function genCheck(recommand_exinfo) {
+            var content = "content";
+            var checkText = "checkbox";
+            var link = "link";
+            var size;
+
+            $("#exinfo").html("");
+
+            var county = recommand_exinfo[0];
+            size = county.length;
+            for (var i = 0; i < county.length; i++) {
+                genShowContent("exinfo", checkText + i, i, county[i] , content + i);
+            }
+            var exinfo = recommand_exinfo[1];
+
+            for (var i = 0; i < county.length; i++) {
+                var array = exinfo[""+county[i]+""];
+                for (var j = 0; j < array.length; j++) {
+                    genCheckBox(content + i, link + i, array[j].ex_id, "ex_id:"+array[j].ex_id+"title:"+array[j].title+"location:"+array[j].location , i, false);
+                    //id(沒用), name(縣市的checkboxname), value(真的id), showText, parentIndex, isCheck
+                }
+
+                var flag = isAllCheck(link + i);
+                var box = document.getElementById(checkText + i);
+                if (flag) {
+                    box.checked = true;
+                } else {
+                    box.checked = false;
+                }
+                $("input[name=" + link + i + "]").each(function () {
+                    $(this).unbind();
+                    $(this).change(function () {
+                        var flag = isAllCheck($(this).attr("name"));
+                        var box = document.getElementById(checkText + $(this).attr("parentIndex"));
+                        if (flag) {
+                            box.checked = true;
+                        } else {
+                            box.checked = false;
+                        }
+                    });
+                });
+            }
+            for (var i = 0; i < size; i++) {
+                $("#" + checkText + i).unbind();
+                $("#" + checkText + i).change(function () {
+                    var temp = link + $(this).attr("index");
+                    var p = document.getElementById(checkText + $(this).attr("index"));
+                    var box = document.getElementsByName(temp);
+                    for (var j = 0; j < box.length; j++) {
+                        if (p.checked) {
+                            box[j].checked = true;
+                        } else {
+                            box[j].checked = false;
+                        }
+                    }
+                });
+            }
+        }
+
+        // 動態產生checkbox
+        function genCheckBox(id, name, value, showText, parentIndex, isCheck) {
+            if (!isCheck) {
+                var checkbox = "<div class='la'><input type='checkbox' parentIndex=" + parentIndex + " name=".concat(name).concat(" value=").concat(value).concat(" alt=").concat(showText).concat(" /><span>").concat(showText).concat("</span></div>");
+                $("#" + id).append(checkbox);
+            } else {
+                var checkbox = "<div class='la'><input type='checkbox' parentIndex=" + parentIndex + " name=".concat(name).concat(" checked='checked' value=").concat(value).concat(" alt=").concat(showText).concat(" /><span>").concat(showText).concat("</span></div>");
+                $("#" + id).append(checkbox);
+            }
+        }
+
+
+        function genShowContent(id, checkboxId, index, showText, idName) {
+            var showContent = "<div class='msg'><span class='bigfont'>".concat(showText).concat("： </span><input type='checkbox' index=").concat(index).concat(" id='").concat(checkboxId).concat("'/><span>全选</span><div class='content' id='").concat(idName).concat("' ></div></div>");
+            $("#" + id).append(showContent);
+        }
+
+
+        function isAllCheck(name) {
+            var box = document.getElementsByName(name);
+            for (var j = 0; j < box.length; j++) {
+                if (!box[j].checked) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        /*ex_id_repeat = {{ex_id_repeat}}
+        function repeatCheck(ex_id_repeat){
+        var flag = isAllCheck(link + i);
+        var box = document.getElementById(checkText + i);
+            if (flag) {
+                box.checked = true;
+            } else {
+                box.checked = false;
+            }
+
+        }*/
+    </script>
+    <div class="exinfo" id="exinfo"></div>
+    <button type="submit">Submit</button>
+    </form>
 {% endblock %}
