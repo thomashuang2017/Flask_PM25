@@ -23,9 +23,8 @@ class DoSQL():
 
     
     def get_conn(self):
+        
         conn = pymysql.connect(**config)
-     
-     
         return conn
     
     def close_conn(self,connect):
@@ -54,12 +53,12 @@ class DoSQL():
         return result,content
     
     # Insert , Update , Delete
-    def IUD_db(self,sql,params,ex):
+    def IUD_db(self,sql,params,ex,conn):
         
         # Create cursor
         #cur = db.connection.cursor()
         
-        db  =  pymysql.connect (**config) 
+        db = conn 
         cur  =  db.cursor() 
         #cur = db.get_db().cursor()
         
@@ -70,7 +69,6 @@ class DoSQL():
             cur.executemany(sql,(params)) 
         db.commit()
         
-        db.close () 
 
 
     

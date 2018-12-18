@@ -30,26 +30,33 @@ def homepage():
 # 使用者註冊
 @app.route('/register',methods=['GET','POST'])
 def register():
+    
     form = RegisterForm(request.form)
     if request.method =='POST' and form.validate():
 
         username = form.username.data
         email = form.email.data
         password = form.password.data
-        # address
-
+        
+        # connect_db
+        connect_db = DoSQL().get_conn()
+        
         # confirm username is duplicate
-        result,content = DoSQL().S_db("SELECT * FROM users WHERE username = %s",(username),1)
+        result,content = DoSQL().S_db("SELECT * FROM users WHERE username = %s",(username),1,connect_db)
         if result > 0:
             flash('Username is duplicated','danger')
             return render_template('register.html',form=form)
         # Not duplicate , insert db and going to homepage
         else:
-            DoSQL().IUD_db("INSERT INTO users(username,email,password) VALUES(%s, %s, %s)",(username,email,password),1)
+            DoSQL().IUD_db("INSERT INTO users(username,email,password) VALUES(%s, %s, %s)",(username,email,password),1,connect_db)
             # is logged in
             session['login_in'] = True
             session['username'] = username
             flash('You are now registered','success')
+            
+             # close_db
+            DoSQL().close_conn(connect_db)
+            
             return redirect(url_for('map_view'))
 
     return render_template('register.html',form = form)
@@ -58,14 +65,16 @@ def register():
 # 使用者登入
 @app.route('/login',methods=['GET','POST'])
 def login():
+    
     if request.method =='POST':
 
         username = request.form['username']
         password = request.form['password']
 
-        # username not found , password error , success login
-
-        result,data = DoSQL().S_db("SELECT * FROM users WHERE username = %s",[username],1)
+        # connect_db
+        connect_db = DoSQL().get_conn()
+        
+        result,data = DoSQL().S_db("SELECT * FROM users WHERE username = %s",[username],1,connect_db)
 
         if result > 0 :
 
@@ -78,15 +87,19 @@ def login():
                 session['login_in'] = True
                 session['username'] = username
 
-
+                # close_db
+                DoSQL().close_conn(connect_db)
+                
                 flash('You are now logged in','success')
                 return redirect(url_for('map_view'))
             else:
-                error = 'Invalid login'
-                return render_template('login.html',error = error)
+                flash('Invalid login','error')
+                #error = 'Invalid login'
+                return render_template('login.html')
         else:
-            error = 'Username not found'
-            return render_template('login.html',error = error)
+            flash('Username not found','error')
+            #error = 'Username not found'
+            return render_template('login.html')
 
 
     return render_template('login.html')
@@ -118,7 +131,13 @@ def logout():
 @is_logged_in
 def map_view():
 
-    PM25_value = PM25().Get_PM25() 
+    # connect_db
+    connect_db = DoSQL().get_conn()
+    
+    PM25_value = PM25(connect_db).Get_PM25() 
+    
+    # close_db
+    DoSQL().close_conn(connect_db)
     return render_template('taiwan_map.html',value=PM25_value)
 
 
@@ -129,11 +148,11 @@ def exInfo(county_name):
     #-------------------
     #這邊好像要先判斷重複值，防呆
     #-------------------
-    # find county_pm
-    connect_db = DoSQL().get_conn()
     
+    # connect_db
+    connect_db = DoSQL().get_conn()
+
     county_pm,time = PM25(connect_db).Get_one_PM25(county_name)
-    #print(county_name)
     county = county_name
     county_pm = county_pm[0][time]
 
@@ -143,7 +162,7 @@ def exInfo(county_name):
     # find county_past_pm25
     county_past_pm = PM25(connect_db).Get_past_pm25(county_name)
     
-    DoSQL().close_conn(connect_db)
+
     if request.method == 'POST':
         
         result,user_id = DoSQL().S_db("SELECT id FROM users WHERE username = %s",session['username'],1)
@@ -158,12 +177,16 @@ def exInfo(county_name):
                     ex_id_repeat.append(ex_id[0]["ex_id"])
         #ex_id_repeat:list[重複的值]
         if len(ex_id_repeat) > 0 :
+            DoSQL().close_conn(connect_db)
             #若有重複則傳重複的值
             return render_template('exInfo.html',county=county , pm=county_pm ,exinfo=county_exinfo,past_pm=county_past_pm,ex_id_repeat=ex_id_repeat)      
         else:
             #沒有重複就insert
             for i in range(len(favorite_exinfo)):    
                 DoSQL().IUD_db("insert into user_favorite_exinfo values(%s,%s)",(user_id['id'],favorite_exinfo[i]),1)
+                
+            # close_db
+            DoSQL().close_conn(connect_db)
     return render_template('exInfo.html',county=county , pm=county_pm ,exinfo=county_exinfo,past_pm=county_past_pm)
     #return render_template('exInfo.html')
 
@@ -175,19 +198,22 @@ def render_recommand():
     #這邊好像要先判斷重複值，防呆
     #-------------------
     #----------------互動頁無動作server丟值
-    min_county = PM25().Get_min_county()
-    pm,_ = PM25().Get_one_PM25(min_county)
-    recommand_exinfo = exinfo().Get_county_exinfo(min_county)
+    # connect_db
+    connect_db = DoSQL().get_conn()
+    
+    min_county = PM25(connect_db).Get_min_county()
+    pm,_ = PM25(connect_db).Get_one_PM25(min_county)
+    recommand_exinfo = exinfo(connect_db).Get_county_exinfo(min_county)
     if request.method == 'POST':
         
-        result,user_id = DoSQL().S_db("SELECT id FROM users WHERE username = %s",session['username'],1)
+        result,user_id = DoSQL().S_db("SELECT id FROM users WHERE username = %s",session['username'],1,connect_db)
         #應該以改成動態推薦不只一個縣市
         favorite_exinfo = request.form.getlist('link0')        
         #---------------重複選取解決方法
         sql = "SELECT ex_id FROM user_favorite_exinfo AS u1 WHERE exists(SELECT * FROM users AS u2 WHERE u2.id=%s and u1.ID=u2.ID and u1.ex_id=%s )"
         ex_id_repeat = []
         for i in range(len(favorite_exinfo)):
-                result,ex_id = DoSQL().S_db(sql,(user_id['id'],favorite_exinfo[i]),2)
+                result,ex_id = DoSQL().S_db(sql,(user_id['id'],favorite_exinfo[i]),2,connect_db)
                 if result > 0:
                     #ex_id_repeat.append(ex_id)
                     ex_id_repeat.append(ex_id[0]["ex_id"])
@@ -198,21 +224,29 @@ def render_recommand():
         else:
             #沒有重複就insert
             for i in range(len(favorite_exinfo)):    
-                DoSQL().IUD_db("insert into user_favorite_exinfo values(%s,%s)",(user_id['id'],favorite_exinfo[i]),1)
+                DoSQL().IUD_db("insert into user_favorite_exinfo values(%s,%s)",(user_id['id'],favorite_exinfo[i]),1,connect_db)
+                
+            # close_db
+            DoSQL().close_conn(connect_db)
     return render_template('recommand.html',min_county=min_county,recommand_exinfo=recommand_exinfo,pm=pm)
+
         
 # 使用者個人葉面
 @app.route('/user_private',methods=['GET','POST'])
 @is_logged_in
 def user_private():
+    
+    # connect_db
+    connect_db = DoSQL().get_conn()
+    
     #userdata : user detail
-    _,userdata = DoSQL().S_db("SELECT * FROM users WHERE username=%s",session['username'],2)
+    _,userdata = DoSQL().S_db("SELECT * FROM users WHERE username=%s",session['username'],2,connect_db)
     #delete_exinfo =[] 存放要刪除的選項value
     
     #select 我的最愛裡的exinfo
-    _,favorite_exinfo = DoSQL().S_db("select * from exinfo as e1 where exists(select * from user_favorite_exinfo as u1 where u1.ex_id=e1.ex_id and u1.id=%s)",userdata[0]["id"],2)
+    _,favorite_exinfo = DoSQL().S_db("select * from exinfo as e1 where exists(select * from user_favorite_exinfo as u1 where u1.ex_id=e1.ex_id and u1.id=%s)",userdata[0]["id"],2,connect_db)
     #單獨select不重複的county值 
-    _,select_county = DoSQL().S_db("select distinct county from exinfo as e1 where exists(select * from user_favorite_exinfo as u1 where u1.ex_id=e1.ex_id and u1.id=%s)",userdata[0]["id"],2)
+    _,select_county = DoSQL().S_db("select distinct county from exinfo as e1 where exists(select * from user_favorite_exinfo as u1 where u1.ex_id=e1.ex_id and u1.id=%s)",userdata[0]["id"],2,connect_db)
     #刪除方法
     if request.method == 'POST':
         #把要刪除的都放在同個list
@@ -221,10 +255,14 @@ def user_private():
             delete_exinfo=delete_exinfo+request.form.getlist('link'+str(i))
         #逐筆刪除(應該要優化成一次刪除)
         for i in range(len(delete_exinfo)):
-            DoSQL().IUD_db("DELETE FROM user_favorite_exinfo WHERE id=%s and ex_id=%s",(userdata[0]['id'],delete_exinfo[i]),1)
+            DoSQL().IUD_db("DELETE FROM user_favorite_exinfo WHERE id=%s and ex_id=%s",(userdata[0]['id'],delete_exinfo[i]),1,connect_db)
         #要再重新Select正確的資料
-        _,favorite_exinfo = DoSQL().S_db("select * from exinfo as e1 where exists(select * from user_favorite_exinfo as u1 where u1.ex_id=e1.ex_id and u1.id=%s)",userdata[0]["id"],2)    
-        _,select_county = DoSQL().S_db("select distinct county from exinfo as e1 where exists(select * from user_favorite_exinfo as u1 where u1.ex_id=e1.ex_id and u1.id=%s)",userdata[0]["id"],2)
+        _,favorite_exinfo = DoSQL().S_db("select * from exinfo as e1 where exists(select * from user_favorite_exinfo as u1 where u1.ex_id=e1.ex_id and u1.id=%s)",userdata[0]["id"],2,connect_db)    
+        _,select_county = DoSQL().S_db("select distinct county from exinfo as e1 where exists(select * from user_favorite_exinfo as u1 where u1.ex_id=e1.ex_id and u1.id=%s)",userdata[0]["id"],2,connect_db)
+        
+        # close_db
+        DoSQL().close_conn(connect_db)
+        
         return render_template('user_private.html',userdata=userdata,favorite_exinfo=favorite_exinfo,favorite_county=select_county)
     return render_template('user_private.html',userdata=userdata,favorite_exinfo=favorite_exinfo,favorite_county=select_county)
 
