@@ -21,15 +21,21 @@ config = {
 
 class DoSQL():
 
-    #def __init__(self):
-    #    self.config = {'host' : '35.196.78.102' ,'user' : 'root' ,'passwd' : "th850413" , 'db' :'flasktest' ,'cursorclass':pymysql.cursors.DictCursor}
     
+    def get_conn(self):
+        conn = pymysql.connect(**config)
+     
+     
+        return conn
+    
+    def close_conn(self,connect):
+        connect.close()
+    
+    
+    def S_db(self,sql,params,fetch,conn):
         
-        
-    def S_db(self,sql,params,fetch):
-        
-        
-        db  =  pymysql.connect (**config) 
+        db = conn
+        #db  =  pymysql.connect (**config) 
         
         cur  =  db.cursor()  
         
@@ -44,8 +50,7 @@ class DoSQL():
             
         #close cursor 
         #content = list(content)
-        db.close () 
-     
+
         return result,content
     
     # Insert , Update , Delete

@@ -12,6 +12,7 @@ from DBmgt import DoSQL
 from PM25 import PM25
 from exinfo import exinfo
 
+
  
 
 app = Flask(__name__)
@@ -129,16 +130,20 @@ def exInfo(county_name):
     #這邊好像要先判斷重複值，防呆
     #-------------------
     # find county_pm
-    county_pm,time = PM25().Get_one_PM25(county_name)
+    connect_db = DoSQL().get_conn()
+    
+    county_pm,time = PM25(connect_db).Get_one_PM25(county_name)
     #print(county_name)
     county = county_name
     county_pm = county_pm[0][time]
 
     # find county_exinfo
-    county_exinfo = exinfo().Get_county_exinfo(county_name)
+    county_exinfo = exinfo(connect_db).Get_county_exinfo(county_name)
 
     # find county_past_pm25
-    county_past_pm = PM25().Get_past_pm25(county_name)
+    county_past_pm = PM25(connect_db).Get_past_pm25(county_name)
+    
+    DoSQL().close_conn(connect_db)
     if request.method == 'POST':
         
         result,user_id = DoSQL().S_db("SELECT id FROM users WHERE username = %s",session['username'],1)
@@ -160,6 +165,7 @@ def exInfo(county_name):
             for i in range(len(favorite_exinfo)):    
                 DoSQL().IUD_db("insert into user_favorite_exinfo values(%s,%s)",(user_id['id'],favorite_exinfo[i]),1)
     return render_template('exInfo.html',county=county , pm=county_pm ,exinfo=county_exinfo,past_pm=county_past_pm)
+    #return render_template('exInfo.html')
 
 # 推薦頁面
 @app.route('/recommand',methods=['GET','POST'])

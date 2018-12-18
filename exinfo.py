@@ -8,8 +8,11 @@ from DBmgt import DoSQL
 
 class exinfo():
     
+    def __init__(self,connect_db):
+        self.connect_db = connect_db
+    
     def Get_county_exinfo(self,county_name):
         SQL = "SELECT ex_id,title,county,location,locationName,endTime FROM exinfo WHERE county = %s"
-        result,content = DoSQL().S_db(SQL,county_name,2)
+        result,content = DoSQL().S_db(SQL,county_name,2,self.connect_db)
         
         return content
