@@ -252,7 +252,7 @@ def user_private():
         #把要刪除的都放在同個list
         delete_exinfo = []
         for i in range(len(select_county)):
-            delete_exinfo=delete_exinfo+request.form.getlist('link'+str(i))
+            delete_exinfo=delete_exinfo+request.form.getlist('exinfo_id_list')
         #逐筆刪除(應該要優化成一次刪除)
         for i in range(len(delete_exinfo)):
             DoSQL().IUD_db("DELETE FROM user_favorite_exinfo WHERE id=%s and ex_id=%s",(userdata[0]['id'],delete_exinfo[i]),1,connect_db)

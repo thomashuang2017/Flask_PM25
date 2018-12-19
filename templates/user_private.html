@@ -3,7 +3,7 @@
 {% block body %}
 	<br></br>
 	<br></br>
-	<h1>個人資料</h1>
+	<h2>個人資料</h2>
 			<!-- 個人頁面 -->
 
 
@@ -45,67 +45,12 @@
 									'<tr>' +
 											'<td>' +
 													'<strong>' +
-															'<span class="glyphicon glyphicon-cloud text-primary"></span>' +
-															'Lastname'+
-													'</strong>' +
-											'</td>' +
-											'<td class="text-primary">' +
-													'Bootstrap' +
-											'</td>' +
-									'</tr>' +
-									'<tr>' +
-											'<td>' +
-													'<strong>' +
-															'<span class="glyphicon glyphicon-bookmark text-primary"></span>' +
-															'Username' +
-													'</strong>' +
-											'</td>' +
-											'<td class="text-primary">' +
-													'bootnipets' +
-											'</td>' +
-									'</tr>' +
-									'<tr>' +
-											'<td>' +
-													'<strong>' +
-															'<span class="glyphicon glyphicon-eye-open text-primary"></span>' +
-															'Role' +
-													'</strong>' +
-											'</td>' +
-											'<td class="text-primary">' +
-													'Admin' +
-											'</td>' +
-									'</tr>' +
-									'<tr>' +
-											'<td>' +
-													'<strong>' +
 															'<span class="glyphicon glyphicon-envelope text-primary"></span>' +
 															'Email' +
 													'</strong>' +
 											'</td>' +
 											'<td class="text-primary">' +
 													user_imformation[0].email +
-											'</td>' +
-									'</tr>' +
-									'<tr>' +
-											'<td>' +
-													'<strong>' +
-															'<span class="glyphicon glyphicon-calendar text-primary"></span>' +
-															'created' +
-													'</strong>' +
-											'</td>' +
-											'<td class="text-primary">' +
-													'20 jul 20014' +
-											'</td>' +
-									'</tr>' +
-									'<tr>' +
-											'<td>' +
-													'<strong>' +
-															'<span class="glyphicon glyphicon-calendar text-primary"></span>' +
-															'Modified' +
-													'</strong>' +
-											'</td>' +
-											'<td class="text-primary">' +
-													 '20 jul 20014 20:00:00' +
 											'</td>' +
 									'</tr>' +
 							'</tbody>' +
@@ -116,39 +61,45 @@
 '</div>' +
 '</div>')
 
+</script>
 
+<form method="post">
+<script>
 
 		// 書籤展覽切割
     var data = JSON.parse('{{ favorite_exinfo | tojson|safe}}');
 
-		document.write('<h3>{{county}}我的最愛</h3>')
+		document.write('<h2>{{county}}我的最愛</h2>')
 		document.write('<table class="TB_COLLAPSE"><thead><tr><th>書籤</th><th>活動</th><th>地址</th><th>地點</th><th>結束時間</th></tr></thead>')
 
-		for (var i in data)
-		{
-		 document.write('<tr>')
-		 document.write('<td>')
-		 document.write('<button type="button" class="btn btn-outline-primary">Primary</button>')
-		 document.write('</td>')
-		 document.write('<td>')
-		 document.write(data[i].title)
-		 document.write('</td>')
-		 document.write('<td>')
-		 document.write(data[i].location)
-		 document.write('</td>')
-		 document.write('<td>')
-		 document.write(data[i].locationName)
-		 document.write('</td>')
-		 document.write('<td>')
-		 document.write(data[i].endTime)
-		 document.write('</td>')
-		 document.write('</tr>')
+			for (var i in data)
+		  {
+			 document.write('<tr>')
+			 document.write('<td>')
+			 document.write('<input type="checkbox" name="exinfo_id_list" value='+data[i].ex_id+'>')
+			 document.write('</td>')
+			 document.write('<td>')
+			 document.write(data[i].ex_id)
+			 document.write('</td>')
+			 document.write('<td>')
+		   document.write(data[i].location)
+			 document.write('</td>')
+			 document.write('<td>')
+			 document.write(data[i].locationName)
+			 document.write('</td>')
+			 document.write('<td>')
+			 document.write(data[i].endTime)
+			 document.write('</td>')
+		   document.write('</tr>')
 
-		}
-		 document.write('</table>')
+		  }
+		  document.write('</form>');
+
+			 document.write('</table>')
 
 	</script>
-	<form method="POST">
+	<button type="submit" class="btn btn-outline-primary">刪除書籤</button>
+
 	<style type="text/css">
 
 				/* 表格Css */
