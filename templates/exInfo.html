@@ -166,12 +166,12 @@
 
 
    // 展覽切割
-	 var data = JSON.parse('{{ exinfo | tojson|safe}}');
+	  var data = JSON.parse('{{ exinfo | tojson|safe}}');
 	  document.write('<br></br><h3>{{county}} 現在的PM2.5是{{pm}}</h3>')
 		document.write('<div id="flot-placeholder"></div>')
     document.write('<h3>{{county}} 展覽活動</h3>')
 	  document.write('<table class="TB_COLLAPSE"><thead><tr><th>書籤</th><th>活動</th><th>地址</th><th>地點</th><th>結束時間</th></tr></thead>')
-	  
+
   for (var i in data)
   {
 	 document.write('<tr>')
@@ -194,7 +194,7 @@
 
   }
   document.write('</form>');
-  
+
 	 document.write('</table>')
 	 $(document).ready(function () {
 			 $.plot($("#flot-placeholder"), dataset, options);
@@ -202,7 +202,7 @@
 
 
     </script>
-    <button type="submit">Submit</button>
+    <button type="submit" class="btn btn-outline-primary">新增書籤</button>
 	<br></br>
     </form>
 {% endblock %}

@@ -5,9 +5,8 @@
 	<br></br>
 	<h1>User_private</h1>			
 	<!-- 個人頁面 -->
-	<form method="post">
 	<script>
-	
+
 		// 個人資料變數
 		var user_imformation = JSON.parse('{{ userdata | tojson|safe}}');
 		document.write('<div class="container bootstrap snippet"><div class="panel-body inf-content"><div class="row">' +
@@ -43,67 +42,12 @@
 									'<tr>' +
 											'<td>' +
 													'<strong>' +
-															'<span class="glyphicon glyphicon-cloud text-primary"></span>' +
-															'Lastname'+
-													'</strong>' +
-											'</td>' +
-											'<td class="text-primary">' +
-													'Bootstrap' +
-											'</td>' +
-									'</tr>' +
-									'<tr>' +
-											'<td>' +
-													'<strong>' +
-															'<span class="glyphicon glyphicon-bookmark text-primary"></span>' +
-															'Username' +
-													'</strong>' +
-											'</td>' +
-											'<td class="text-primary">' +
-													'bootnipets' +
-											'</td>' +
-									'</tr>' +
-									'<tr>' +
-											'<td>' +
-													'<strong>' +
-															'<span class="glyphicon glyphicon-eye-open text-primary"></span>' +
-															'Role' +
-													'</strong>' +
-											'</td>' +
-											'<td class="text-primary">' +
-													'Admin' +
-											'</td>' +
-									'</tr>' +
-									'<tr>' +
-											'<td>' +
-													'<strong>' +
 															'<span class="glyphicon glyphicon-envelope text-primary"></span>' +
 															'Email' +
 													'</strong>' +
 											'</td>' +
 											'<td class="text-primary">' +
 													user_imformation[0].email +
-											'</td>' +
-									'</tr>' +
-									'<tr>' +
-											'<td>' +
-													'<strong>' +
-															'<span class="glyphicon glyphicon-calendar text-primary"></span>' +
-															'created' +
-													'</strong>' +
-											'</td>' +
-											'<td class="text-primary">' +
-													'20 jul 20014' +
-											'</td>' +
-									'</tr>' +
-									'<tr>' +
-											'<td>' +
-													'<strong>' +
-															'<span class="glyphicon glyphicon-calendar text-primary"></span>' +
-															'Modified' +
-													'</strong>' +
-											'</td>' +
-											'<td class="text-primary">' +
-													 '20 jul 20014 20:00:00' +
 											'</td>' +
 									'</tr>' +
 							'</tbody>' +
@@ -114,10 +58,15 @@
 '</div>' +
 '</div>')
 
+</script>
+
+<form method="post">
+<script>
+
 		// 書籤展覽切割
     var data = JSON.parse('{{ favorite_exinfo | tojson|safe}}');
 
-		document.write('<h3>{{county}} 展覽活動</h3>')
+		document.write('<h2>{{county}}我的最愛</h2>')
 		document.write('<table class="TB_COLLAPSE"><thead><tr><th>書籤</th><th>活動</th><th>地址</th><th>地點</th><th>結束時間</th></tr></thead>')
 
 		for (var i in data)
@@ -140,85 +89,47 @@
 		 document.write('</td>')
 		 document.write('</tr>')
 
-		}
-		 document.write('</table>')
-		 
 	</script>
+	
+
 	<style type="text/css">
 
-        body {
-            margin: 0 auto;
-        }
+		/* 表格Css */
+		table.TB_COLLAPSE {
+			width:100%;
+			border-collapse:collapse;
+		}
+		table.TB_COLLAPSE caption {
+			padding:10px;
+			font-size:24px;
+			background-color:#f3f6f9;
+		}
+		table.TB_COLLAPSE thead th {
+			padding:5px 0px;
+			color:#fff;
+			text-align:center;
+			background-color:#915957;
+		}
+		table.TB_COLLAPSE tbody td {
+			padding:5px 0px;
+			color:#555;
+			text-align:center;
+			background-color:#fff;
+			border-bottom:1px solid #915957;
+		}
+		table.TB_COLLAPSE tfoot td {
+			padding:5px 0px;
+			text-align:center;
+			background-color:#d6d6a5;
 
-        #exinfo {
-            margin: 50px auto;
-            width: 450px;
-            font-size: 14px;
-        }
-
-        .content {
-            float: left;
-            width: 450px;
-            margin: 40px 10px 50px 50px;
-        }
-
-        .bigfont {
-            font-size: 40px;
-        }
-
-        .la {
-            float: left;
-            width: 500px;
-            height: 20px;
-            margin: 20px 0;
-            line-height: 30px;
-        }
-
-        .la input {
-            float: left;
-        }
-
-        .la span {
-            float: left;
-            line-height: 20px;
-        }
-        
-				/* 表格Css */
-				table.TB_COLLAPSE {
-					width:100%;
-					border-collapse:collapse;
-				}
-				table.TB_COLLAPSE caption {
-					padding:10px;
-					font-size:24px;
-					background-color:#f3f6f9;
-				}
-				table.TB_COLLAPSE thead th {
-					padding:5px 0px;
-					color:#fff;
-					text-align:center;
-					background-color:#915957;
-				}
-				table.TB_COLLAPSE tbody td {
-					padding:5px 0px;
-					color:#555;
-					text-align:center;
-					background-color:#fff;
-					border-bottom:1px solid #915957;
-				}
-				table.TB_COLLAPSE tfoot td {
-					padding:5px 0px;
-					text-align:center;
-					background-color:#d6d6a5;
-
-				/*個人畫面css */
-				.inf-content{
-				    border:1px solid #DDDDDD;
-				    -webkit-border-radius:10px;
-				    -moz-border-radius:10px;
-				    border-radius:10px;
-				    box-shadow: 7px 7px 7px rgba(0, 0, 0, 0.3);
-				}
+		/*個人畫面css */
+		.inf-content{
+			border:1px solid #DDDDDD;
+			-webkit-border-radius:10px;
+			-moz-border-radius:10px;
+			border-radius:10px;
+			box-shadow: 7px 7px 7px rgba(0, 0, 0, 0.3);
+		}
         
     </style>
 	<br></br>

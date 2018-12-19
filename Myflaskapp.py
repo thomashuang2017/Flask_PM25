@@ -208,7 +208,7 @@ def render_recommand():
         
         result,user_id = DoSQL().S_db("SELECT id FROM users WHERE username = %s",session['username'],1,connect_db)
         #應該以改成動態推薦不只一個縣市
-        favorite_exinfo = request.form.getlist('link0')        
+        favorite_exinfo = request.form.getlist('exinfo_id_list')        
         #---------------重複選取解決方法
         sql = "SELECT ex_id FROM user_favorite_exinfo AS u1 WHERE exists(SELECT * FROM users AS u2 WHERE u2.id=%s and u1.ID=u2.ID and u1.ex_id=%s )"
         ex_id_repeat = []
@@ -265,4 +265,4 @@ def user_private():
 
 if __name__ == '__main__':
 
-    app.run(debug=True)
+    app.run(host='127.0.0.1',port=81,debug=True)
