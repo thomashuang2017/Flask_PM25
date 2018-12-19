@@ -3,10 +3,7 @@
 {% block body %}
 	<br></br>
 	<br></br>
-	<h1>User_private</h1>
-	<br>{{favorite_county}}</br>
-	<h1>id = {{userdata[0].id}},name = {{userdata[0].username}},email = {{userdata[0].email}}</h1>
-	<br>{{favorite_exinfo}}</br>
+	<h1>個人資料</h1>
 			<!-- 個人頁面 -->
 
 
@@ -119,13 +116,12 @@
 '</div>' +
 '</div>')
 
-		document.write(user_imformation[0].id)
 
 
 		// 書籤展覽切割
     var data = JSON.parse('{{ favorite_exinfo | tojson|safe}}');
 
-		document.write('<h3>{{county}} 展覽活動</h3>')
+		document.write('<h3>{{county}}我的最愛</h3>')
 		document.write('<table class="TB_COLLAPSE"><thead><tr><th>書籤</th><th>活動</th><th>地址</th><th>地點</th><th>結束時間</th></tr></thead>')
 
 		for (var i in data)
@@ -154,43 +150,6 @@
 	</script>
 	<form method="POST">
 	<style type="text/css">
-
-        body {
-            margin: 0 auto;
-        }
-
-        #exinfo {
-            margin: 50px auto;
-            width: 450px;
-            font-size: 14px;
-        }
-
-        .content {
-            float: left;
-            width: 450px;
-            margin: 40px 10px 50px 50px;
-        }
-
-        .bigfont {
-            font-size: 40px;
-        }
-
-        .la {
-            float: left;
-            width: 500px;
-            height: 20px;
-            margin: 20px 0;
-            line-height: 30px;
-        }
-
-        .la input {
-            float: left;
-        }
-
-        .la span {
-            float: left;
-            line-height: 20px;
-        }
 
 				/* 表格Css */
 				table.TB_COLLAPSE {
@@ -231,121 +190,6 @@
 
     </style>
 
-    <script type="text/javascript">
-
-        window.onload = function () {
-            /*我的最愛資料解析*/
-            var data = JSON.parse('{{ favorite_exinfo | tojson|safe}}');
-            /*county解析*/
-            var favorite_county = JSON.parse('{{ favorite_county | tojson|safe}}');
-            /*縣市array動態產生*/
-        	var county = []
-        	for (var i in favorite_county)
-            	{
-                    county.push(favorite_county[i].county)
-            	};
-            /*exinfo Object動態產生*/
-            var exinfo = {}
-            for (var i = 0; i < county.length; i++)
-            	{
-                	exinfo[county[i]] = data ;
-            	};
-
-            /*var exinfo =
-            {
-                "高雄市": data,
-                "花蓮縣": data
-            };*/
-
-            var recommand_exinfo = [county, exinfo];
-            genCheck(recommand_exinfo);
-        }
-
-        function genCheck(recommand_exinfo) {
-            var content = "content";
-            var checkText = "checkbox";
-            var link = "link";
-            var size;
-
-            $("#exinfo").html("");
-
-            var county = recommand_exinfo[0];
-            size = county.length;
-            for (var i = 0; i < county.length; i++) {
-                genShowContent("exinfo", checkText + i, i, county[i] , content + i);
-            }
-            var exinfo = recommand_exinfo[1];
-
-            for (var i = 0; i < county.length; i++) {
-                var array = exinfo[""+county[i]+""];
-                for (var j = 0; j < array.length; j++) {
-                    genCheckBox(content + i, link + i, array[j].ex_id, "ex_id:"+array[j].ex_id+"title:"+array[j].title+"location:"+array[j].location , i, false);
-                }
-
-                var flag = isAllCheck(link + i);
-                var box = document.getElementById(checkText + i);
-                if (flag) {
-                    box.checked = true;
-                } else {
-                    box.checked = false;
-                }
-                $("input[name=" + link + i + "]").each(function () {
-                    $(this).unbind();
-                    $(this).change(function () {
-                        var flag = isAllCheck($(this).attr("name"));
-                        var box = document.getElementById(checkText + $(this).attr("parentIndex"));
-                        if (flag) {
-                            box.checked = true;
-                        } else {
-                            box.checked = false;
-                        }
-                    });
-                });
-            }
-            for (var i = 0; i < size; i++) {
-                $("#" + checkText + i).unbind();
-                $("#" + checkText + i).change(function () {
-                    var temp = link + $(this).attr("index");
-                    var p = document.getElementById(checkText + $(this).attr("index"));
-                    var box = document.getElementsByName(temp);
-                    for (var j = 0; j < box.length; j++) {
-                        if (p.checked) {
-                            box[j].checked = true;
-                        } else {
-                            box[j].checked = false;
-                        }
-                    }
-                });
-            }
-        }
-
-        function genCheckBox(id, name, value, showText, parentIndex, isCheck) {
-            if (!isCheck) {
-                var checkbox = "<div class='la'><input type='checkbox' parentIndex=" + parentIndex + " name=".concat(name).concat(" value=").concat(value).concat(" alt=").concat(showText).concat(" /><span>").concat(showText).concat("</span></div>");
-                $("#" + id).append(checkbox);
-            } else {
-                var checkbox = "<div class='la'><input type='checkbox' parentIndex=" + parentIndex + " name=".concat(name).concat(" checked='checked' value=").concat(value).concat(" alt=").concat(showText).concat(" /><span>").concat(showText).concat("</span></div>");
-                $("#" + id).append(checkbox);
-            }
-        }
-
-        function genShowContent(id, checkboxId, index, showText, idName) {
-            var showContent = "<div class='msg'><span class='bigfont'>".concat(showText).concat("： </span><input type='checkbox' index=").concat(index).concat(" id='").concat(checkboxId).concat("'/><span>全選</span><div class='content' id='").concat(idName).concat("' ></div></div>");
-            $("#" + id).append(showContent);
-        }
-
-
-        function isAllCheck(name) {
-            var box = document.getElementsByName(name);
-            for (var j = 0; j < box.length; j++) {
-                if (!box[j].checked) {
-                    return false;
-                }
-            }
-            return true;
-        }
-    </script>
-    <div class="exinfo" id="exinfo"></div>
-    <button type="submit">Delete</button>
-    </form>
+		<br></br>
+		<br></br>
 {% endblock %}
