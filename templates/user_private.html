@@ -3,10 +3,12 @@
 {% block body %}
 	<br></br>
 	<br></br>
-	<h1>User_private</h1>			
-	<!-- 個人頁面 -->
-	<script>
+	<h2>個人資料</h2>
+			<!-- 個人頁面 -->
 
+
+
+	<script>
 		// 個人資料變數
 		var user_imformation = JSON.parse('{{ userdata | tojson|safe}}');
 		document.write('<div class="container bootstrap snippet"><div class="panel-body inf-content"><div class="row">' +
@@ -57,84 +59,77 @@
 	'</div>' +
 '</div>' +
 '</div>')
-
 </script>
 
 <form method="post">
 <script>
-
 		// 書籤展覽切割
     var data = JSON.parse('{{ favorite_exinfo | tojson|safe}}');
-
 		document.write('<h2>{{county}}我的最愛</h2>')
 		document.write('<table class="TB_COLLAPSE"><thead><tr><th>書籤</th><th>活動</th><th>地址</th><th>地點</th><th>結束時間</th></tr></thead>')
-
-		for (var i in data)
-		{
-		 document.write('<tr>')
-		 document.write('<td>')
-		 document.write('<input type="checkbox" name="exinfo_id_list" value='+data[i].ex_id+'>')
-		 document.write('</td>')
-		 document.write('<td>')
-		 document.write(data[i].title)
-		 document.write('</td>')
-		 document.write('<td>')
-		 document.write(data[i].location)
-		 document.write('</td>')
-		 document.write('<td>')
-		 document.write(data[i].locationName)
-		 document.write('</td>')
-		 document.write('<td>')
-		 document.write(data[i].endTime)
-		 document.write('</td>')
-		 document.write('</tr>')
-
+			for (var i in data)
+		  {
+			 document.write('<tr>')
+			 document.write('<td>')
+			 document.write('<input type="checkbox" name="exinfo_id_list" value='+data[i].ex_id+'>')
+			 document.write('</td>')
+			 document.write('<td>')
+			 document.write(data[i].ex_id)
+			 document.write('</td>')
+			 document.write('<td>')
+		   document.write(data[i].location)
+			 document.write('</td>')
+			 document.write('<td>')
+			 document.write(data[i].locationName)
+			 document.write('</td>')
+			 document.write('<td>')
+			 document.write(data[i].endTime)
+			 document.write('</td>')
+		   document.write('</tr>')
+		  }
+		  document.write('</form>');
+			 document.write('</table>')
 	</script>
-	
+	<button type="submit" class="btn btn-outline-primary">刪除書籤</button>
 
 	<style type="text/css">
-
-		/* 表格Css */
-		table.TB_COLLAPSE {
-			width:100%;
-			border-collapse:collapse;
-		}
-		table.TB_COLLAPSE caption {
-			padding:10px;
-			font-size:24px;
-			background-color:#f3f6f9;
-		}
-		table.TB_COLLAPSE thead th {
-			padding:5px 0px;
-			color:#fff;
-			text-align:center;
-			background-color:#915957;
-		}
-		table.TB_COLLAPSE tbody td {
-			padding:5px 0px;
-			color:#555;
-			text-align:center;
-			background-color:#fff;
-			border-bottom:1px solid #915957;
-		}
-		table.TB_COLLAPSE tfoot td {
-			padding:5px 0px;
-			text-align:center;
-			background-color:#d6d6a5;
-
-		/*個人畫面css */
-		.inf-content{
-			border:1px solid #DDDDDD;
-			-webkit-border-radius:10px;
-			-moz-border-radius:10px;
-			border-radius:10px;
-			box-shadow: 7px 7px 7px rgba(0, 0, 0, 0.3);
-		}
-        
+				/* 表格Css */
+				table.TB_COLLAPSE {
+					width:100%;
+					border-collapse:collapse;
+				}
+				table.TB_COLLAPSE caption {
+					padding:10px;
+					font-size:24px;
+					background-color:#f3f6f9;
+				}
+				table.TB_COLLAPSE thead th {
+					padding:5px 0px;
+					color:#fff;
+					text-align:center;
+					background-color:#915957;
+				}
+				table.TB_COLLAPSE tbody td {
+					padding:5px 0px;
+					color:#555;
+					text-align:center;
+					background-color:#fff;
+					border-bottom:1px solid #915957;
+				}
+				table.TB_COLLAPSE tfoot td {
+					padding:5px 0px;
+					text-align:center;
+					background-color:#d6d6a5;
+				/*個人畫面css */
+				.inf-content{
+				    border:1px solid #DDDDDD;
+				    -webkit-border-radius:10px;
+				    -moz-border-radius:10px;
+				    border-radius:10px;
+				    box-shadow: 7px 7px 7px rgba(0, 0, 0, 0.3);
+				}
     </style>
-	<br></br>
-    <button type="submit">Delete</button>
-    </form>
-	<br></br>
-	
+
+		<br></br>
+		<br></br>
 {% endblock %}
