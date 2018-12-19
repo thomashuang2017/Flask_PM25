@@ -249,14 +249,11 @@ def user_private():
     _,select_county = DoSQL().S_db("select distinct county from exinfo as e1 where exists(select * from user_favorite_exinfo as u1 where u1.ex_id=e1.ex_id and u1.id=%s)",userdata[0]["id"],2,connect_db)
     #刪除方法
     if request.method == 'POST':
-        #把要刪除的都放在同個list
-        delete_exinfo = []
-        for i in range(len(select_county)):
-            delete_exinfo=delete_exinfo+request.form.getlist('link'+str(i))
-        #逐筆刪除(應該要優化成一次刪除)
-        for i in range(len(delete_exinfo)):
-            DoSQL().IUD_db("DELETE FROM user_favorite_exinfo WHERE id=%s and ex_id=%s",(userdata[0]['id'],delete_exinfo[i]),1,connect_db)
-        #要再重新Select正確的資料
+        
+        delete_exinfo = request.form.getlist('exinfo_id_list')
+        DoSQL().IUD_db("DELETE FROM user_favorite_exinfo WHERE id=%s and ex_id IN %s",(userdata[0]['id'],delete_exinfo),1,connect_db)
+
+        
         _,favorite_exinfo = DoSQL().S_db("select * from exinfo as e1 where exists(select * from user_favorite_exinfo as u1 where u1.ex_id=e1.ex_id and u1.id=%s)",userdata[0]["id"],2,connect_db)    
         _,select_county = DoSQL().S_db("select distinct county from exinfo as e1 where exists(select * from user_favorite_exinfo as u1 where u1.ex_id=e1.ex_id and u1.id=%s)",userdata[0]["id"],2,connect_db)
         
@@ -268,4 +265,4 @@ def user_private():
 
 if __name__ == '__main__':
 
-    app.run(host='127.0.0.1',port=81,debug=False)
+    app.run(host='127.0.0.1',port=81,debug=True)
