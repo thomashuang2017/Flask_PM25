@@ -164,14 +164,14 @@ def exInfo(county_name):
     
 
     if request.method == 'POST':
+        result,user_id = DoSQL().S_db("SELECT id FROM users WHERE username = %s",session['username'],1,connect_db)
         
-        result,user_id = DoSQL().S_db("SELECT id FROM users WHERE username = %s",session['username'],1)
-        favorite_exinfo = request.form.getlist('link0')
+        favorite_exinfo = request.form.getlist('exinfo_id_list')
         #---------------重複選取解決方法
         sql = "SELECT ex_id FROM user_favorite_exinfo AS u1 WHERE exists(SELECT * FROM users AS u2 WHERE u2.id=%s and u1.ID=u2.ID and u1.ex_id=%s )"
         ex_id_repeat = []
         for i in range(len(favorite_exinfo)):
-                result,ex_id = DoSQL().S_db(sql,(user_id['id'],favorite_exinfo[i]),2)
+                result,ex_id = DoSQL().S_db(sql,(user_id['id'],favorite_exinfo[i]),2,connect_db)
                 if result > 0:
                     #ex_id_repeat.append(ex_id)
                     ex_id_repeat.append(ex_id[0]["ex_id"])
@@ -183,7 +183,7 @@ def exInfo(county_name):
         else:
             #沒有重複就insert
             for i in range(len(favorite_exinfo)):    
-                DoSQL().IUD_db("insert into user_favorite_exinfo values(%s,%s)",(user_id['id'],favorite_exinfo[i]),1)
+                DoSQL().IUD_db("insert into user_favorite_exinfo values(%s,%s)",(user_id['id'],favorite_exinfo[i]),1,connect_db)
                 
             # close_db
             DoSQL().close_conn(connect_db)
@@ -268,4 +268,4 @@ def user_private():
 
 if __name__ == '__main__':
 
-    app.run(host='127.0.0.1',port=81,debug=True)
+    app.run(host='127.0.0.1',port=81,debug=False)
