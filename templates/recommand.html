@@ -73,7 +73,6 @@
 					background-color:#d6d6a5;
 
     </style>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
 
     <script type="text/javascript">
 
@@ -95,6 +94,7 @@
             var checkText = "checkbox";
             var link = "link";
             var size;
+            var tableup="<table></table>";
 
             $("#exinfo").html("");
 
@@ -104,7 +104,7 @@
                 genShowContent("exinfo", checkText + i, i, county[i] , content + i);
             }
             var exinfo = recommand_exinfo[1];
-
+            $('table').append(content1);
             for (var i = 0; i < county.length; i++) {
                 var array = exinfo[""+county[i]+""];
                 for (var j = 0; j < array.length; j++) {

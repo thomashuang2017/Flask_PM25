@@ -12,7 +12,7 @@
 
 
 	<script>
-	
+
 		// 個人資料變數
 		var user_imformation = JSON.parse('{{ userdata | tojson|safe}}');
 		document.write('<div class="container bootstrap snippet"><div class="panel-body inf-content"><div class="row">' +
@@ -150,7 +150,7 @@
 
 		}
 		 document.write('</table>')
-		 
+
 	</script>
 	<form method="POST">
 	<style type="text/css">
@@ -191,7 +191,7 @@
             float: left;
             line-height: 20px;
         }
-        
+
 				/* 表格Css */
 				table.TB_COLLAPSE {
 					width:100%;
@@ -228,12 +228,11 @@
 				    border-radius:10px;
 				    box-shadow: 7px 7px 7px rgba(0, 0, 0, 0.3);
 				}
-        
+
     </style>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
 
     <script type="text/javascript">
-        
+
         window.onload = function () {
             /*我的最愛資料解析*/
             var data = JSON.parse('{{ favorite_exinfo | tojson|safe}}');
@@ -244,8 +243,8 @@
         	for (var i in favorite_county)
             	{
                     county.push(favorite_county[i].county)
-            	}; 
-            /*exinfo Object動態產生*/ 
+            	};
+            /*exinfo Object動態產生*/
             var exinfo = {}
             for (var i = 0; i < county.length; i++)
             	{
@@ -261,7 +260,7 @@
             var recommand_exinfo = [county, exinfo];
             genCheck(recommand_exinfo);
         }
-        
+
         function genCheck(recommand_exinfo) {
             var content = "content";
             var checkText = "checkbox";
