@@ -94,7 +94,7 @@
             var checkText = "checkbox";
             var link = "link";
             var size;
-            var tableup="<table></table>";
+
 
             $("#exinfo").html("");
 
@@ -104,7 +104,6 @@
                 genShowContent("exinfo", checkText + i, i, county[i] , content + i);
             }
             var exinfo = recommand_exinfo[1];
-            $('table').append(content1);
             for (var i = 0; i < county.length; i++) {
                 var array = exinfo[""+county[i]+""];
                 for (var j = 0; j < array.length; j++) {
@@ -152,7 +151,7 @@
         // 動態產生checkbox
         function genCheckBox(id, name, value, showText, parentIndex, isCheck) {
             if (!isCheck) {
-                var checkbox = "<div class='la'><input type='checkbox' parentIndex=" + parentIndex + " name=".concat(name).concat(" value=").concat(value).concat(" alt=").concat(showText).concat(" /><span>").concat(showText).concat("</span></div>");
+                var checkbox = "<input type='checkbox' parentIndex=" + parentIndex + " name=".concat(name).concat(" value=").concat(value).concat(" alt=").concat(showText).concat(" /><span>").concat(showText).concat("</span>");
                 $("#" + id).append(checkbox);
             } else {
                 var checkbox = "<div class='la'><input type='checkbox' parentIndex=" + parentIndex + " name=".concat(name).concat(" checked='checked' value=").concat(value).concat(" alt=").concat(showText).concat(" /><span>").concat(showText).concat("</span></div>");
