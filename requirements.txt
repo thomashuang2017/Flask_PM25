@@ -6,6 +6,7 @@ Flask-MySQL==1.4.0
 Flask-SQLAlchemy==2.3.2
 requests==2.18.4
 gunicorn==19.9.0
+intervals==0.8.1
 
 
 
