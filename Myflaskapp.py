@@ -11,7 +11,7 @@ from formclass import RegisterForm
 from DBmgt import DoSQL
 from PM25 import PM25
 from exinfo import exinfo
-
+from datetime import datetime
 
  
 
@@ -135,10 +135,10 @@ def map_view():
     connect_db = DoSQL().get_conn()
     
     PM25_value = PM25(connect_db).Get_PM25() 
-    
+    dt = datetime.now() 
     # close_db
     DoSQL().close_conn(connect_db)
-    return render_template('taiwan_map.html',value=PM25_value)
+    return render_template('taiwan_map.html',value=PM25_value,dt=dt)
 
 
 #點選taiwan_map後的對應城市頁面
