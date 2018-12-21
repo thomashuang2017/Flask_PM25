@@ -249,7 +249,7 @@ def user_private():
     if request.method == 'POST':
         
         delete_exinfo = request.form.getlist('exinfo_id_list')
-        Get_exinfo(connect_db).Delet_user_exinfo(userdata[0]['id'],delete_exinfo)
+        Get_exinfo(connect_db).Delete_user_exinfo(userdata[0]['id'],delete_exinfo)
 
         
         favorite_exinfo = Get_exinfo(connect_db).Get_user_exinfo(userdata[0]['id'])
@@ -264,3 +264,4 @@ def user_private():
 if __name__ == '__main__':
 
     app.run(host='127.0.0.1',port=81,debug=True)
+    
