@@ -17,8 +17,8 @@ from DBmgt import DoSQL
 # ------- scrapy exinfo-----------------
 
 
-json_url = 'https://cloud.culture.tw/frontsite/trans/SearchShowAction.do?method=doFindTypeJ&category=6'
-download = requests.get(json_url,verify=False)
+csv_url = 'https://cloud.culture.tw/frontsite/trans/SearchShowAction.do?method=doFindTypeJ&category=6'
+download = requests.get(csv_url,verify=False)
 download = download.content.decode("utf-8")
 j = json.loads(download)
 show = []

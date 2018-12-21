@@ -9,7 +9,7 @@ from county import county_name
 from datetime import datetime
 from DBmgt import DoSQL
 
-class PM25():
+class Get_PM25():
       
     def __init__(self,connect_db):
         hour = datetime.now().hour + 8

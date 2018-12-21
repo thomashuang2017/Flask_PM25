@@ -9,11 +9,10 @@ from flask import Flask , render_template,flash,redirect,url_for,session,request
 from functools import wraps
 from formclass import RegisterForm
 from DBmgt import DoSQL
-from PM25 import PM25
-from exinfo import exinfo
+from PM25 import Get_PM25
+from exinfo import Get_exinfo
 from datetime import datetime
 
- 
 
 app = Flask(__name__)
 app.secret_key='secret123'
@@ -134,11 +133,10 @@ def map_view():
     # connect_db
     connect_db = DoSQL().get_conn()
     
-    PM25_value = PM25(connect_db).Get_PM25() 
-    dt = datetime.now() 
+    PM25_value = Get_PM25(connect_db).Get_PM25() 
     # close_db
     DoSQL().close_conn(connect_db)
-    return render_template('taiwan_map.html',value=PM25_value,dt=dt)
+    return render_template('map_view.html',value=PM25_value)
 
 
 #點選taiwan_map後的對應城市頁面
@@ -152,15 +150,15 @@ def exInfo(county_name):
     # connect_db
     connect_db = DoSQL().get_conn()
 
-    county_pm,time = PM25(connect_db).Get_one_PM25(county_name)
+    county_pm,time = Get_PM25(connect_db).Get_one_PM25(county_name)
     county = county_name
     county_pm = county_pm[0][time]
 
     # find county_exinfo
-    county_exinfo = exinfo(connect_db).Get_county_exinfo(county_name)
+    county_exinfo = Get_exinfo(connect_db).Get_county_exinfo(county_name)
 
     # find county_past_pm25
-    county_past_pm = PM25(connect_db).Get_past_pm25(county_name)
+    county_past_pm = Get_PM25(connect_db).Get_past_pm25(county_name)
     
 
     if request.method == 'POST':
@@ -201,9 +199,9 @@ def render_recommand():
     # connect_db
     connect_db = DoSQL().get_conn()
     
-    min_county = PM25(connect_db).Get_min_county()
-    pm,_ = PM25(connect_db).Get_one_PM25(min_county)
-    recommand_exinfo = exinfo(connect_db).Get_county_exinfo(min_county)
+    min_county = Get_PM25(connect_db).Get_min_county()
+    pm,_ = Get_PM25(connect_db).Get_one_PM25(min_county)
+    recommand_exinfo = Get_exinfo(connect_db).Get_county_exinfo(min_county)
     if request.method == 'POST':
         
         result,user_id = DoSQL().S_db("SELECT id FROM users WHERE username = %s",session['username'],1,connect_db)
@@ -244,17 +242,17 @@ def user_private():
     #delete_exinfo =[] 存放要刪除的選項value
     
     #select 我的最愛裡的exinfo
-    _,favorite_exinfo = DoSQL().S_db("select * from exinfo as e1 where exists(select * from user_favorite_exinfo as u1 where u1.ex_id=e1.ex_id and u1.id=%s)",userdata[0]["id"],2,connect_db)
+    favorite_exinfo = Get_exinfo(connect_db).Get_user_exinfo(userdata[0]['id'])
     #單獨select不重複的county值 
     _,select_county = DoSQL().S_db("select distinct county from exinfo as e1 where exists(select * from user_favorite_exinfo as u1 where u1.ex_id=e1.ex_id and u1.id=%s)",userdata[0]["id"],2,connect_db)
     #刪除方法
     if request.method == 'POST':
         
         delete_exinfo = request.form.getlist('exinfo_id_list')
-        DoSQL().IUD_db("DELETE FROM user_favorite_exinfo WHERE id=%s and ex_id IN %s",(userdata[0]['id'],delete_exinfo),1,connect_db)
+        Get_exinfo(connect_db).Delet_user_exinfo(userdata[0]['id'],delete_exinfo)
 
         
-        _,favorite_exinfo = DoSQL().S_db("select * from exinfo as e1 where exists(select * from user_favorite_exinfo as u1 where u1.ex_id=e1.ex_id and u1.id=%s)",userdata[0]["id"],2,connect_db)    
+        favorite_exinfo = Get_exinfo(connect_db).Get_user_exinfo(userdata[0]['id'])
         _,select_county = DoSQL().S_db("select distinct county from exinfo as e1 where exists(select * from user_favorite_exinfo as u1 where u1.ex_id=e1.ex_id and u1.id=%s)",userdata[0]["id"],2,connect_db)
         
         # close_db
