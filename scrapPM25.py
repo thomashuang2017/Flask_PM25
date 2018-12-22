@@ -54,18 +54,24 @@ if __name__ == '__main__':
     
     while True:
         
+        # connect_db
+        connect_db = DoSQL().get_conn()
+    
+        
         hour = datetime.now().hour # 現在時間
         county_pm25 = scrap_PM25_toDB() #爬 pm25
-        result,data = DoSQL().S_db("SELECT county FROM PM25",None,2) #確認table是否為空
+        result,data = DoSQL().S_db("SELECT county FROM PM25",None,2,connect_db) #確認table是否為空
         
         hour = hour%9 # 9小時統計 ex 13:00 % 9 = 4
         
         if result == 0:
             SQL = "INSERT INTO PM25(county,pm" + str(hour) + ") VALUES(%(county)s, %(pm)s)"
-            DoSQL().IUD_db(SQL,county_pm25,2)
+            DoSQL().IUD_db(SQL,county_pm25,2,connect_db)
         else:
             SQL = 'UPDATE PM25 SET pm' + str(hour) + '=%(pm)s WHERE county=%(county)s'
-            DoSQL().IUD_db(SQL,county_pm25,2)
+            DoSQL().IUD_db(SQL,county_pm25,2,connect_db)
+            
+        DoSQL().close_conn(connect_db)
         
         time.sleep(3600)
     

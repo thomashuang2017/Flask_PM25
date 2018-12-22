@@ -10,7 +10,7 @@ from wtforms import Form,StringField,TextAreaField,PasswordField,validators
 # 註冊的 form class
 class RegisterForm(Form):
     
-    username = StringField('Username',[validators.Length(min=4,max=10)])
+    username = StringField('Username',[validators.Length(min=3,max=15)])
     email = StringField('Email',[validators.Length(min=6,max=50)])
     password = PasswordField('Password',[
             validators.Length(min=1,max=10),
@@ -18,4 +18,6 @@ class RegisterForm(Form):
             validators.EqualTo('confirm',message = 'Passwords do not match')
     ])
     confirm = PasswordField('Confirm Password')
+    
+
         

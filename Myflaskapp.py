@@ -11,7 +11,6 @@ from formclass import RegisterForm
 from DBmgt import DoSQL
 from PM25 import Get_PM25
 from exinfo import Get_exinfo
-from datetime import datetime
 
 
 app = Flask(__name__)
@@ -22,9 +21,6 @@ app.secret_key='secret123'
 @app.route('/')
 def homepage():
     return render_template('homepage.html')
-
-# 關於頁面
-#About fuck off
 
 # 使用者註冊
 @app.route('/register',methods=['GET','POST'])
@@ -102,6 +98,7 @@ def login():
 
 
     return render_template('login.html')
+
 # Check 使用者是否有登入
 def is_logged_in(f):
     @wraps(f)
@@ -113,7 +110,6 @@ def is_logged_in(f):
             return redirect(url_for('login'))
     return wrap
 
-
 # 登出
 @app.route('/logout')
 @is_logged_in
@@ -121,8 +117,6 @@ def logout():
     session.clear()
     flash('You are now logged out','success')
     return redirect(url_for('homepage'))
-
-# ----------------------------------------------以上都不動 -------------------------------------------------------------------
 
 
 # map_view
@@ -133,24 +127,28 @@ def map_view():
     # connect_db
     connect_db = DoSQL().get_conn()
     
+    # Get PM25
     PM25_value = Get_PM25(connect_db).Get_PM25() 
+    
     # close_db
     DoSQL().close_conn(connect_db)
+    
     return render_template('map_view.html',value=PM25_value)
 
+
+# ----------------------------------------------以上都不動 -------------------------------------------------------------------
 
 #點選taiwan_map後的對應城市頁面
 @app.route('/exInfo/<string:county_name>/',methods=['GET','POST'])
 @is_logged_in
 def exInfo(county_name):
-    #-------------------
-    #這邊好像要先判斷重複值，防呆
-    #-------------------
     
     # connect_db
     connect_db = DoSQL().get_conn()
 
+    # Get one PM25
     county_pm,time = Get_PM25(connect_db).Get_one_PM25(county_name)
+    
     county = county_name
     county_pm = county_pm[0][time]
 
@@ -160,8 +158,9 @@ def exInfo(county_name):
     # find county_past_pm25
     county_past_pm = Get_PM25(connect_db).Get_past_pm25(county_name)
     
-
+    
     if request.method == 'POST':
+        
         result,user_id = DoSQL().S_db("SELECT id FROM users WHERE username = %s",session['username'],1,connect_db)
         
         favorite_exinfo = request.form.getlist('exinfo_id_list')
@@ -182,21 +181,19 @@ def exInfo(county_name):
             #沒有重複就insert
             for i in range(len(favorite_exinfo)):    
                 DoSQL().IUD_db("insert into user_favorite_exinfo values(%s,%s)",(user_id['id'],favorite_exinfo[i]),1,connect_db)
-                
+            
+            flash('Add success','success')
             # close_db
             DoSQL().close_conn(connect_db)
+            
     return render_template('exInfo.html',county=county , pm=county_pm ,exinfo=county_exinfo,past_pm=county_past_pm)
-    #return render_template('exInfo.html')
+    
 
 # 推薦頁面
 @app.route('/recommand',methods=['GET','POST'])
 @is_logged_in
 def render_recommand():
-    #-------------------
-    #這邊好像要先判斷重複值，防呆
-    #-------------------
-    #----------------互動頁無動作server丟值
-    # connect_db
+ 
     connect_db = DoSQL().get_conn()
     
     min_county = Get_PM25(connect_db).Get_min_county()
@@ -212,18 +209,20 @@ def render_recommand():
         ex_id_repeat = []
         for i in range(len(favorite_exinfo)):
                 result,ex_id = DoSQL().S_db(sql,(user_id['id'],favorite_exinfo[i]),2,connect_db)
+                
                 if result > 0:
-                    #ex_id_repeat.append(ex_id)
                     ex_id_repeat.append(ex_id[0]["ex_id"])
-        #ex_id_repeat:list[重複的值]
+       
+        #若有重複則傳重複的值
         if len(ex_id_repeat) > 0 :
-            #若有重複則傳重複的值
+           
             return render_template('recommand.html',min_county=min_county,recommand_exinfo=recommand_exinfo,pm=pm,ex_id_repeat=ex_id_repeat)
+        #沒有重複就insert
         else:
-            #沒有重複就insert
+            
             for i in range(len(favorite_exinfo)):    
                 DoSQL().IUD_db("insert into user_favorite_exinfo values(%s,%s)",(user_id['id'],favorite_exinfo[i]),1,connect_db)
-                
+            flash('Add success','success')
             # close_db
             DoSQL().close_conn(connect_db)
     return render_template('recommand.html',min_county=min_county,recommand_exinfo=recommand_exinfo,pm=pm)
@@ -241,23 +240,28 @@ def user_private():
     _,userdata = DoSQL().S_db("SELECT * FROM users WHERE username=%s",session['username'],2,connect_db)
     #delete_exinfo =[] 存放要刪除的選項value
     
-    #select 我的最愛裡的exinfo
     favorite_exinfo = Get_exinfo(connect_db).Get_user_exinfo(userdata[0]['id'])
     #單獨select不重複的county值 
     _,select_county = DoSQL().S_db("select distinct county from exinfo as e1 where exists(select * from user_favorite_exinfo as u1 where u1.ex_id=e1.ex_id and u1.id=%s)",userdata[0]["id"],2,connect_db)
     #刪除方法
     if request.method == 'POST':
         
-        delete_exinfo = request.form.getlist('exinfo_id_list')
-        Get_exinfo(connect_db).Delete_user_exinfo(userdata[0]['id'],delete_exinfo)
-
+        try:
         
-        favorite_exinfo = Get_exinfo(connect_db).Get_user_exinfo(userdata[0]['id'])
-        _,select_county = DoSQL().S_db("select distinct county from exinfo as e1 where exists(select * from user_favorite_exinfo as u1 where u1.ex_id=e1.ex_id and u1.id=%s)",userdata[0]["id"],2,connect_db)
+            delete_exinfo = request.form.getlist('exinfo_id_list')
+            Get_exinfo(connect_db).Delete_user_exinfo(userdata[0]['id'],delete_exinfo)
+    
+            
+            favorite_exinfo = Get_exinfo(connect_db).Get_user_exinfo(userdata[0]['id'])
+            _,select_county = DoSQL().S_db("select distinct county from exinfo as e1 where exists(select * from user_favorite_exinfo as u1 where u1.ex_id=e1.ex_id and u1.id=%s)",userdata[0]["id"],2,connect_db)
+            
+            # close_db
+            DoSQL().close_conn(connect_db)
+            
+        except: 
+            return render_template('user_private.html',userdata=userdata,favorite_exinfo=favorite_exinfo,favorite_county=select_county)
         
-        # close_db
-        DoSQL().close_conn(connect_db)
-        
+        flash('Update success','success')
         return render_template('user_private.html',userdata=userdata,favorite_exinfo=favorite_exinfo,favorite_county=select_county)
     return render_template('user_private.html',userdata=userdata,favorite_exinfo=favorite_exinfo,favorite_county=select_county)
 

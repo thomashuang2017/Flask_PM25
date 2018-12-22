@@ -38,6 +38,7 @@ class DoSQL():
         
         cur  =  db.cursor()  
         
+        
         # Get
         result = cur.execute(sql,(params))
     
@@ -51,6 +52,8 @@ class DoSQL():
         #content = list(content)
 
         return result,content
+        
+        
     
     # Insert , Update , Delete
     def IUD_db(self,sql,params,ex,conn):
