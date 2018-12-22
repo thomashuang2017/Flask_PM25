@@ -92,11 +92,11 @@ def login():
                 flash('You are now logged in','success')
                 return redirect(url_for('map_view'))
             else:
-                flash('Invalid login','error')
+                flash('Invalid login','danger')
                 #error = 'Invalid login'
                 return render_template('login.html')
         else:
-            flash('Username not found','error')
+            flash('Username not found','danger')
             #error = 'Username not found'
             return render_template('login.html')
 
