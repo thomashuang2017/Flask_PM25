@@ -159,70 +159,38 @@ def exInfo(county_name):
     county_exinfo = Get_exinfo(connect_db).Get_county_exinfo(county_name)
 
     
-    if request.method == 'POST':
-        
-        
+    if request.method == 'POST':      
         # 先判斷有無重複，再塞入forloop，再insert
         # 缺 massage告訴使用者她選了甚麼
         
         result,user_id = DoSQL().S_db("SELECT id FROM users WHERE username = %s",session['username'],1,connect_db)
         user_ex_id = request.form.getlist('exinfo_id_list')
-        print(user_ex_id)
-        #判斷重複的ex_id
-        ex_id = []
-        for i in range(0,len(user_ex_id)):
-            ex_id.append({'id':user_id['id'],'ex_id':user_ex_id[i]})
-        #print(ex_id)    
-        sql = "SELECT ex_id FROM user_favorite_exinfo AS u1 WHERE exists(SELECT * FROM users AS u2 WHERE u2.id=%s and u1.ID=u2.ID and u1.ex_id=%s )"
-        _,repeat_ex_id = DoSQL().S_db(sql,(user_id['id'],ex_id),2,connect_db)
-        #刪除重複的id
-        for i in range(0,len(repeat_ex_id)):
-            ex_id.remove({'id':repeat_ex_id[i]['id'],'ex_id':repeat_ex_id[i]['ex_id']})
-        #print("exid"+ex_id)
-        # Insert get_ex_id
-        sql="INSERT INTO user_Afavorite_exinfo(id,ex_id) VALUES(%s,%s)"
-        DoSQL().IUD_db(sql,(user_id['id'],ex_id),2,connect_db)
-#        print(sql)
-#        new_ex_id = []
-#        for i in range(0,len(favorite_exinfo)):
-#            new_ex_id.append({'id':user_id['id'],'ex_id':favorite_exinfo[i]})
-#        
-#        print(new_ex_id)
-#        
-        
-        #---------------重複選取解決方法
-        #sql = "SELECT ex_id FROM user_favorite_exinfo AS u1 WHERE exists(SELECT * FROM users AS u2 WHERE u2.id=%s and u1.ID=u2.ID and u1.ex_id=%s )"
-        #ex_id_repeat = []
-        #for i in range(len(favorite_exinfo)):
-#                result,ex_id = DoSQL().S_db(sql,(user_id['id'],favorite_exinfo[i]),2,connect_db)
-#                if result > 0:
-#                    #ex_id_repeat.append(ex_id)
-#                    ex_id_repeat.append(ex_id[0]["ex_id"])
-#        #ex_id_repeat:list[重複的值]
-        
-        
-#            沒有重複就insert
-#            for i in range(len(favorite_exinfo)):    
-#            
-#        INSERT INTO Words (Word)
-#        SELECT @Word
-#        WHERE NOT EXISTS (SELECT * FROM Words WHERE Word = @Word)
-            
-            
-#        sql = 'SELECT %(id)s,%(ex_id)s WHERE NOT EXISTS (SELECT * FROM user_favorite_exinfo WHERE id = %(id)s & ex_id = %(ex_id)s'
-#        DoSQL().IUD_db(sql,new_ex_id,2,connect_db)
-#        
-#        if SELECT %(id)s,%(ex_id)s WHERE NOT EXISTS (SELECT * FROM user_favorite_exinfo WHERE id = %(id)s & ex_id = %(ex_id)s
-#        
-#        
-#        sql = "Insert into user_favorite_exinfo (%s,%(ex_id)s) SELECT %(ex_id)s WHERE NOT EXISTS (SELECT * FROM user_favorite_exinfo WHERE id = %s & ex_id = %(ex_id)s"
-#        sql = "INSERT INTO user_favorite_exinfo (id,ex_id) SELECT %(id)s,%(ex_id)s WHERE NOT EXISTS (SELECT * FROM user_favorite_exinfo WHERE id = %(id)s & ex_id = %(ex_id)s"
-#        DoSQL().IUD_db(sql,new_ex_id,2,connect_db)
-#        DoSQL().IUD_db("Insert into user_favorite_exinfo values(%s,%s)",(user_id['id'],new_ex_id),2,connect_db)
-#            
-        flash('Add success'+str(ex_id),'success')
-        # close_db
-        DoSQL().close_conn(connect_db)
+        #避免沒打勾
+        if len(user_ex_id)>0:
+            #判斷重複的ex_id
+            sql = "SELECT ex_id FROM user_favorite_exinfo AS u1 WHERE exists(SELECT * FROM users AS u2 WHERE u2.id=%s and u1.ID=u2.ID and u1.ex_id=%s )"
+            ex_id_repeat = []
+            for i in range(len(user_ex_id)):
+                    result,content = DoSQL().S_db(sql,(user_id['id'],user_ex_id[i]),2,connect_db)
+                    if result > 0:
+                        ex_id_repeat.append(content[0]["ex_id"])
+            #排除重複值
+            for i in range(0,len(ex_id_repeat)):
+                user_ex_id.remove(str(ex_id_repeat[i]))    
+            #dict insert比較快
+            ex_id = []
+            for i in range(0,len(user_ex_id)):
+                ex_id.append({'id':str(user_id['id']),'ex_id':user_ex_id[i]})
+    
+            SQL = "INSERT INTO user_favorite_exinfo VALUES(%(id)s,%(ex_id)s)"
+            DoSQL().IUD_db(SQL,ex_id,2,connect_db)
+                   
+#        flash('Add'+str(user_ex_id)+ 'success'+'but repeat:'+str(ex_id_repeat),'success')
+            flash('Add bookmark success,please checked private page','success')
+            # close_db
+            DoSQL().close_conn(connect_db)
+        else:
+            return render_template('exInfo.html',county=county , pm=county_pm ,exinfo=county_exinfo,past_pm=county_past_pm)
             
     return render_template('exInfo.html',county=county , pm=county_pm ,exinfo=county_exinfo,past_pm=county_past_pm)
     
@@ -237,33 +205,65 @@ def render_recommand():
     min_county = Get_PM25(connect_db).Get_min_county()
     pm,_ = Get_PM25(connect_db).Get_one_PM25(min_county)
     recommand_exinfo = Get_exinfo(connect_db).Get_county_exinfo(min_county)
-    if request.method == 'POST':
+    if request.method == 'POST':      
+        # 先判斷有無重複，再塞入forloop，再insert
+        # 缺 massage告訴使用者她選了甚麼
         
         result,user_id = DoSQL().S_db("SELECT id FROM users WHERE username = %s",session['username'],1,connect_db)
-        
-        favorite_exinfo = request.form.getlist('exinfo_id_list')   
-        
-        #---------------重複選取解決方法
-        sql = "SELECT ex_id FROM user_favorite_exinfo AS u1 WHERE exists(SELECT * FROM users AS u2 WHERE u2.id=%s and u1.ID=u2.ID and u1.ex_id=%s )"
-        ex_id_repeat = []
-        for i in range(len(favorite_exinfo)):
-                result,ex_id = DoSQL().S_db(sql,(user_id['id'],favorite_exinfo[i]),2,connect_db)
-                
-                if result > 0:
-                    ex_id_repeat.append(ex_id[0]["ex_id"])
-       
-        #若有重複則傳重複的值
-        if len(ex_id_repeat) > 0 :
-           
-            return render_template('recommand.html',min_county=min_county,recommand_exinfo=recommand_exinfo,pm=pm,ex_id_repeat=ex_id_repeat)
-        #沒有重複就insert
-        else:
-            
-            for i in range(len(favorite_exinfo)):    
-                DoSQL().IUD_db("insert into user_favorite_exinfo values(%s,%s)",(user_id['id'],favorite_exinfo[i]),1,connect_db)
-            flash('Add success','success')
+        user_ex_id = request.form.getlist('exinfo_id_list')
+        #避免沒打勾
+        if len(user_ex_id)>0:
+            #判斷重複的ex_id
+            sql = "SELECT ex_id FROM user_favorite_exinfo AS u1 WHERE exists(SELECT * FROM users AS u2 WHERE u2.id=%s and u1.ID=u2.ID and u1.ex_id=%s )"
+            ex_id_repeat = []
+            for i in range(len(user_ex_id)):
+                    result,content = DoSQL().S_db(sql,(user_id['id'],user_ex_id[i]),2,connect_db)
+                    if result > 0:
+                        ex_id_repeat.append(content[0]["ex_id"])
+            #排除重複值
+            for i in range(0,len(ex_id_repeat)):
+                user_ex_id.remove(str(ex_id_repeat[i]))    
+            #dict insert比較快
+            ex_id = []
+            for i in range(0,len(user_ex_id)):
+                ex_id.append({'id':str(user_id['id']),'ex_id':user_ex_id[i]})
+    
+            SQL = "INSERT INTO user_favorite_exinfo VALUES(%(id)s,%(ex_id)s)"
+            DoSQL().IUD_db(SQL,ex_id,2,connect_db)
+                   
+#            flash('Add'+str(user_ex_id)+ 'success'+'but repeat:'+str(ex_id_repeat),'success')
+            flash('Add bookmark success,please checked private page','success')
             # close_db
             DoSQL().close_conn(connect_db)
+        else:
+            return render_template('recommand.html',min_county=min_county,recommand_exinfo=recommand_exinfo,pm=pm)
+#    if request.method == 'POST':
+#        
+#        result,user_id = DoSQL().S_db("SELECT id FROM users WHERE username = %s",session['username'],1,connect_db)
+#        
+#        favorite_exinfo = request.form.getlist('exinfo_id_list')   
+#        
+#        #---------------重複選取解決方法
+#        sql = "SELECT ex_id FROM user_favorite_exinfo AS u1 WHERE exists(SELECT * FROM users AS u2 WHERE u2.id=%s and u1.ID=u2.ID and u1.ex_id=%s )"
+#        ex_id_repeat = []
+#        for i in range(len(favorite_exinfo)):
+#                result,ex_id = DoSQL().S_db(sql,(user_id['id'],favorite_exinfo[i]),2,connect_db)
+#                
+#                if result > 0:
+#                    ex_id_repeat.append(ex_id[0]["ex_id"])
+#       
+#        #若有重複則傳重複的值
+#        if len(ex_id_repeat) > 0 :
+#           
+#            return render_template('recommand.html',min_county=min_county,recommand_exinfo=recommand_exinfo,pm=pm,ex_id_repeat=ex_id_repeat)
+#        #沒有重複就insert
+#        else:
+#            
+#            for i in range(len(favorite_exinfo)):    
+#                DoSQL().IUD_db("insert into user_favorite_exinfo values(%s,%s)",(user_id['id'],favorite_exinfo[i]),1,connect_db)
+#            flash('Add success','success')
+#            # close_db
+#            DoSQL().close_conn(connect_db)
     return render_template('recommand.html',min_county=min_county,recommand_exinfo=recommand_exinfo,pm=pm)
 
         
@@ -306,5 +306,5 @@ def user_private():
 
 if __name__ == '__main__':
 
-    app.run(host='127.0.0.1',port=81,debug=False)
+    app.run(host='127.0.0.1',port=81,debug=True)
     

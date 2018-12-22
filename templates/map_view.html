@@ -160,13 +160,27 @@
 	    top:600px;
 	    left:700px;
 		}
-		/*PM2.5值:71~*/
+		/*PM2.5值:71~89*/
 		.labelporw{
 	    position:absolute;
 	    top:610px;
 	    left:750px;
 			font-size: 20px;
 		}
+		/*紫色色塊*/
+		.labelpospp{
+	    position:absolute;
+	    top:650px;
+	    left:700px;
+		}
+		/*PM2.5值:90~*/
+		.labelpopw{
+	    position:absolute;
+	    top:660px;
+	    left:750px;
+			font-size: 20px;
+		}
+		
 
     @media only screen and (min-width: 768px) and (max-width: 1000px) {
       .container {
@@ -218,11 +232,61 @@
 		// 標籤現在pm
 		var now_time = new Date();
 		var now_hour = now_time.getHours();
+		
 		var pm_hour=now_hour%9
 		var pm_value = JSON.parse('{{ value | tojson|safe}}');
-
-
+		
+    
 		var now_pm=[];
+        switch(pm_hour)
+        {
+            case 0:
+                for (var i=0;i<22;i++){
+                    now_pm.push(pm_value[0][i].pm0)
+                }
+                break;  
+            case 1:
+                for (var i=0;i<22;i++){
+                    now_pm.push(pm_value[0][i].pm1)
+                }
+                break; 
+            case 2:
+                for (var i=0;i<22;i++){
+                    now_pm.push(pm_value[0][i].pm2)
+                }
+                break; 
+            case 3:
+                for (var i=0;i<22;i++){
+                    now_pm.push(pm_value[0][i].pm3)
+                }
+                break; 
+            case 4:
+                for (var i=0;i<22;i++){
+                    now_pm.push(pm_value[0][i].pm4)
+                }
+                break; 
+            case 5:
+                for (var i=0;i<22;i++){
+                    now_pm.push(pm_value[0][i].pm5)
+                }
+                break; 
+            case 6:
+                for (var i=0;i<22;i++){
+                    now_pm.push(pm_value[0][i].pm6)
+                }
+                break; 
+            case 7:
+                for (var i=0;i<22;i++){
+                    now_pm.push(pm_value[0][i].pm7)
+                }
+                break; 
+            case 8:
+                for (var i=0;i<22;i++){
+                    now_pm.push(pm_value[0][i].pm8)
+                }
+                break;             
+       }
+       /*
 		for (var i=0;i<22;i++){
 			if (pm_hour==0){
 				now_pm.push(pm_value[0][i].pm0)
@@ -252,7 +316,7 @@
 				now_pm.push(pm_value[0][i].pm8)
 			}
 		}
-
+    */
     // pm顏色
 
 	  var pm_color=[];
@@ -266,9 +330,13 @@
 			if(now_pm[j]>=54 && now_pm[j]<71){
 				pm_color.push("#FFA500")
 			}
-			if(now_pm[j]>=71){
+			if(now_pm[j]>=71 && now_pm[j]<90){
 				pm_color.push("#FF0000")
 			}
+			if(now_pm[j]>=90){
+				pm_color.push("#b30098")
+			}
+			
 		}
 
 
@@ -311,7 +379,10 @@
 				<p class="labelposow" >PM2.5值:54~70</p>
 				
 				<img class="labelposrp" src="{{ url_for('static', filename='images/r.jpg') }}" width="40" height="40" >
-				<p class="labelporw">PM2.5值:71~</p> 
+				<p class="labelporw">PM2.5值:71~89</p> 
+				
+				<img class="labelpospp" src="{{ url_for('static', filename='images/p.jpg') }}" width="40" height="40" >
+				<p class="labelpopw">PM2.5值:90~</p> 
     </div>
     <!-- End Map html -->
   </div>
