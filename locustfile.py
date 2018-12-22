@@ -58,7 +58,8 @@ class UserBehavior(TaskSet):
 
 class WebsiteUser(HttpLocust):
     task_set = UserBehavior
-    host = "http://localhost:81"
+    host = "https://hidden-eyrie-71902.herokuapp.com"
+    #host = "http://localhost:81"
     min_wait = 1000 #ms
     max_wait = 2000
 #    task_set = UserAction
