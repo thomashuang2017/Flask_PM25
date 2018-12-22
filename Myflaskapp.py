@@ -167,7 +167,7 @@ def exInfo(county_name):
         
         result,user_id = DoSQL().S_db("SELECT id FROM users WHERE username = %s",session['username'],1,connect_db)
         user_ex_id = request.form.getlist('exinfo_id_list')
-        #print(user_ex_id)
+        print(user_ex_id)
         #判斷重複的ex_id
         ex_id = []
         for i in range(0,len(user_ex_id)):
@@ -306,5 +306,5 @@ def user_private():
 
 if __name__ == '__main__':
 
-    app.run(host='127.0.0.1',port=81,debug=True)
+    app.run(host='127.0.0.1',port=81,debug=False)
     
