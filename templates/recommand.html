@@ -110,8 +110,8 @@
      var pm = JSON.parse('{{ pm | tojson|safe}}');
       document.write('<h3 class="text-uppercase mb-1"> Recommend you the smallest PM2.5 County，'+pm[0].county+'</h3>')
       document.write('<h3 class="text-uppercase mb-1">Exhibiotion</h3>')
-			document.write('<button type="submit" class="btn btn-outline-primary">Insert Favorite</button>')
-   	  document.write('<table class="TB_COLLAPSE"><thead><tr><th>書籤</th><th>活動</th><th>地址</th><th>地點</th><th>結束時間</th></tr></thead>')
+      document.write('<button type="submit" class="btn btn-outline-primary"><b>Insert Favorite</b></button>')
+      document.write('<table class="TB_COLLAPSE"><thead><tr><th>書籤</th><th>活動</th><th>地址</th><th>地點</th><th>結束時間</th></tr></thead>')
 
      for (var i in recommand_exinfo)
      {
