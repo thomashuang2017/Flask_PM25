@@ -3,7 +3,7 @@
 {% block body %}
 	<br></br>
 	<br></br>
-	<h2>個人資料</h2>
+	<h2 class="text-uppercase mb-1">My Informaiton</h2>
 			<!-- 個人頁面 -->
 
 
@@ -15,42 +15,41 @@
 			'<div class="col-md-4">' +
 					'<img alt="" style="width:600px;" title="" class="img-circle img-thumbnail isTooltip" src="{{ url_for("static", filename="images/private_head.jpg") }}" data-original-title="Usuario">' +
       '</div>' +
-			'<div class="col-md-6">' +
-					'<strong>Information</strong><br>' +
+			'<div class="col-md-8">' +
 					'<div class="table-responsive">' +
 					'<table class="table table-condensed table-responsive table-user-information">' +
 							'<tbody>' +
 									'<tr>' +
 											'<td>' +
-													'<strong>' +
+													'<strong><h3>' +
 															'Identificacion' +
-													'</strong>' +
+													'</strong></h3>' +
 											'</td>' +
-											'<td class="text-primary">' +
+											'<td class="text-primary"><h3>' +
 													user_imformation[0].id +
-											'</td>' +
+											'</h3></td>' +
 									'</tr>' +
 									'<tr>' +
 											'<td>' +
 													'<strong>' +
-															'<span class="glyphicon glyphicon-user  text-primary"></span>' +
+															'<span class="glyphicon glyphicon-user  text-primary"></span><h3>' +
 															'Name' +
-													'</strong>' +
+													'</h3></strong>' +
 											'</td>' +
-											'<td class="text-primary">' +
+											'<td class="text-primary"><h3>' +
 													user_imformation[0].username +
-											'</td>' +
+											'</h3></td>' +
 									'</tr>' +
 									'<tr>' +
 											'<td>' +
 													'<strong>' +
-															'<span class="glyphicon glyphicon-envelope text-primary"></span>' +
+															'<span class="glyphicon glyphicon-envelope text-primary"></span><h3>' +
 															'Email' +
-													'</strong>' +
+													'</h3></strong>' +
 											'</td>' +
-											'<td class="text-primary">' +
+											'<td class="text-primary"><h3>' +
 													user_imformation[0].email +
-											'</td>' +
+											'</h3></td>' +
 									'</tr>' +
 							'</tbody>' +
 					'</table>' +
@@ -65,16 +64,19 @@
 <script>
 		// 書籤展覽切割
     var data = JSON.parse('{{ favorite_exinfo | tojson|safe}}');
-		document.write('<h2>{{county}}我的最愛</h2>')
+		document.write('<h2 class="text-uppercase mb-1">My Favorite</h2>')
+		document.write('<button type="submit" class="btn btn-outline-primary"><b>Delete Favorite</b></button>')
 		document.write('<table class="TB_COLLAPSE"><thead><tr><th>書籤</th><th>活動</th><th>地址</th><th>地點</th><th>結束時間</th></tr></thead>')
 			for (var i in data)
 		  {
 			 document.write('<tr>')
 			 document.write('<td>')
-			 document.write('<input type="checkbox" name="exinfo_id_list" value='+data[i].ex_id+'>')
+			 document.write('<label class="ch">')
+    	 document.write('<input type="checkbox" name="exinfo_id_list" value='+data[i].ex_id+'>')
+ 	 		 document.write('<span class="checkmark"></span></label>')
 			 document.write('</td>')
 			 document.write('<td>')
-			 document.write(data[i].title)
+			 document.write(data[i].ex_id)
 			 document.write('</td>')
 			 document.write('<td>')
 		   document.write(data[i].location)
@@ -90,9 +92,75 @@
 		  document.write('</form>');
 			 document.write('</table>')
 	</script>
-	<button type="submit" class="btn btn-outline-primary">刪除書籤</button>
 
 	<style type="text/css">
+				.ch {
+			display: block;
+			position: relative;
+			padding-left: 35px;
+			margin-bottom: 12px;
+			cursor: pointer;
+			font-size: 22px;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+		}
+
+		/* Hide the browser's default checkbox */
+		.ch input {
+			position: absolute;
+			opacity: 0;
+			cursor: pointer;
+			height: 0;
+			width: 0;
+		}
+
+		/* Create a custom checkbox */
+		.checkmark {
+			position: absolute;
+			top: 0;
+			left: 0;
+			height: 25px;
+			width: 25px;
+			background-color: #eee;
+		}
+
+		/* On mouse-over, add a grey background color */
+		.ch:hover input ~ .checkmark {
+			background-color: #ccc;
+		}
+
+		/* When the checkbox is checked, add a blue background */
+		.ch input:checked ~ .checkmark {
+			background-color: #2196F3;
+		}
+
+		/* Create the checkmark/indicator (hidden when not checked) */
+		.checkmark:after {
+			content: "";
+			position: absolute;
+			display: none;
+		}
+
+		/* Show the checkmark when checked */
+		.ch input:checked ~ .checkmark:after {
+			display: block;
+		}
+
+		/* Style the checkmark/indicator */
+		.ch .checkmark:after {
+			left: 9px;
+			top: 5px;
+			width: 5px;
+			height: 10px;
+			border: solid white;
+			border-width: 0 3px 3px 0;
+			-webkit-transform: rotate(45deg);
+			-ms-transform: rotate(45deg);
+			transform: rotate(45deg);
+		}
+
 				/* 表格Css */
 				table.TB_COLLAPSE {
 					width:100%;
