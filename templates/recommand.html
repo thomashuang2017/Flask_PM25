@@ -5,7 +5,72 @@
 <br>
 <br>
 	<style type="text/css">
+		.ch {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
 
+/* Hide the browser's default checkbox */
+.ch input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+}
+
+/* On mouse-over, add a grey background color */
+.ch:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.ch input:checked ~ .checkmark {
+  background-color: #2196F3;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.ch input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.ch .checkmark:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
 
         /* 表格Css */
 				table.TB_COLLAPSE {
@@ -39,19 +104,26 @@
     <form method="post">
     <script>
 
+
       // 展覽切割
    	 var recommand_exinfo = JSON.parse('{{ recommand_exinfo | tojson|safe}}');
      var pm = JSON.parse('{{ pm | tojson|safe}}');
-      document.write('<h3>推薦您現在PM最小的城市，'+pm[0].county+'</h3>')
-      document.write('<h3>{{min_county}} 展覽活動</h3>')
+      document.write('<h3 class="text-uppercase mb-1"> Recommend you the smallest PM2.5 County，'+pm[0].county+'</h3>')
+      document.write('<h3 class="text-uppercase mb-1">Exhibiotion</h3>')
+			document.write('<button type="submit" class="btn btn-outline-primary">Insert Favorite</button>')
    	  document.write('<table class="TB_COLLAPSE"><thead><tr><th>書籤</th><th>活動</th><th>地址</th><th>地點</th><th>結束時間</th></tr></thead>')
 
      for (var i in recommand_exinfo)
      {
    	 document.write('<tr>')
    	 document.write('<td>')
-   	 document.write('<input type="checkbox" name="exinfo_id_list" value='+recommand_exinfo[i].ex_id+'>')
-   	 document.write('</td>')
+		 document.write('<label class="ch">')
+   	 document.write('<input type="checkbox" name="exinfo_id_list" value='+recommand_exinfo[i].ex_id+' id='+recommand_exinfo[i].ex_id+'>')
+		 document.write('<span class="checkmark"></span></label>')
+		 // document.write('<label for="+' +i+ '"></label>')
+		 // document.write('<label id='+ i +'l onclick="deleteMyFavorite('+i'')" for='+ recommand_exinfo[i].ex_id+'><img src="{{ url_for('static', filename='images/like.png') }}" /></label>')
+		 // document.write('<label id='+ i +'d onclick="insertMyFavorite('+i+')" for='+ recommand_exinfo[i].ex_id+'><img src="{{ url_for('static', filename='images/dislike.png') }}" /></label>')
+		 document.write('</td>')
    	 document.write('<td>')
    	 document.write(recommand_exinfo[i].title)
    	 document.write('</td>')
@@ -67,11 +139,27 @@
       document.write('</tr>')
 
      }
-
-
+// onclick="insertMyFavorite()"
+// style="display: none;"
    	 document.write('</table>')
-    </script>
-    <button type="submit" class="btn btn-outline-primary">新增書籤</button>
-    </form>
 
+    </script>
+    </form>
+<!-- <script>
+	function deleteMyFavorite(id) {
+						$("#"+id).show();
+						$("#"+id).hide();
+	}
+	function insertMyFavorite(id) {
+						$("#"+id).show();
+						$("#"+id).hide();
+	}
+</script> -->
+
+
+
+		<!-- <form method="post">
+		<input type="image" id="like" onclick="cancelMyFavorite()" src="{{ url_for('static', filename='images/like.png') }}"  >
+		<input type="image" id="dislike"  name="exinfo_id_list" value="195"  onclick="insertMyFavorite()" src="{{ url_for('static', filename='images/dislike.png') }}"  >
+		</form> -->
 {% endblock %}
