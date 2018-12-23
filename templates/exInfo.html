@@ -3,6 +3,73 @@
 {% block body %}
 <br></br>
 <style type="text/css">
+	.ch {
+display: block;
+position: relative;
+padding-left: 35px;
+margin-bottom: 12px;
+cursor: pointer;
+font-size: 22px;
+-webkit-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.ch input {
+position: absolute;
+opacity: 0;
+cursor: pointer;
+height: 0;
+width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+position: absolute;
+top: 0;
+left: 0;
+height: 25px;
+width: 25px;
+background-color: #eee;
+}
+
+/* On mouse-over, add a grey background color */
+.ch:hover input ~ .checkmark {
+background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.ch input:checked ~ .checkmark {
+background-color: #2196F3;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+content: "";
+position: absolute;
+display: none;
+}
+
+/* Show the checkmark when checked */
+.ch input:checked ~ .checkmark:after {
+display: block;
+}
+
+/* Style the checkmark/indicator */
+.ch .checkmark:after {
+left: 9px;
+top: 5px;
+width: 5px;
+height: 10px;
+border: solid white;
+border-width: 0 3px 3px 0;
+-webkit-transform: rotate(45deg);
+-ms-transform: rotate(45deg);
+transform: rotate(45deg);
+}
+
 	/* <!-- 折線圖import --> */
 	 #flot-placeholder{width:775px;height:300px;}
   /* 表格Css */
@@ -38,9 +105,8 @@
 <script type="text/javascript">
 	var d = new Date();
 	var now_hour = d.getHours();
-
 	var plot_pm = JSON.parse('{{ past_pm | tojson|safe}}');
-    
+
     switch(now_hour%9)
     {
         case 0:
@@ -144,14 +210,8 @@
     		break;
 	}
 
-	
-
-
-
 	 var data = [[now_hour-8, pm0], [now_hour-7, pm1], [now_hour-6, pm2], [now_hour-5, pm3], [now_hour-4,pm4], [now_hour-3, pm5], [now_hour-2,pm6], [now_hour-1,pm7], [now_hour, pm8]];
-
 	 var dataset = [{label: "{{county}}"+"pm2.5",data: data}];
-
 	 var options = {
 			 series: {
 					 lines: { show: true },
@@ -161,35 +221,25 @@
 					 }
 			 }
 	 };
-
-
 	 // 折線圖
-
-
    // 展覽切割
 	  var data = JSON.parse('{{ exinfo | tojson|safe}}');
-	  document.write('<br></br><h3>{{county}} 現在的PM2.5是{{pm}}</h3>')
+	  document.write('<br><h3 class="text-uppercase mb-1">{{county}} NOW PM2.5 is {{pm}}</h3>')
 		document.write('<div id="flot-placeholder"></div>')
-    document.write('<h3>{{county}} 展覽活動</h3>')
+    document.write('<h3 class="text-uppercase mb-1">Exhibiotion</h3>')
+		document.write('<button type="submit" class="btn btn-outline-primary"><b>Insert Favorite</b></button>')
 	  document.write('<table class="TB_COLLAPSE"><thead><tr><th>書籤</th><th>活動</th><th>地址</th><th>地點</th><th>結束時間</th></tr></thead>')
-
   for (var i in data)
   {
-
-	 document.write('<tr><td><input type="checkbox" name="exinfo_id_list" value='+data[i].ex_id+'></td>')
+	 document.write('<tr><td><label class="ch"><input type="checkbox" name="exinfo_id_list" value='+data[i].ex_id+'><span class="checkmark"></span></label></td>')
 	 document.write('<td>'+data[i].title+'</td><td>'+data[i].location+'</td><td>'+data[i].locationName+'</td><td>'+data[i].endTime+'</td></tr>')
-		 
+
   }
   document.write('</form>');
-
 	 document.write('</table>')
 	 $(document).ready(function () {
 			 $.plot($("#flot-placeholder"), dataset, options);
 	 });
-
-
     </script>
-    <button type="submit" class="btn btn-outline-primary">新增書籤</button>
-	<br></br>
     </form>
 {% endblock %}
