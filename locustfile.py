@@ -11,29 +11,17 @@ class UserBehavior(TaskSet):
     def on_start(self):
 #        """ on_start is called when a Locust start before any task is scheduled """
         self.client.post("/login", {
-            "username": "willy",
-            "password": "71128269"
+            "username": "lifebear",
+            "password": "th850413"
         })
 
 
-#    def on_stop(self):
-#        """ on_stop is called when the TaskSet is stopping """
-#        self.logout()
-#
-#    @task(1)
-#    def login(self):
-#                 self.client.post("/login", {
-#            "username": "willy",
-#            "password": "71128269"
-#        })
-
-#
-#    def logout(self):
-#           self.client.post("/login", {
-#            "username": "willy",
-#            "password": "71128269"
-#        })
-
+    @task(1)
+    def test_checkbox(self):
+        # ['68', '69', '76', '77', '118', '138', '147', '176', '207']
+        data= ['68', '69', '76', '77', '118', '138', '147', '176', '207']
+        self.client.post("/exInfo/桃園市/",{"user_ex_id":data})
+    
     @task(1)
     def homepage(self):
         self.client.get("/")
@@ -49,12 +37,7 @@ class UserBehavior(TaskSet):
     @task(1)
     def private(self):
         self.client.get("/user_private")
-    @task(1)
-    def exinfo(self):
-        self.client.get("/exInfo/花蓮縣/")
-#    @task(1)
-#    def login(self):
-#        self.client.post("/login")
+
 
 class WebsiteUser(HttpLocust):
     task_set = UserBehavior

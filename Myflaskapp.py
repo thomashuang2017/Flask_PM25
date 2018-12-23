@@ -165,6 +165,8 @@ def exInfo(county_name):
         
         result,user_id = DoSQL().S_db("SELECT id FROM users WHERE username = %s",session['username'],1,connect_db)
         user_ex_id = request.form.getlist('exinfo_id_list')
+        print(user_ex_id)
+        
         #避免沒打勾
         if len(user_ex_id)>0:
             #判斷重複的ex_id
@@ -190,6 +192,7 @@ def exInfo(county_name):
             # close_db
             DoSQL().close_conn(connect_db)
         else:
+            
             return render_template('exInfo.html',county=county , pm=county_pm ,exinfo=county_exinfo,past_pm=county_past_pm)
             
     return render_template('exInfo.html',county=county , pm=county_pm ,exinfo=county_exinfo,past_pm=county_past_pm)
