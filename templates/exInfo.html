@@ -144,108 +144,7 @@
     		break;
 	}
 
-	/*if(now_hour%9==0){
-		var pm0= plot_pm[0].pm1
-		var pm1= plot_pm[0].pm2
-		var pm2= plot_pm[0].pm3
-		var pm3= plot_pm[0].pm4
-		var pm4= plot_pm[0].pm5
-		var pm5= plot_pm[0].pm6
-		var pm6= plot_pm[0].pm7
-		var pm7= plot_pm[0].pm8
-		var pm8= plot_pm[0].pm0
-	}
-	if(now_hour%9==1){
-		var pm0= plot_pm[0].pm2
-		var pm1= plot_pm[0].pm3
-		var pm2= plot_pm[0].pm4
-		var pm3= plot_pm[0].pm5
-		var pm4= plot_pm[0].pm6
-		var pm5= plot_pm[0].pm7
-		var pm6= plot_pm[0].pm8
-		var pm7= plot_pm[0].pm0
-		var pm8= plot_pm[0].pm1
-	}
-	if(now_hour%9==2){
-		var pm0= plot_pm[0].pm3
-		var pm1= plot_pm[0].pm4
-		var pm2= plot_pm[0].pm5
-		var pm3= plot_pm[0].pm6
-		var pm4= plot_pm[0].pm7
-		var pm5= plot_pm[0].pm8
-		var pm6= plot_pm[0].pm0
-		var pm7= plot_pm[0].pm1
-		var pm8= plot_pm[0].pm2
-	}
-	if(now_hour%9==3){
-		var pm0= plot_pm[0].pm4
-		var pm1= plot_pm[0].pm5
-		var pm2= plot_pm[0].pm6
-		var pm3= plot_pm[0].pm7
-		var pm4= plot_pm[0].pm8
-		var pm5= plot_pm[0].pm0
-		var pm6= plot_pm[0].pm1
-		var pm7= plot_pm[0].pm2
-		var pm8= plot_pm[0].pm3
-	}
-	if(now_hour%9==4){
-		var pm0= plot_pm[0].pm5
-		var pm1= plot_pm[0].pm6
-		var pm2= plot_pm[0].pm7
-		var pm3= plot_pm[0].pm8
-		var pm4= plot_pm[0].pm0
-		var pm5= plot_pm[0].pm1
-		var pm6= plot_pm[0].pm2
-		var pm7= plot_pm[0].pm3
-		var pm8= plot_pm[0].pm4
-	}
-	if(now_hour%9==5){
-		var pm0= plot_pm[0].pm6
-		var pm1= plot_pm[0].pm7
-		var pm2= plot_pm[0].pm8
-		var pm3= plot_pm[0].pm0
-		var pm4= plot_pm[0].pm1
-		var pm5= plot_pm[0].pm2
-		var pm6= plot_pm[0].pm3
-		var pm7= plot_pm[0].pm4
-		var pm8= plot_pm[0].pm5
-	}
-	if(now_hour%9==6){
-		var pm0= plot_pm[0].pm7
-		var pm1= plot_pm[0].pm8
-		var pm2= plot_pm[0].pm0
-		var pm3= plot_pm[0].pm1
-		var pm4= plot_pm[0].pm2
-		var pm5= plot_pm[0].pm3
-		var pm6= plot_pm[0].pm4
-		var pm7= plot_pm[0].pm5
-		var pm8= plot_pm[0].pm6
-	}
-	if(now_hour%9==7){
-		var pm0= plot_pm[0].pm8
-		var pm1= plot_pm[0].pm0
-		var pm2= plot_pm[0].pm1
-		var pm3= plot_pm[0].pm2
-		var pm4= plot_pm[0].pm3
-		var pm5= plot_pm[0].pm4
-		var pm6= plot_pm[0].pm5
-		var pm7= plot_pm[0].pm6
-		var pm8= plot_pm[0].pm7
-	}
-	if(now_hour%9==8){
-		var pm0= plot_pm[0].pm0
-		var pm1= plot_pm[0].pm1
-		var pm2= plot_pm[0].pm2
-		var pm3= plot_pm[0].pm3
-		var pm4= plot_pm[0].pm4
-		var pm5= plot_pm[0].pm5
-		var pm6= plot_pm[0].pm6
-		var pm7= plot_pm[0].pm7
-		var pm8= plot_pm[0].pm8
-	}*/
-
-
-
+	
 
 
 
@@ -276,24 +175,10 @@
 
   for (var i in data)
   {
-	 document.write('<tr>')
-	 document.write('<td>')
-	 document.write('<input type="checkbox" name="exinfo_id_list" value='+data[i].ex_id+'>')
-	 document.write('</td>')
-	 document.write('<td>')
-	 document.write(data[i].title)
-	 document.write('</td>')
-	 document.write('<td>')
-   document.write(data[i].location)
-	 document.write('</td>')
-	 document.write('<td>')
-	 document.write(data[i].locationName)
-	 document.write('</td>')
-	 document.write('<td>')
-	 document.write(data[i].endTime)
-	 document.write('</td>')
-   document.write('</tr>')
 
+	 document.write('<tr><td><input type="checkbox" name="exinfo_id_list" value='+data[i].ex_id+'></td>')
+	 document.write('<td>'+data[i].title+'</td><td>'+data[i].location+'</td><td>'+data[i].locationName+'</td><td>'+data[i].endTime+'</td></tr>')
+		 
   }
   document.write('</form>');
 
