@@ -10,8 +10,8 @@ import pymysql
 
     
 config = {
-          'host':'35.196.78.102',
-          'user':'root',
+          'host':'35.221.254.37',
+          'user':'lifebear',
           'password':'th850413',
           'db':'flasktest',
           'cursorclass':pymysql.cursors.DictCursor,
