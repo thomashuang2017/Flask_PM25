@@ -11,6 +11,9 @@ from formclass import RegisterForm
 from DBmgt import DoSQL
 from Get_PM25 import Get_PM25
 from Get_exinfo import Get_exinfo
+from flask_apscheduler import APScheduler
+from datetime import datetime
+
 
 
 app = Flask(__name__)
@@ -133,7 +136,8 @@ def map_view():
     # close_db
     DoSQL().close_conn(connect_db)
     
-    return render_template('map_view.html',value=PM25_value)
+    dt = datetime.now()
+    return render_template('map_view.html',value=PM25_value,dt=dt)
 
 
 # ----------------------------------------------以上都不動 -------------------------------------------------------------------

@@ -11,7 +11,7 @@ import pymysql
     
 config = {
           'host':'35.221.254.37',
-          'user':'lifebear',
+          'user':'root',
           'password':'th850413',
           'db':'flasktest',
           'cursorclass':pymysql.cursors.DictCursor,
