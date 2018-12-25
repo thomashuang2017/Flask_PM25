@@ -12,7 +12,7 @@ from DBmgt import DoSQL
 class Get_PM25():
       
     def __init__(self,connect_db):
-        hour = datetime.now().hour
+        hour = datetime.now().hour + 8
         hour = hour % 9
         cur_pm = 'pm'+ str(hour)
         self.cur_pm = cur_pm
