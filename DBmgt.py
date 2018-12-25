@@ -6,25 +6,26 @@ Created on Thu Nov  8 16:34:09 2018
 """
 
 import pymysql
-
+from config import config
 
     
-config = {
-          'host':'35.221.254.37',
-          'user':'root',
-          'password':'th850413',
-          'db':'flasktest',
-          'cursorclass':pymysql.cursors.DictCursor,
-          }
-    
+#config = {
+#          'host':'35.221.254.37',
+#          'user':'root',
+#          'password':'th850413',
+#          'db':'flasktest',
+#          'cursorclass':pymysql.cursors.DictCursor,
+#          }
+#    
 
+db_config = config['DBConfig'].connect_dict
 
 class DoSQL():
 
     
     def get_conn(self):
         
-        conn = pymysql.connect(**config)
+        conn = pymysql.connect(**db_config)
         return conn
     
     def close_conn(self,connect):

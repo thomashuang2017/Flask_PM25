@@ -3,7 +3,8 @@ WTForms==2.2.1
 Flask==1.0.2
 requests==2.18.4
 gunicorn==19.9.0
-Flask-APScheduler ==1.11.0
+Flask-APScheduler==1.11.0
+pytz==2018.7
 
 
 

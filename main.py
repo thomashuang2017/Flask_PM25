@@ -13,12 +13,20 @@ from Get_PM25 import Get_PM25
 from Get_exinfo import Get_exinfo
 from flask_apscheduler import APScheduler
 from datetime import datetime
+from scrapPM25 import scrapPM25
+from config import config
 
 
 
 app = Flask(__name__)
+app.config.from_object(config['ScrapPM25Config'])
+
 app.secret_key='secret123'
 
+# 爬蟲PM25 排程
+def job_1():
+    scrapPM25().scrap_PM25_toDB()
+    
 
 # 主畫面
 @app.route('/')
@@ -40,7 +48,7 @@ def register():
         connect_db = DoSQL().get_conn()
         
         # confirm username is duplicate
-        result,content = DoSQL().S_db("SELECT * FROM users WHERE username = %s",(username),1,connect_db)
+        result,content = DoSQL().S_db("SELECT id FROM users WHERE username = %s",(username),1,connect_db)
         if result > 0:
             flash('Username is duplicated','danger')
             return render_template('register.html',form=form)
@@ -72,7 +80,7 @@ def login():
         # connect_db
         connect_db = DoSQL().get_conn()
         
-        result,data = DoSQL().S_db("SELECT * FROM users WHERE username = %s",[username],1,connect_db)
+        result,data = DoSQL().S_db("SELECT id,password FROM users WHERE username = %s",[username],1,connect_db)
 
         if result > 0 :
 
@@ -174,7 +182,7 @@ def exInfo(county_name):
         #避免沒打勾
         if len(user_ex_id)>0:
             #判斷重複的ex_id
-            sql = "SELECT ex_id FROM user_favorite_exinfo AS u1 WHERE exists(SELECT * FROM users AS u2 WHERE u2.id=%s and u1.ID=u2.ID and u1.ex_id=%s )"
+            sql = "SELECT ex_id FROM user_favorite_exinfo AS u1 WHERE exists(SELECT id FROM users AS u2 WHERE u2.id=%s and u1.ID=u2.ID and u1.ex_id=%s )"
             ex_id_repeat = []
             for i in range(len(user_ex_id)):
                     result,content = DoSQL().S_db(sql,(user_id['id'],user_ex_id[i]),2,connect_db)
@@ -221,7 +229,7 @@ def render_recommand():
         #避免沒打勾
         if len(user_ex_id)>0:
             #判斷重複的ex_id
-            sql = "SELECT ex_id FROM user_favorite_exinfo AS u1 WHERE exists(SELECT * FROM users AS u2 WHERE u2.id=%s and u1.ID=u2.ID and u1.ex_id=%s )"
+            sql = "SELECT ex_id FROM user_favorite_exinfo AS u1 WHERE exists(SELECT id FROM users AS u2 WHERE u2.id=%s and u1.ID=u2.ID and u1.ex_id=%s )"
             ex_id_repeat = []
             for i in range(len(user_ex_id)):
                     result,content = DoSQL().S_db(sql,(user_id['id'],user_ex_id[i]),2,connect_db)
@@ -256,7 +264,7 @@ def user_private():
     connect_db = DoSQL().get_conn()
     
     #userdata : user detail
-    _,userdata = DoSQL().S_db("SELECT * FROM users WHERE username=%s",session['username'],2,connect_db)
+    _,userdata = DoSQL().S_db("SELECT id,username,email FROM users WHERE username=%s",session['username'],2,connect_db)
     #delete_exinfo =[] 存放要刪除的選項value
     
     favorite_exinfo = Get_exinfo(connect_db).Get_user_exinfo(userdata[0]['id'])
@@ -285,6 +293,8 @@ def user_private():
     return render_template('user_private.html',userdata=userdata,favorite_exinfo=favorite_exinfo,favorite_county=select_county)
 
 if __name__ == '__main__':
-
+    scheduler = APScheduler()
+    scheduler.init_app(app)
+    scheduler.start()
     app.run(host='127.0.0.1',port=8080,debug=True)
     
