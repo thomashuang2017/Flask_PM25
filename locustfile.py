@@ -41,7 +41,8 @@ class UserBehavior(TaskSet):
 
 class WebsiteUser(HttpLocust):
     task_set = UserBehavior
-    host = "https://flasktest-218913.appspot.com"
+    host = 'https://flasktest-218913.appspot.com'
+    #host = "https://flasktest-218913.appspot.com"
     #host = "https://hidden-eyrie-71902.herokuapp.com"
     #host = "http://localhost:81"
     min_wait = 1000 #ms

@@ -8,11 +8,13 @@ Created on Wed Nov 28 20:03:38 2018
 from county import county_name
 from datetime import datetime
 from DBmgt import DoSQL
+from config import config
 
 class Get_PM25():
       
     def __init__(self,connect_db):
-        hour = datetime.now().hour + 8
+        hour = datetime.now(config['GetlocaltimeConfig'].tz).hour
+        #hour = datetime.now().hour + 8
         hour = hour % 9
         cur_pm = 'pm'+ str(hour)
         self.cur_pm = cur_pm
@@ -64,6 +66,7 @@ class Get_PM25():
         
         return content
                 
+    
             
         
         
