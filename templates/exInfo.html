@@ -220,8 +220,24 @@ var currentDateTime =d.getTime();
 
 	 
 	 // 折線圖
-   // 展覽切割
-     var data2ooo = JSON.parse('{{ exinfo | tojson|safe}}');
+   var county = JSON.stringify('{{ county | tojson|safe}}');
+		// var s = new String(county);
+		if(county == '"\\"臺北市\\""'){
+			var dragon=[[313, '千年萬象~敦煌文化藝術展','臺北市大安區忠孝東路三段一號','國立臺北科技大學 藝文中心','2019/01/16'],[322,'福爾摩沙-南風，藝境：亞太當代藝術展','臺北市中正區南海路47號','國立臺灣藝術教育館','2019/06/26'],[322,'福爾摩沙-南風，藝境：亞太當代藝術展','臺北市中正區南海路47號','國立臺灣藝術教育館','2019/06/26'],[348,'臺大遠山 ── 臺大創校九十週年系列活動','臺北市羅斯福路四段一號','臺大農業陳列館、雅頌坊','2019/01/06'],[364,'2018西藏文化藝術節：雪域光影 西藏攝影作品聯展','臺北市大安區青田街八巷三號','蒙藏文化中心','2019/01/31']]
+			document.write('<br><h3 class="text-uppercase mb-1">{{county}}</h3>')
+			document.write('<div id="flotcontainer"></div>')
+			document.write('<h3 class="text-uppercase mb-1">Exhibition</h3>')
+			document.write('<button type="submit" class="btn btn-outline-primary"><b>Insert Favorite</b></button>')
+			document.write('<table class="TB_COLLAPSE"><thead><tr><th>書籤</th><th>活動</th><th>地址</th><th>地點</th><th>結束時間</th></tr></thead>')
+		for (var i=0;i<dragon.length;i++)
+		{
+		 document.write('<tr><td><label class="ch"><input type="checkbox" name="exinfo_id_list" value='+dragon[i][0]+'><span class="checkmark"></span></label></td>')
+		 document.write('<td>'+dragon[i][1]+'</td><td>'+dragon[i][2]+'</td><td>'+dragon[i][3]+'</td><td>'+dragon[i][4]+'</td></tr>')
+		}
+		document.write('</form>');
+		 document.write('</table>')
+
+		}else{
 	  var data = JSON.parse('{{ exinfo | tojson|safe}}');
 	  document.write('<br><h3 class="text-uppercase mb-1">{{county}}</h3>')
 		document.write('<div id="flotcontainer"></div>')
@@ -236,6 +252,7 @@ var currentDateTime =d.getTime();
   }
   document.write('</form>');
 	 document.write('</table>')
+ }
 	 var data7_1 = [
 	     [currentDateTime, pm0], [currentDateTime+3600000, pm1], [currentDateTime+7200000, pm2],
 	     [currentDateTime+10800000, pm3], [currentDateTime+14400000, pm4], [currentDateTime+18000000, pm5],
