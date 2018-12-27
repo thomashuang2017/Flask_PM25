@@ -67,7 +67,13 @@
 		document.write('<h2 class="text-uppercase mb-1">My Favorite</h2>')
 		document.write('<button type="submit" class="btn btn-outline-primary"><b>Delete Favorite</b></button>')
 		document.write('<table class="TB_COLLAPSE"><thead><tr><th>書籤</th><th>活動</th><th>地址</th><th>地點</th><th>結束時間</th></tr></thead>')
-			for (var i in data)
+		for (var i in data)
+            {
+                document.write('<tr><td><label class="ch"><input type="checkbox" name="exinfo_id_list" value='+data[i].ex_id+'><span class="checkmark"></span></label></td>')
+                document.write('<td>'+data[i].title+'</td><td>'+data[i].location+'</td><td>'+data[i].locationName+'</td><td>'+data[i].endTime+'</td></tr>')
+            
+            }
+			/*for (var i in data)
 		  {
 			 document.write('<tr>')
 			 document.write('<td>')
@@ -88,7 +94,7 @@
 			 document.write(data[i].endTime)
 			 document.write('</td>')
 		   document.write('</tr>')
-		  }
+		  }*/
 		  document.write('</form>');
 			 document.write('</table>')
 	</script>

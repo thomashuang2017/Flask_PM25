@@ -265,32 +265,36 @@ def user_private():
     
     #userdata : user detail
     _,userdata = DoSQL().S_db("SELECT id,username,email FROM users WHERE username=%s",session['username'],2,connect_db)
-    #delete_exinfo =[] 存放要刪除的選項value
+    
     
     favorite_exinfo = Get_exinfo(connect_db).Get_user_exinfo(userdata[0]['id'])
     #單獨select不重複的county值 
-    _,select_county = DoSQL().S_db("select distinct county from exinfo as e1 where exists(select * from user_favorite_exinfo as u1 where u1.ex_id=e1.ex_id and u1.id=%s)",userdata[0]["id"],2,connect_db)
+#    _,select_county = DoSQL().S_db("select distinct county from exinfo as e1 where exists(select * from user_favorite_exinfo as u1 where u1.ex_id=e1.ex_id and u1.id=%s)",userdata[0]["id"],2,connect_db)
     #刪除方法
     if request.method == 'POST':
         
         try:
-        
+            #delete_exinfo =[] 存放要刪除的選項value
             delete_exinfo = request.form.getlist('exinfo_id_list')
             Get_exinfo(connect_db).Delete_user_exinfo(userdata[0]['id'],delete_exinfo)
     
             
             favorite_exinfo = Get_exinfo(connect_db).Get_user_exinfo(userdata[0]['id'])
-            _,select_county = DoSQL().S_db("select distinct county from exinfo as e1 where exists(select * from user_favorite_exinfo as u1 where u1.ex_id=e1.ex_id and u1.id=%s)",userdata[0]["id"],2,connect_db)
+#            _,select_county = DoSQL().S_db("select distinct county from exinfo as e1 where exists(select * from user_favorite_exinfo as u1 where u1.ex_id=e1.ex_id and u1.id=%s)",userdata[0]["id"],2,connect_db)
             
             # close_db
             DoSQL().close_conn(connect_db)
             
         except: 
-            return render_template('user_private.html',userdata=userdata,favorite_exinfo=favorite_exinfo,favorite_county=select_county)
+#            return render_template('user_private.html',userdata=userdata,favorite_exinfo=favorite_exinfo,favorite_county=select_county)
+            flash('Please check your options','danger')
+            return render_template('user_private.html',userdata=userdata,favorite_exinfo=favorite_exinfo)
         
         flash('Update success','success')
-        return render_template('user_private.html',userdata=userdata,favorite_exinfo=favorite_exinfo,favorite_county=select_county)
-    return render_template('user_private.html',userdata=userdata,favorite_exinfo=favorite_exinfo,favorite_county=select_county)
+#        return render_template('user_private.html',userdata=userdata,favorite_exinfo=favorite_exinfo,favorite_county=select_county)
+        return render_template('user_private.html',userdata=userdata,favorite_exinfo=favorite_exinfo)
+#    return render_template('user_private.html',userdata=userdata,favorite_exinfo=favorite_exinfo,favorite_county=select_county)
+    return render_template('user_private.html',userdata=userdata,favorite_exinfo=favorite_exinfo)
 
 if __name__ == '__main__':
     scheduler = APScheduler()

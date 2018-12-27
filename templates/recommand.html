@@ -108,12 +108,16 @@
       // 展覽切割
    	 var recommand_exinfo = JSON.parse('{{ recommand_exinfo | tojson|safe}}');
      var pm = JSON.parse('{{ pm | tojson|safe}}');
-      document.write('<h3 class="text-uppercase mb-1"> Recommand you the smallest PM2.5 County:'+pm[0].county+'</h3>')
-      document.write('<h3 class="text-uppercase mb-1">Exhibition</h3>')
-      document.write('<button type="submit" class="btn btn-outline-primary"><b>Insert Favorite</b></button>')
-      document.write('<table class="TB_COLLAPSE"><thead><tr><th>書籤</th><th>活動</th><th>地址</th><th>地點</th><th>結束時間</th></tr></thead>')
-
-     for (var i in recommand_exinfo)
+         document.write('<h3 class="text-uppercase mb-1"> Recommand you the smallest PM2.5 County:'+pm[0].county+'</h3>')
+         document.write('<h3 class="text-uppercase mb-1">Exhibition</h3>')
+         document.write('<button type="submit" class="btn btn-outline-primary"><b>Insert Favorite</b></button>')
+         document.write('<table class="TB_COLLAPSE"><thead><tr><th>書籤</th><th>活動</th><th>地址</th><th>地點</th><th>結束時間</th></tr></thead>') 
+         for (var i in recommand_exinfo)
+            {
+                document.write('<tr><td><label class="ch"><input type="checkbox" name="exinfo_id_list" value='+recommand_exinfo[i].ex_id+'><span class="checkmark"></span></label></td>')
+                document.write('<td>'+recommand_exinfo[i].title+'</td><td>'+recommand_exinfo[i].location+'</td><td>'+recommand_exinfo[i].locationName+'</td><td>'+recommand_exinfo[i].endTime+'</td></tr>')
+            }
+     /*for (var i in recommand_exinfo)
      {
    	 document.write('<tr>')
    	 document.write('<td>')
@@ -137,14 +141,11 @@
    	 document.write(recommand_exinfo[i].endTime)
    	 document.write('</td>')
       document.write('</tr>')
-
-     }
-// onclick="insertMyFavorite()"
-// style="display: none;"
-   	 document.write('</table>')
+     }*/
+    document.write('</form>');
+    document.write('</table>')
 
     </script>
-    </form>
 <!-- <script>
 	function deleteMyFavorite(id) {
 						$("#"+id).show();
