@@ -18,7 +18,7 @@ class ScrapPM25Config:
             'id': '111',              # 不重複的標識
             'func': '__main__:job_1',  # 定時執行的 模組：函式
             'trigger': 'interval',         # 定時執行，其他可選引數data,interval
-            'seconds':3600
+            'seconds':5
             
         
         }
@@ -29,7 +29,7 @@ class DBConfig:
     
     connect_dict = {
           'host':'35.221.254.37',
-          'user':'root',
+          'user':'lifebear',
           'password':'th850413',
           'db':'flasktest',
           'cursorclass':pymysql.cursors.DictCursor,
