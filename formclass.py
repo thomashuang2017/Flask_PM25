@@ -19,7 +19,7 @@ class RegisterForm(Form):
             validators.Regexp("^[A-Za-z0-9]*$",message="Password must contain only letters and number"),
             validators.Length(min=1,max=10),
             validators.DataRequired(),
-            validators.EqualTo('CONFIRM',message = 'Passwords do not match')
+            validators.EqualTo('confirm',message = 'Passwords do not match')
     ])
     confirm = PasswordField('CONFIRM PASSWORD')
     
