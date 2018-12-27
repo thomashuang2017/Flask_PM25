@@ -48,9 +48,7 @@ class scrapPM25():
         
         #county_pm25 = scrap_PM25_toDB() #爬 pm25
         result,data = DoSQL().S_db("SELECT county FROM PM25",None,2,connect_db) #確認table是否為空
-        
-        #hour = datetime.now().hour + 8 # 台灣時間
-       
+ 
         hour = datetime.now(config['GetlocaltimeConfig'].tz).hour
        
         hour = hour%9 # 9小時統計 ex 13:00 % 9 = 4

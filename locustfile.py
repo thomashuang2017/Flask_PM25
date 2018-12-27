@@ -16,24 +16,24 @@ class UserBehavior(TaskSet):
         })
 
 
-    @task(1)
-    def test_checkbox(self):
-        # ['68', '69', '76', '77', '118', '138', '147', '176', '207']
-        data= ['68', '69', '76', '77', '118', '138', '147', '176', '207']
-        self.client.post("/exInfo/桃園市/",{"user_ex_id":data})
-    
-    @task(1)
-    def homepage(self):
-        self.client.get("/")
-    @task(1)
-    def map_view(self):
-        self.client.get("/map_view")        
-    @task(1)
-    def recommand(self):
-        self.client.get("/recommand")
-    @task(1)
-    def register(self):
-        self.client.get("/register")
+#    @task(1)
+#    def test_checkbox(self):
+#        # ['68', '69', '76', '77', '118', '138', '147', '176', '207']
+#        data= ['68', '69', '76', '77', '118', '138', '147', '176', '207']
+#        self.client.post("/exInfo/桃園市/",{"user_ex_id":data})
+#    
+#    @task(1)
+#    def homepage(self):
+#        self.client.get("/")
+#    @task(1)
+#    def map_view(self):
+#        self.client.get("/map_view")        
+#    @task(1)
+#    def recommand(self):
+#        self.client.get("/recommand")
+#    @task(1)
+#    def register(self):
+#        self.client.get("/register")
     @task(1)
     def private(self):
         self.client.get("/user_private")
