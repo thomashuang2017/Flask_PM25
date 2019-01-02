@@ -18,7 +18,8 @@ class Get_exinfo():
         return content
     
     def Get_user_exinfo(self,user_id):
-        sql = "select * from exinfo as e1 where exists(select * from user_favorite_exinfo as u1 where u1.ex_id=e1.ex_id and u1.id=%s)"
+#        sql = "select * from exinfo as e1 where exists(select * from user_favorite_exinfo as u1 where u1.ex_id=e1.ex_id and u1.id=%s)"
+        sql = "select ex_id,title,county,location,locationName,endTime from user_private_exinfo where id=%s"
         result,content=DoSQL().S_db(sql,(user_id),2,self.connect_db)
         return content
     
