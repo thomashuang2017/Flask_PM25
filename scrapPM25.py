@@ -28,6 +28,9 @@ class scrapPM25():
             
         county_pm25 = []    
         
+        now_time = datetime.now(config['GetlocaltimeConfig'].tz).strftime("%Y-%m-%d %H:%M:%S")
+        
+        
         for i in range(0,len(county_name)):
             num_pm25 = []
             pm = {}
@@ -36,6 +39,7 @@ class scrapPM25():
                     if data[j][2] != '':
                         num_pm25.append(int(data[j][2]))
             
+            pm['time'] = str(now_time)
             pm['county'] = county_name[i]
             if not num_pm25:
                 pm['pm'] = 0
@@ -50,21 +54,29 @@ class scrapPM25():
         result,data = DoSQL().S_db("SELECT county FROM PM25",None,2,connect_db) #確認table是否為空
  
         hour = datetime.now(config['GetlocaltimeConfig'].tz).hour
+        
        
+        
+        
+        
         hour = hour%9 # 9小時統計 ex 13:00 % 9 = 4
         
         if result == 0:
-            SQL = "INSERT INTO PM25(county,pm" + str(hour) + ") VALUES(%(county)s, %(pm)s)"
+            SQL = "INSERT INTO PM25(county,pm" + str(hour) + ",c_time) VALUES(%(county)s, %(pm)s ,%(time)s)"
+            #SQL = "INSERT INTO PM25(county,pm" + str(hour) + ",current_time) VALUES(%(county)s, %(pm)s ,%(current_time)s)"
             DoSQL().IUD_db(SQL,county_pm25,2,connect_db)
+                       
         else:
-            SQL = 'UPDATE PM25 SET pm' + str(hour) + '=%(pm)s WHERE county=%(county)s'
+            SQL = 'UPDATE PM25 SET pm' + str(hour) + '=%(pm)s,c_time=%(time)s WHERE county=%(county)s'
+            #SQL = "UPDATE PM25 SET pm" + str(hour) + "=%(pm)s,current_time=%(current_time)s  WHERE county=%(county)s"
             DoSQL().IUD_db(SQL,county_pm25,2,connect_db)
             
-        DoSQL().close_conn(connect_db)
+            
+            
+        #DoSQL().close_conn(connect_db)
 
 
-    
-    
+
     
     
     
