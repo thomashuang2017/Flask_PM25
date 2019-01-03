@@ -143,8 +143,8 @@ def map_view():
     
     # close_db
     DoSQL().close_conn(connect_db)
-    
     dt = datetime.now(config['GetlocaltimeConfig'].tz)
+#    dt = datetime.now()
     return render_template('map_view.html',value=PM25_value,dt=dt)
 
 
