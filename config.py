@@ -28,10 +28,10 @@ class ScrapPM25Config:
 class DBConfig:
     
     connect_dict = {
-          'host':'35.221.254.37',
-          'user':'lifebear',
-          'password':'th850413',
-          'db':'flasktest',
+          'host':'xxxx',
+          'user':'xxx',
+          'password':'xxx',
+          'db':'xxx',
           'cursorclass':pymysql.cursors.DictCursor,
           }    
 
