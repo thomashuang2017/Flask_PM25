@@ -10,10 +10,10 @@ from config import config
 
     
 #config = {
-#          'host':'35.221.254.37',
-#          'user':'root',
-#          'password':'th850413',
-#          'db':'flasktest',
+#          'host':'xxxxx',
+#          'user':'xxxx',
+#          'password':'xxxx',
+#          'db':'xxx',
 #          'cursorclass':pymysql.cursors.DictCursor,
 #          }
 #    
